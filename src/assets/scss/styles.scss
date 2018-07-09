@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/* ------------- INCLUDES -------------- */
+
+// Mixins
+@import "./mixins/mixins.scss";
+
+// Variables
+@import "./variables/variables.scss";
+
+// Font awesome
+@import "./includes/font_awesome/fontawesome.scss";
+// Materials icons
+@import "./includes/material_icons/material-icons.scss";
+// Mdi
+@import "./includes/mdi/materialdesignicons.scss";
+
+/* Vuetify */
+@import "./includes/vuetify/vuetify.scss";
+
+/* Bootstrap */
+@import "./includes/bootstrap/scss/bootstrap.scss";
+@import "./includes/bootstrap/bootstrap-vue.scss";
+
+/* Crop */
+@import "./includes/crop/crop.scss";
+
+/* Common */
+@import "./styles/common/common.scss";
+@import "./styles/animation/bubbles.scss";
+@import "./styles/pages/pages.scss";
+@import "./styles/components/components.scss";
+@import "./styles/theme.scss";

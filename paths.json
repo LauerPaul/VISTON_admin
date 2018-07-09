@@ -1,0 +1,23 @@
+{
+	"dist": "dist",
+	"app": "src",
+	"pug": {
+		"watch": "/*.pug"
+	},
+	"scss": {
+		"path": "/assets/scss/*.scss",
+		"out": "/styles",
+		"watch": "/scss/**/*.scss",
+		"sourceMap": "/maps/"
+	},
+	"img": {
+		"path": "/assets/img/**/*",
+		"out": "/images",
+		"watch": "/assets/img/**/*"
+	},
+	"fonts": {
+		"path": "/assets/fonts/**/*",
+		"out": "/fonts",
+		"watch": "/assets/fonts/**/*"
+	}
+}

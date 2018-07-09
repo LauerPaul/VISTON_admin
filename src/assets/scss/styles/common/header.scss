@@ -1,0 +1,33 @@
+header.header {
+	position: fixed;
+	width: 100%;
+	left: 0;
+	top: 0;
+	right: 0;
+	background: $bg_header;
+	z-index: 10;
+	height: $header_height;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,.15);
+	
+	.left-case {
+		max-height: 100%;
+	}
+
+	.aside_toggle {
+	    width: 64px;
+	    height: 100%;
+	    margin-right: 24px;
+	    outline: none !important;
+	    box-shadow: none;
+
+	    &:hover {
+    	    background: rgba(0, 0, 0, 0.12);
+	    }
+	}
+
+	.navbar-brand {
+		img {
+			max-height: 100%;
+		}
+	}
+}

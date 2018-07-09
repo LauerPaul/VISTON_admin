@@ -1,0 +1,10 @@
+.row
+	.col-md-8
+		v-card
+			v-card-text
+				v-form(ref="form", lazy-validation, v-model="valid")
+					componemt(is="seo", :props="seo", :required="status")
+					v-btn(color="grey", flat, :to="{name: 'blog'}")
+						i.mdi.mdi-arrow-left
+					v-btn(@click.native="submit", color="green", dark).float-right Сохранить
+					.clearfix

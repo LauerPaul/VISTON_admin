@@ -1,0 +1,73 @@
+.container-fluid.categories-wrapper
+	.row
+		.col-md-8
+			v-card(:pagination.sync="pagination", select-all)
+
+				v-toolbar(color="blue", dark)
+					v-icon mdi-archive
+					v-toolbar-title Категории блога
+					v-spacer
+					v-btn(icon, @click="toggleSearch", title="Найти категорию")
+						v-icon(v-if="!searchlineShow") mdi-magnify
+						v-icon(v-else) mdi-close
+					v-text-field(v-show="searchlineShow", v-model="search", label="Поиск", single-line, hide-details)
+					v-btn(icon, title="Добавить категорию", @click="addNew = !addNew")
+						v-icon add
+
+				//- Таблица
+				v-data-table.elevation-1(v-model="selected", :headers="headers", :items="posts", :pagination.sync="pagination", :search="search", item-key="name", sort-icon="mdi-menu-down", prev-icon="mdi-menu-left", next-icon="mdi-menu-right", :loading="loading")
+					v-progress-linear(slot="progress", color="light-blue", indeterminate)
+					template(slot="items", slot-scope="props")
+						tr(:active="props.selected", @click="props.selected = !props.selected", :id="'CatBlog_'+props.item.id")
+							td.justify-center
+								strong.opacity_6 {{ props.item.id }}
+							td.text-left(:class="{opacity_6 : !parseInt(props.item.status)}")
+								router-link(tag="button", :to="{name: 'blogCategory', params: {id: props.item.id}}") {{ props.item.name }}
+							td.text-center {{ props.item.posts_count }}
+							td.text-left(style="width: 80px;")
+								v-icon(v-if="props.item.status == '1'", color="green") check
+								v-icon(v-else, color="gray") visibility_off
+							td.justify-start.layout.px-0
+								.control-wrapper.d-flex.align-items-center
+									//- Quick view
+									v-btn.mini-circle(icon, title="Быстрый просмотр", fab, dark, small, color="green", @click.stop="quickView = !quickView; setSelectItem(props.item);")
+										v-icon(color="gray") mdi-magnify
+									//- Edit
+									v-btn.mini-circle(fab, dark, small, color="blue", :to="{name: 'blogCategory', params: {id: props.item.id}}", title="Редактировать")
+											v-icon mdi-pencil
+									//- Remove
+									v-btn.mini-circle(icon, @click.stop="setSelectItem(props.item); removeAlert()", title="Удалить", fab, small, :dark="props.item.posts_count == 0", :color="props.item.posts_count > 0 ? 'gray ighten-1' : 'red'", :disabled="props.item.posts_count > 0")
+										v-icon mdi-delete
+
+					//- Если таблица пустая
+					template(slot="no-data")
+						span(style="margin-left: 10px; display: inline-block;") Загружаю...
+
+					//- Если нет результатов поиска
+					v-list-tile(avatar)
+						v-alert(slot="no-results", :value="true", color="error", icon="warning") Совпадений с "{{ search }}" в категориях блога не найдено.
+
+		.col-md-4
+			v-card(light, disabled, width="160px", color="blue-grey", dark, v-if="statisticWindow").statistic
+				v-list-tile
+					v-list-tile-content
+						strong Со статьями:
+					v-list-tile-content.align-end {{ statistics.full }}
+				v-list-tile
+					v-list-tile-content
+						strong Пустые:
+					v-list-tile-content.align-end {{ statistics.clear }}
+				v-list-tile
+					v-list-tile-content
+						strong Активные:
+					v-list-tile-content.align-end {{ statistics.on }}
+				v-list-tile
+					v-list-tile-content
+						strong Не активные:
+					v-list-tile-content.align-end {{ statistics.off }}
+
+
+	//- Всплывающее окно подтверждения удаления
+	include ./dialog-remove.pug
+	
+	

@@ -1,0 +1,12 @@
+v-dialog(v-model="status", persistent, max-width="500px", v-if="")
+	v-card
+		v-card-title
+			v-icon(color="red") mdi-alert
+			span
+				strong {{ content.title }}
+			v-spacer
+		v-card-text(v-html="content.text")
+		v-card-actions
+			v-spacer
+			v-btn(v-if="!error", color="red", flat, @click.stop="removeItem") {{ text.ok }}
+			v-btn(color="green darken-1", flat, @click.stop="$emit('cancel')") {{ text.cancel }}

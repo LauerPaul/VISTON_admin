@@ -1,0 +1,2 @@
+v-snackbar(:timeout="timeout", :color="color", :multi-line="mode === 'multi-line'", :vertical="mode === 'vertical'", v-model="snackbar", v-if="snackbar") {{ text }}
+	v-btn(dark, flat, @click.native="snackbar = false") {{ text_ok }}

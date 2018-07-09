@@ -1,0 +1,16 @@
+v-dialog(v-model="dialogRemoveItem", persistent, max-width="500px")
+	v-card
+		v-card-title
+			v-icon(color="red") mdi-alert
+			span
+				strong ПОДТВЕРДИТЕ ДЕЙСТВИЕ
+			v-spacer
+		v-card-text Вы действительно хотите удалить пользователя<br>
+			strong "{{ selectUser.name }}"
+			|&nbsp;и&nbsp;
+			strong ID {{ selectUser.id }}
+			|&nbsp;?
+		v-card-actions
+			v-spacer
+			v-btn(color="red", flat, @click.stop="removeCategory") Да
+			v-btn(color="green darken-1", flat, @click.stop="dialogRemoveItem=false") Отмена

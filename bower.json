@@ -1,0 +1,24 @@
+{
+  "name": "new_poject",
+  "description": "A Vue.js project (Vue + Gulp + Webpack)",
+  "main": "",
+  "authors": [
+    "Paul Lauer"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/LauerPaul/VueGulpBower",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/bower/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "material-design-icons": "^3.0.1"
+  },
+  "devDependencies": {
+    "mdi": "^2.2.43"
+  }
+}

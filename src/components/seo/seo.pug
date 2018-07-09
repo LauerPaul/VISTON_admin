@@ -1,0 +1,36 @@
+div
+	v-tabs(color="blue", slider-color="white", dark)
+		v-tab Основное
+		v-tab-item
+			br
+			v-layout
+				v-text-field(v-model="props.seoTitle", label="Title", :required="(required == 1 ? true : false)", color="light-green", :counter="80", :rules="(required == 1 ? titleRules : [])")
+			v-layout
+				v-text-field(v-model="props.seoDescription", label="Description", :required="(required == 1 ? true : false)", color="light-green", multi-line, :counter="190", :rules="(required == 1 ? descriptionRules : [])")
+			v-select(v-model="props.seoRobots", label="Robots", item-value="text", :items="robots", single-line, color="light-green")
+
+		v-tab Open Graph
+		v-tab-item
+			br
+			.row
+				.col-md-8
+					v-layout
+						v-text-field(v-model="props.seoOgTitle", label="Open Graph Title", color="light-green", :counter="80")
+					v-layout
+						v-text-field(v-model="props.seoOgDescription", label="Open Graph Description", color="light-green", multi-line, :counter="190")
+				.col-md-4
+					span(color="grey") Open Graph image:
+					br
+					br
+					v-btn(@click="imageUploadWindowSeo = !imageUploadWindowSeo", v-if="!props.seoOgImage", type="button", color="light-green", icon, dark).float-right
+						v-icon mdi-image-plus
+					img(:src="props.seoOgImg", v-else, style="max-width: 100%;", @click="imageUploadWindowSeo = !imageUploadWindowSeo")
+					.clearfix
+
+		v-tab Микроразметка
+		v-tab-item
+			br
+			v-layout
+				v-text-field(v-model="props.seoMicro", label="Вставьте код", color="light-green", multi-line)
+
+	imageCover(field="img", v-model="imageUploadWindowSeo", @crop-success="cropSuccess", :width="cropWidthSeo", :height="cropHeightSeo", url="", img-format="png", :langType="'ru'", :noCircle="true")

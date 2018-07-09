@@ -1,0 +1,41 @@
+#task-wrapper {
+	width: 240px;
+	min-height: 40px;
+	background: $white;
+	position: absolute;
+	right: 20px;
+	bottom: 16px;
+	@include border-radius(4px 0px 0px 4px);
+	padding: 24px 16px 12px;
+	font-size: 12px;
+
+	.task-close {
+		font-size: 16px;
+		position: absolute;
+		right: 4px;
+		top: 2px;
+		cursor: pointer;
+		@include transition(all 0.3s);
+
+		&:hover {
+			color: $blue;
+		}
+	}
+
+	&.error {
+		.info-text {
+			color: $red;
+		}
+	}
+
+	.info-text {
+
+		.mdi-alert-circle {
+			font-size: 16px;
+			color: $red;
+			position: relative;
+			top: 1px;
+			left: -4px;
+		}
+	}
+}

@@ -1,0 +1,18 @@
+.container-fluid
+	.tabs-menu-list
+		.row
+			.col-md-4
+				.d-flex.justify-content-center
+					router-link(:to="{name: 'blogCategories'}").tab-item.d-flex.align-items-center.justify-content-start.red-color
+						i.mdi.mdi-archive
+						span.text-tab Категории
+			.col-md-4
+				.d-flex.justify-content-center
+					router-link(:to="{name: 'blogArticles'}").tab-item.d-flex.align-items-center.justify-content-start.blue-color
+						i.mdi.mdi-note-text
+						span.text-tab Публикации
+			.col-md-4
+				.d-flex.justify-content-center
+					router-link(:to="{name: 'blogSeo'}").tab-item.d-flex.align-items-center.justify-content-start.green-color
+						i.mdi.mdi-search-web
+						span.text-tab SEO

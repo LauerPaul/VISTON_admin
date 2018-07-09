@@ -1,0 +1,47 @@
+v-dialog(v-model="quickView", fullscreen, hide-overlay, transition="dialog-bottom-transition", scrollable)
+	v-card(tile)
+		v-toolbar(card, dark, color="cyan", title="Текущий статус отображения на сайте")
+			v-icon(v-if="selectUser.status") mdi-eye
+			v-icon(v-else, color="red") mdi-eye-off
+			v-toolbar-title Быстрый просмотр
+			v-spacer
+			v-toolbar-items
+				v-btn(dark, flat, @click.native="updateStatusCategory")
+					span(v-if="selectUser.status")
+						v-icon mdi-eye-off
+						|&nbsp;&nbsp;Заблокировать
+					span(v-else)
+						v-icon mdi-eye
+						|&nbsp;&nbsp;Разблокировать
+				v-btn(dark, flat, :to="{name: 'blogCategory', params: {id: selectUser.id}}", title="Редактировать категорию")
+					v-icon mdi-pencil
+					|&nbsp;&nbsp;Редактировать
+				v-btn(dark, flat, @click.native="quickView = !quickView;", title="Закрыть окно")
+					v-icon mdi-close-box-outline
+		
+		v-card-text
+			v-list(three-line, subheader)
+				v-subheader ID пользователя - &nbsp;
+					strong  {{ selectUser.user_id }}
+				v-list-tile(avatar)
+					v-list-tile-content
+						v-list-tile-title Название категории
+						v-list-tile-sub-title {{ selectUser.name }}
+				v-list-tile(avatar)
+					v-list-tile-content
+						v-list-tile-title URL категории
+						v-list-tile-sub-title {{ selectUser.url }}
+			
+			v-divider
+			v-list(one-line, subheader)
+				v-subheader Кол-во публикаций в категории - &nbsp;
+					strong {{ selectUser.posts_count }}
+			
+			v-divider
+			v-list(three-line, subheader)
+				v-subheader Изображение категории
+				v-list-tile(avatar)
+					v-list-tile-content
+						img(:src="img", style="max-height: 100%; max-width: 100%;")
+
+		div(style="flex: 1 1 auto;")

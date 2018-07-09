@@ -1,0 +1,7 @@
+header.header
+	.left-case
+		button.aside_toggle(@click="toggleAside")
+			v-icon mdi-menu
+			//- i.material-icons menu
+		b-navbar-brand(:to="{ name: 'home'}")
+			img(:src="$site.logo", alt="$site.logo_alt")

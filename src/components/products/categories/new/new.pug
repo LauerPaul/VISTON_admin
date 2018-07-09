@@ -1,0 +1,28 @@
+v-dialog(v-model="visible", max-width="500px", persistent)
+	v-card
+		v-card-text
+			v-form(ref="form",
+					lazy-validation,
+					v-model="valid", 
+					@submit.prevent="addCategory",
+					@keydown.esc="windowHide")
+				v-layout(style="margin-bottom: 16px;")
+					v-text-field(v-model="newName",
+								label="Укажите название",
+								required,
+								color="light-green",
+								:rules="nameRules")
+
+				v-layout.justify-content-end(v-if="!submit")
+				
+					v-btn(dark, small,
+							color="red",
+							@click="windowHide",
+							type="button") {{ text.cancel }}
+
+					v-btn(dark, small,
+						color="green",
+						style="margin-left: 8px;", 
+						@click.native="addCategory") {{ text.add }}
+
+		v-progress-linear(indeterminate, color="green", v-if="submit", style="margin: 0px;")

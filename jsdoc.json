@@ -1,0 +1,55 @@
+{
+  "plugins": [
+    "node_modules/jsdoc-vue-component",
+    "plugins/markdown",
+    "plugins/summarize"
+  ],
+  "jsdoc-vue-component": {
+    "log": true
+  },
+  "markdown": {
+    "tags": ["author", "classdesc", "description", "param", "property", "returns", "see", "throws", "vue"]
+  },
+  "recurseDepth": 10,
+  "source": {
+    "include": ["src"],
+    "exclude": ["src\\plugins\\vuetify", "src\\assets", "src\\bower"],
+    "includePattern": ".+\\.(js|vue)$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "templates": {
+    "logoFile": "",
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "dateFormat": "ddd MMM Do YYYY",
+    "outputSourceFiles": true,
+    "outputSourcePath": true,
+    "systemName": "DocStrap",
+    "footer": "",
+    "copyright": "Lauer.agency Copyright © 2016-2018 admin project.",
+    "navType": "vertical",
+    "theme": "paper",
+    "linenums": true,
+    "collapseSymbols": false,
+    "inverseNav": true,
+    "protocol": "html://",
+    "methodHeadingReturns": false
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  },
+  "opts": {
+    "template": "node_modules/sherry-docstrap/template",
+    "encoding": "utf8",
+    "destination": "./dist/jsdoc/",
+    "recurse": true,
+    "readme": "README.md",
+    "tutorials": "./docs/"
+  }
+}

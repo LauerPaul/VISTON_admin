@@ -1,0 +1,28 @@
+.content.blogCategories {
+	background: #afafaf url('/images/bg/blog_categories.png');
+    background-size: cover;
+}
+
+.categories-wrapper {
+
+	.speed-dial {
+
+		.control-settings {
+			padding: 0px !important;
+			background: transparent !important;
+			border: none !important;
+			width: 16px;
+			height: 16px;
+			padding-left: 200px;
+			box-shadow: none;
+		}
+	}
+
+	.statistic {
+		
+
+		.list__tile {
+			font-size: 14px;
+		}
+	}
+}

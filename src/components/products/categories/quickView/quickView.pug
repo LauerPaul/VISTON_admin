@@ -1,0 +1,66 @@
+v-dialog(v-model="status",
+		fullscreen,
+		scrollable,
+		hide-overlay,
+		transition="dialog-bottom-transition")
+
+	v-card(tile)
+		v-toolbar(card, dark,
+				color="cyan",
+				:title="text.currentStatus")
+
+			v-icon(v-if="item.status") mdi-eye
+			v-icon(v-else, color="red") mdi-eye-off
+			
+			v-toolbar-title {{ text.quickView }}
+			v-spacer
+				
+			v-toolbar-items
+				v-btn(v-if="access",
+						dark, flat,
+						@click.native="updateStatusCategory")
+					span(v-if="item.status")
+						v-icon mdi-eye-off
+						|&nbsp;&nbsp;{{ text.hide }}
+					span(v-else)
+						v-icon mdi-eye
+						|&nbsp;&nbsp;{{ text.visible }}
+
+				v-btn(v-if="access",
+						dark, flat,
+						:to="{name: 'blogCategory', params: {id: item.id}}",
+						:title="text.editCategory")
+					v-icon mdi-pencil
+					|&nbsp;&nbsp;{{ text.edit }}
+
+				v-btn(dark, flat,
+						@click.native="$emit('close')",
+						:title="text.closeWindow")
+					v-icon mdi-close-box-outline
+		
+		v-card-text
+			v-list(three-line, subheader)
+				v-subheader {{ text.categoryId }} - &nbsp;
+					strong  {{ item.id }}
+				v-list-tile(avatar)
+					v-list-tile-content
+						v-list-tile-title {{ text.categoryName }}
+						v-list-tile-sub-title {{ item.name }}
+				v-list-tile(avatar)
+					v-list-tile-content
+						v-list-tile-title {{ text.categoryUrl }}
+						v-list-tile-sub-title {{ item.url }}
+			
+			v-divider
+			v-list(one-line, subheader)
+				v-subheader {{ text.postsCount }} - &nbsp;
+					strong {{ item.posts_count }}
+			
+			v-divider
+			v-list(three-line, subheader)
+				v-subheader {{ text.categoryImage }}
+				v-list-tile(avatar)
+					v-list-tile-content
+						img(:src="img + $random()", style="max-height: 100%; max-width: 100%;")
+
+		div(style="flex: 1 1 auto;")

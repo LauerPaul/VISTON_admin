@@ -1,0 +1,177 @@
+.users-wrapper-page
+	.row
+		.col-md-8
+			v-card(:pagination.sync="pagination", select-all)
+
+				v-toolbar(color="blue", dark)
+					v-icon mdi-account-multiple
+					v-toolbar-title {{ titleTable }}
+					v-spacer
+					v-btn(icon, @click="toggleSearch", title="Найти пользователя")
+						v-icon(v-if="!searchlineShow") mdi-magnify
+						v-icon(v-else) mdi-close
+					v-text-field(v-show="searchlineShow", v-model="search", label="Поиск", single-line, hide-details)
+					v-btn(icon, title="Добавить пользователя", @click="addNew = !addNew")
+						v-icon add
+				
+				//- Таблица
+				v-data-table.elevation-1(v-model="selected", :headers="headers", :items="users", :pagination.sync="pagination", :search="search", item-key="id", sort-icon="mdi-menu-down", prev-icon="mdi-menu-left", next-icon="mdi-menu-right", :loading="loading")
+					v-progress-linear(slot="progress", color="light-blue", indeterminate)
+
+					template(slot="items", slot-scope="props")
+						tr(:active="props.selected", @click="props.selected = !props.selected", :id="'userItem'+props.item.user_id")
+							td.justify-center
+								strong.opacity_6 {{ props.item.user_id }}
+
+							td.justify-center
+								v-icon(:color="(props.item.user.is_enabled ? 'green' : 'red')", small) mdi-circle
+							
+							td.text-left(:class="{opacity_6 : !parseInt(props.item.user.is_enabled)}")
+								router-link(tag="button", :to="{name: 'blogCategory', params: {id: props.item.id}}") {{ props.item.last_name }} {{ props.item.first_name }} {{ props.item.patronymic }}
+							
+							td.justify-center(v-if="$root.store.state.Auth.isAdmin")
+								span(v-if="props.item.user.is_admin == 0 && props.item.user._moderator == 0 && props.item.user.is_manager == 0 && props.item.user.is_seo == 0") -
+								span(v-else)
+									span(v-if="props.item.user.is_admin == 1", style="color: red;") Admin<br>
+									span(v-if="props.item.user._moderator == 1", style="color: green;") Moderator<br>
+									span(v-if="props.item.user.is_manager == 1", style="color: blue;") Manager<br>
+									span(v-if="props.item.user.is_seo == 1", style="color: brown;") SEO
+
+							td(v-if="props.item.phone !== ''")
+								a(:href="'tel:'+ props.item.phone", target="_blank") {{ props.item.phone }}
+								br
+								a(:href="'mailto:'+ props.item.user.email", target="_blank") {{ props.item.user.email }}
+							td.text-center(v-else)
+								v-icon mdi-phone-minus
+							
+							td.justify-center.layout.px-0
+								.control-wrapper.d-flex.align-items-center
+									//- Quick view
+									v-btn.mini-circle(icon, title="Быстрый просмотр", fab, dark, small, color="green", @click.stop="quickView = !quickView; setSelectUser(props.item);")
+										v-icon(color="gray") mdi-magnify
+									//- Edit
+									v-btn.mini-circle(fab, dark, small, color="blue", :to="{name: 'blogCategory', params: {id: props.item.id}}", title="Редактировать")
+											v-icon mdi-pencil
+									//- Remove
+									v-btn.mini-circle(icon, @click.stop="setSelectUser(props.item); removeAlert()", title="Удалить", fab, small, dark, color="red")
+										v-icon mdi-delete
+
+					//- Если таблица пустая
+					template(slot="no-data")
+						span(style="margin-left: 10px; display: inline-block;") Загружаю...
+
+					//- Если нет результатов поиска
+					template(slot="no-results")
+						span(style="margin-left: 10px; display: inline-block;") Совпадений с&nbsp;
+						strong "{{ search }}"
+						|&nbsp;в списке пользователей не найдено.
+
+		.col-md-4
+			v-card(light, disabled, width="240px", color="blue-grey darken-1", dark, v-if="statisticWindow").statistic
+				v-list-tile
+					v-list-tile-content
+						strong Всего:
+					v-list-tile-content.align-end {{ statistics.all }}
+				v-list-tile
+					v-list-tile-content
+						strong Клиентов:
+					v-list-tile-content.align-end {{ statistics.clients }}
+				v-list-tile
+					v-list-tile-content
+						strong Админы:
+					v-list-tile-content.align-end {{ statistics.admin }}
+				v-list-tile
+					v-list-tile-content
+						strong Модераторы:
+					v-list-tile-content.align-end {{ statistics.moderator }}
+				v-list-tile
+					v-list-tile-content
+						strong Менеджеры:
+					v-list-tile-content.align-end {{ statistics.manager }}
+				v-list-tile
+					v-list-tile-content
+						strong SEO:
+					v-list-tile-content.align-end {{ statistics.seo }}
+				v-list-tile
+					v-list-tile-content
+						strong Активных:
+					v-list-tile-content.align-end {{ statistics.enabled }}
+				v-list-tile
+					v-list-tile-content
+						strong Неактивных:
+					v-list-tile-content.align-end {{ statistics.disabled }}
+
+
+	//- Всплывающее окно быстрого просмотра
+	//- include ./quick-view.pug 
+	//- Всплывающее окно подтверждения удаления
+	include ./dialog-remove.pug
+
+	v-dialog(v-model="quickView", fullscreen, hide-overlay, transition="dialog-bottom-transition", scrollable)
+		v-card(tile)
+			v-toolbar(card, dark, color="cyan", title="Текущий статус доступа на сайте")
+				v-icon(v-if="selectUser.user.is_enabled") mdi-eye
+				v-icon(v-else, color="red") mdi-eye-off
+				v-toolbar-title Быстрый просмотр
+				v-spacer
+				v-toolbar-items
+					v-btn(dark, flat, @click.native="updateStatusCategory")
+						span(v-if="selectUser.user.is_enabled")
+							v-icon mdi-eye-off
+							|&nbsp;&nbsp;Заблокировать
+						span(v-else)
+							v-icon mdi-eye
+							|&nbsp;&nbsp;Разблокировать
+					v-btn(dark, flat, :to="{name: 'blogCategory', params: {id: selectUser.id}}", title="Редактировать категорию")
+						v-icon mdi-pencil
+						|&nbsp;&nbsp;Редактировать
+					v-btn(dark, flat, @click.native="quickView = !quickView;", title="Закрыть окно")
+						v-icon mdi-close-box-outline
+			
+			v-card-text
+				v-list(three-line, subheader)
+
+					.row
+						.col-md-1.col-sm-6.col-12
+							img(:src="img", style="max-width: 100%;")
+						.col-md-3.col-sm-6.col-12
+							v-list-tile(avatar)
+								v-list-tile-content
+									v-list-tile-title {{ selectUser.last_name }} {{ selectUser.first_name }} {{ selectUser.patronymic }}
+									v-list-tile-sub-title {{ new Date(selectUser.birthday).toLocaleDateString() }} 
+						.col-md-3.col-sm-12.col-12
+							v-list-tile(avatar)
+								v-list-tile-content
+									v-list-tile-title
+										a(v-if="selectUser.user.email", :href="'mailto:' + selectUser.user.email") {{ selectUser.user.email }}<br>
+									v-list-tile-sub-title
+										a(v-if="selectUser.phone", :href="'tel:' + selectUser.phone") {{ selectUser.phone }}<br>
+										span(v-if="selectUser.phone_2", :href="'tel:' + selectUser.phone_2") {{ selectUser.phone_2 }}
+						.col-md-5.col-sm-12.col-12
+							v-subheader ID пользователя - &nbsp;
+								strong  {{ selectUser.user_id }}
+							v-subheader Дата регистрации:&nbsp;
+								strong  {{ new Date(selectUser.reg_date).toLocaleDateString() }}
+		
+				v-list(one-line, subheader)
+					v-divider
+					.row
+						.col-6
+							span(v-if="selectUser.user.is_admin == 1") 
+								v-icon(small, color="yellow") mdi-crown
+								|&nbsp;Admin&nbsp;&nbsp;|&nbsp;&nbsp;
+							span(v-if="selectUser.user.is_moderator == 1") 
+								v-icon(small, color="red") mdi-account-star
+								|&nbsp;Moderator&nbsp;&nbsp;|&nbsp;&nbsp;
+							span(v-if="selectUser.user.is_manager == 1")
+								v-icon(small, color="blue") mdi-account-multiple
+								|&nbsp;Manager&nbsp;&nbsp;|&nbsp;&nbsp;
+							span(v-if="selectUser.user.is_seo == 1")
+								v-icon(small, color="green") mdi-search-web
+								|&nbsp;SEO
+	
+						.col-6
+						
+					v-divider
+
+			div(style="flex: 1 1 auto;")

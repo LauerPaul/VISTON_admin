@@ -1,0 +1,36 @@
+.auth-page-wrapper {
+	min-width: 100%;
+	min-height: 100vh;
+	background: rgb(19, 47, 56);
+	padding: 40px;
+
+	*:not(.canvas__wrapper) {
+		position: relative;
+	}
+
+	.logo-auth-wrapper {
+		max-width: 287px;
+
+		img {
+			max-width: 100%;
+		}
+	}
+
+	form {
+		max-width: 800px;
+		padding: 24px 32px 40px;
+		background: rgba(255,255,255,.92);
+
+		.input-group {
+			padding: 0px;
+		}
+
+		.btn {
+		    margin-top: 8px;
+		}
+	}
+
+	.wrapper-left-case {
+		min-height: 230px;
+	}
+}

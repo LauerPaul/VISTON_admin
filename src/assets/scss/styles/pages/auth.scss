@@ -1,7 +1,11 @@
 .auth-page-wrapper {
 	min-width: 100%;
 	min-height: 100vh;
-	background: rgb(19, 47, 56);
+	background: #1c3439; /* Old browsers */
+	background: -moz-linear-gradient(top, #1c3439 0%, #293f44 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #1c3439 0%,#293f44 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #1c3439 0%,#293f44 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1c3439', endColorstr='#293f44',GradientType=0 );
 	padding: 40px;
 
 	*:not(.canvas__wrapper) {
@@ -27,6 +31,9 @@
 
 		.btn {
 		    margin-top: 8px;
+			background-color: rgb(255, 214, 0) !important;
+			border-color: #ffd600 !important;
+			color: #705e00 !important;
 		}
 	}
 

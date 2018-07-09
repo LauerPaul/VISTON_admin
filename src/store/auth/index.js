@@ -38,22 +38,22 @@ const Auth = {
             sound: 1
         },
         accessTable: {
-            blog: {
+            products: {
                 access: 1
             },
-            blogMenu: {
+            productsMenu: {
                 access: 1
             },
-            blogCategories: {
+            productsCategories: {
                 access: 1,
-                remove: 1,  //blogCategory.access
+                remove: 1,
                 edit: 1,
                 add: 1
             },
-            blogCategory: {
+            productsCategory: {
                 access: 1
             },
-            blogSeo:{
+            productsSeo:{
                 access: 1
             }
         }

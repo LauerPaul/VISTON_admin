@@ -63,7 +63,7 @@ const methods = {
             _this.alpha -= 0.0005;
             t.ctx.beginPath();
             t.ctx.arc(_this.pos.x, _this.pos.y, _this.scale*8, 0, 4 * Math.PI, false);
-            t.ctx.fillStyle = 'rgba(204,212,7,'+ _this.alpha+')';
+            t.ctx.fillStyle = 'rgba(255,214,0,'+ _this.alpha+')';
             t.ctx.fill();
         };
     },

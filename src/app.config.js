@@ -43,7 +43,7 @@ Vue.use(Vuetify, {
         secondary: '#b0bec5',
         accent: '#8c9eff',
         error: '#b71c1c',
-        blue: '#0593c4'
+        blue: '#1c3439'
     }
 })
 Vue.use(BootstrapVue);
@@ -66,7 +66,7 @@ import '@/middleware/access'
 // -------------------
 // Axios settings
 // -------------------
-axios.defaults.baseURL = 'http://test.froggy.tours/admin/ajax'; // base url
+axios.defaults.baseURL = 'https://viston.lauer.agency/admin/ajax'; // base url
 // axios.defaults.headers.common['X-CSRF-TOKEN'] = 'Bearer ' + '0000';      // Токен
 
 // -------------------
@@ -77,7 +77,7 @@ var vm = new Vue({
     store,
     el: '#app-wrapper',
     data: {
-        domain: 'http://test.froggy.tours',
+        domain: 'https://viston.lauer.agency',
         querystring,
     },
     wait: new VueWait({

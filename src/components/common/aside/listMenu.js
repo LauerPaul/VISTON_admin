@@ -9,7 +9,7 @@ export default {
 			},
 			{
 				title: 'Продукция',
-				icon: 'mdi-blogger',
+				icon: 'mdi-pier-crane',
 				color: "blue darken-2",
 				link: 'products',
 				parent: true,
@@ -65,7 +65,7 @@ export default {
 	moderator: [
 			{
 				title: 'Продукция',
-				icon: 'mdi-blogger',
+				icon: 'mdi-pier-crane',
 				color: "blue darken-2",
 				link: 'products',
 				parent: true,
@@ -96,7 +96,7 @@ export default {
 			},
 			{
 				title: 'Блог',
-				icon: 'mdi-blogger',
+				icon: 'mdi-pier-crane',
 				color: "blue darken-2",
 				link: 'products',
 				parent: true,

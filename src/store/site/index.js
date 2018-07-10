@@ -23,7 +23,7 @@ const Site = {
         *   @property {boolean} aside_min - Свернуто (минимизировано) [aside menu]{@link module:components/common/aside} 
         *   @property {boolean} logAdmin_write - Статус записи лога событий в админ панеле
         */
-    	logo: require('@/assets/img/common/logo.png'),
+    	logo: 'https://my2.lauer.com.ua/uploads/_site/logo.png',
         logo_alt: 'Lauer.agency admin cms',
         aside_min: false,
         logAdmin_write: true,

@@ -7,7 +7,7 @@
 	"scss": {
 		"path": "/assets/scss/*.scss",
 		"out": "/styles",
-		"watch": "/scss/**/*.scss",
+		"watch": "/assets/scss/**/*.scss",
 		"sourceMap": "/maps/"
 	},
 	"img": {

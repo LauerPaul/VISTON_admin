@@ -22,12 +22,16 @@ const Site = {
         *   @property {boolean} logo_alt - Alt логотипа сайта 
         *   @property {boolean} aside_min - Свернуто (минимизировано) [aside menu]{@link module:components/common/aside} 
         *   @property {boolean} logAdmin_write - Статус записи лога событий в админ панеле
+        *   @property {string} current_language - Текущий язык
+        *   @property {object|null} dictionary - Текущий язык
         */
     	logo: 'https://my2.lauer.com.ua/uploads/_site/logo.png',
         logo_alt: 'Lauer.agency admin cms',
         aside_min: false,
         logAdmin_write: true,
         logAdmin_write_url: '/admin_logger/write',
+        current_language: 'en',
+        dictionary: null
     },
     mutations: {
         /**
@@ -73,6 +77,16 @@ const Site = {
                     console.log('the event was recorded successfully');
                 }
             })
+        },
+        
+        /**
+        *   @desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Назначение переменной dictionary
+        *   @param state {object} - state
+        *   @param data {object} - объект слов в виде ключ-значение
+        *   @method dictionarySet
+        **/
+        dictionarySet(state, data){
+            state.dictionary = data
         }
     }
 }

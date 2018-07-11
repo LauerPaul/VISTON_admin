@@ -31,15 +31,9 @@ const data = {
 	hidePass: true,
 	
 	login: '',
-	loginRules: [
-		v => !!v || 'Логин - обязательное поле!',
-		v => (v && v.length >= 2) || '...'
-	],
+	loginRules: [],
 	password: '',
-	passwordRules: [
-		v => !!v || 'Пароль - обязательное поле!',
-		v => (v && v.length >= 5) || 'Не менее 5 символов!'
-	],
+	passwordRules: [],
 }
 
 
@@ -80,7 +74,7 @@ export default {
 
 	// Head
 	metaInfo: {
-		title: 'Админ панель - Авторизация'
+		title: 'Admin Panel - Auth'
 	},
 	
 	// Method
@@ -92,6 +86,16 @@ export default {
 	*/
 	mounted(){
 		this.$log.info('page \'Auth\' (@/pages/auth) - mounted hook init');
+
+		// Validation set
+		this.loginRules = [
+			v => !!v || this.$word('login') + ' - ' + this.$word('required') + '!',
+			v => (v && v.length >= 2) || '...'
+		]
+		this.passwordRules = [
+			v => !!v || this.$word('password') + ' - ' + this.$word('required') + '!',
+			v => (v && v.length >= 5) || this.$word('characters_5_min')
+		]
 	},
 
 	/**

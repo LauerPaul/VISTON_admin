@@ -24,6 +24,7 @@ import notify from '@/plugins/notify'
 import logger from '@/plugins/logger'
 import access from '@/plugins/access'
 import sound from '@/plugins/sound'
+import dictionary from '@/plugins/dictionary'
 
 import VueProgressBar from 'vue-progressbar'
 import transliteration from '@/plugins/transliteration'
@@ -53,6 +54,7 @@ Vue.use(VueProgressBar, {
     height: '2px'
 })
 Vue.use(transliteration)
+Vue.use(dictionary)
 Vue.use(random)
 Vue.use(store)
 Vue.use(site)
@@ -88,5 +90,5 @@ var vm = new Vue({
         registerDirective: true,     // Registers `v-wait` directive
         directiveName: 'wait',       // <span v-wait /> directive name, you can set `my-loader` etc.
     }),
-    render: h => h(layout)
+    render: h => h(layout),
 })

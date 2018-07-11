@@ -33,6 +33,34 @@ export default {
 		headerLine,
 		aside_menu,
 	},
+	
+	/**
+	* @desc ▶ Hook reporting
+	* @event module:layouts/default~Layout <strong>Default</strong> beforeCreate
+	*/
+    beforeCreate: function(){
+		this.$log.info('Layout \'Default\' (@/layouts/default) - beforeCreate hook init');
+      
+      	// LOAD DICTIONARY
+        this.axios({
+            method: 'post',
+            url: '/' + this.$site.current_language +'/locales',
+            withCredentials: true,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            responseType: 'json',
+            data: ''
+        }).then((response, headers) => {
+            if(response.data.status == "ERROR") {
+				this.$log.warn('Layout \'Default\' (@/layouts/default) - beforeCreate hook -> load dictionary ERROR');
+            }
+            else {
+				this.$log.debug('Layout \'Default\' (@/layouts/default) - beforeCreate hook -> load dictionary SUCCESS');
+                
+                this.$store.commit('dictionarySet', response.data.data);
+                console.log(this.$site.dictionary);
+            }
+        });
+    },
 
 	/**
 	* @desc ▶ Hook reporting

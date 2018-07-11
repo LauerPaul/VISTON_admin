@@ -9,28 +9,31 @@ router.beforeEach(
                     path: '/login'
                 })
             } else{
-               if(to.path !== '/' && to.path !== '/logout'){
-                    let name = to.name;
-                    let item = store.state.Auth.accessTable[name]
-                    let access = item == undefined ? false : item.access
-                    if(access) access = parseInt(access)
+                console.log(to);
+               // if(to.path !== '/' && to.path !== '/logout'){
+               //      let name = to.name;
+               //      let item = store.state.Auth.accessTable[name]
+               //      let access = item == undefined ? false : item.access
+               //      if(access) access = parseInt(access)
 
-                    if(access) next()
-                    else {
-                        if(from.name !== null) next({ name: from.name })
-                        else{
-                            next({ path: '/' })
-                        }
+               //      if(access) next()
+               //      else {
+               //          if(from.name !== null) next({ name: from.name })
+               //          else{
+               //              next({ path: '/' })
+               //          }
 
-                        store.dispatch('notify', {
-                            type: 'error',
-                            text: 'Недостаточно прав для доступа!'
-                        })
-                    }
-                }
-                else next()
+               //          store.dispatch('notify', {
+               //              type: 'error',
+               //              text: 'Недостаточно прав для доступа!'
+               //          })
+               //      }
+               //  }
+               //  else next()
+               next()
             }
         } else {
+            console.log(to);
             console.log(to.name);
             if(store.state.Auth.auth && to.path === '/login'){
                 next({ path: '/' })

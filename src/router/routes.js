@@ -25,7 +25,8 @@ import settingsMail from '@/pages/settings'
 const routes = [
 	{	
 		/*Index page*/
-		path: "/",
+		path: "/:lang",
+		alias: '/',
 		name: 'home',
 		component: index,
         meta: {

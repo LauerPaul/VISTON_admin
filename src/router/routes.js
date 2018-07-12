@@ -6,6 +6,7 @@ Vue.use(Meta)
 // ------------------------------------------------
 
 import auth from '@/pages/auth'
+import template from '@/layouts/default'
 import notFound from '@/pages/404'
 import index from '@/pages/index'
 
@@ -25,112 +26,129 @@ import settingsMail from '@/pages/settings'
 const routes = [
 	{	
 		/*Index page*/
-		path: "/:lang",
-		alias: '/',
-		name: 'home',
-		component: index,
-        meta: {
-            isAuth: true,
-        },
-	},
-	{	
-		/*Auth page*/
-		path: "/login",
-		name: 'login',
-		component: auth,
+		path: '/:lang(en|ua|ru|de)?',
+     	props: true,
+    	component: template,
         meta: {
             isAuth: false
         },
-	},
-	{	
-		/*Logout page*/
-		path: "/logout",
-		name: 'logout',
-		beforeEnter (to, from, next) {
-			store.commit('logout');
-		},
-        meta: {
-            isAuth: true
-        },
-	},
-	{	
-		/*Users page*/
-		path: "/users",
-		name: 'users',
-		component: users,
-        meta: {
-            isAuth: true
-        },
-	},
-	{	
-		/*products page*/
-		path: "/products",
-		name: 'products',
-		component: products,
-		redirect: '/products/menu',
-        meta: {
-            isAuth: true,
-        },
         children: [
-        	{
-				path: 'categories',
-				name: 'productsCategories',
-				component: productsCategories
+			{
+				path: '',
+				name: 'home',
+    			component: index,
+		        meta: {
+		            isAuth: true
+		        },
 			},
-        	{
-				path: 'category',
-				component: productsCategory,
-				redirect: 'category',
+			{	
+				/*Auth page*/
+				path: "login",
+				name: 'login',
+				component: auth,
+		        meta: {
+		            isAuth: false
+		        },
+			},
+			{	
+				/*Logout page*/
+				path: "logout",
+				name: 'logout',
+				beforeEnter (to, from, next) {
+					store.commit('logout');
+				},
+		        meta: {
+		            isAuth: true
+		        },
+			},
+			{	
+				/*Users page*/
+				path: "users",
+				name: 'users',
+				component: users,
+		        meta: {
+		            isAuth: true
+		        },
+			},
+			{	
+				/*products page*/
+				path: "products",
+				name: 'products',
+				component: products,
+				redirect: 'products/menu',
+		        meta: {
+		            isAuth: true,
+		        },
 		        children: [
 		        	{
-						path: ':id',
-						name: 'productsCategory',
-						component: productsCategory
-					}
-				]
+						path: 'categories',
+						name: 'productsCategories',
+						component: productsCategories
+					},
+		        	{
+						path: 'category',
+						component: productsCategory,
+						redirect: 'category',
+				        children: [
+				        	{
+								path: ':id',
+								name: 'productsCategory',
+								component: productsCategory
+							}
+						]
+					},
+		        	{
+						path: 'articles',
+						name: 'productsArticles',
+						component: productsArticles
+					},
+		        	{
+						path: 'seo',
+						name: 'productsSeo',
+						component: productsSeo
+					},
+		        ]
 			},
-        	{
-				path: 'articles',
-				name: 'productsArticles',
-				component: productsArticles
+			{
+				/*Settings*/
+				path: "settings",
+				name: 'settings',
+				component: settings,
+				meta: {
+		            isAuth: true
+		        },
+		        children: [
+		        	{
+						path: 'primary',
+						name: 'settingsPrimary',
+						component: settingsPrimary
+					},
+		        	{
+						path: 'mail',
+						name: 'settingsMail',
+						component: settingsMail
+					},
+		        ]
 			},
-        	{
-				path: 'seo',
-				name: 'productsSeo',
-				component: productsSeo
+			/* Web-серверные ошибки и сообщения */
+			{
+				/* 404 - Page not found */
+				path: '404',
+				name: 'notfound',
+				component: notFound,
+		        meta: {
+		            isAuth: true
+		        },
 			},
-        ]
+			{
+				path: '*',
+				redirect: '404'
+			}
+		]
 	},
 	{
-		/*Settings*/
-		path: "/settings",
-		name: 'settings',
-		component: settings,
-		meta: {
-            isAuth: true
-        },
-        children: [
-        	{
-				path: 'primary',
-				name: 'settingsPrimary',
-				component: settingsPrimary
-			},
-        	{
-				path: 'mail',
-				name: 'settingsMail',
-				component: settingsMail
-			},
-        ]
-	},
-	/* Web-серверные ошибки и сообщения */
-	{
-		/* 404 - Page not found */
-		path: '/404',
-		name: 'notfound',
-		component: notFound
-	}, {
 		path: '*',
-		redirect: '/404'
+		redirect: '/en'
 	}
 ]
 

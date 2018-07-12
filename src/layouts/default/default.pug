@@ -1,7 +1,4 @@
-v-app
-	v-content(:class="[{auth: auth}, locationClass]")
-		headerLine(v-if="auth")
-		aside_menu(v-if="auth")
-		router-view
-		vue-progress-bar
-		v-notify
+div
+	headerLine(v-if="auth")
+	aside_menu(v-if="auth")
+	router-view

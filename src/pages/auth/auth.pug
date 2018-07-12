@@ -9,10 +9,10 @@
 							img(src="https://my2.lauer.com.ua/uploads/_site/logo.png", alt="")
 
 				.col-md-6
-					v-text-field(name="login", :label="$word('login')", v-model="login", :rules="loginRules", counter, required)
+					v-text-field(name="login", :label="text.login", v-model="login", :rules="loginRules", counter, required)
 					
-					v-text-field(name="password", :label="$word('password')", :hint="$word('characters_5_min')", v-model="password", min="5", :rules="passwordRules", :append-icon="hidePass ? 'mdi-eye' : 'mdi-eye-off'", :append-icon-cb="() => (hidePass = !hidePass)", :type="hidePass ? 'password' : 'text'", counter, required)
+					v-text-field(name="password", :label="text.password", :hint="text.characters_5_min", v-model="password", min="5", :rules="passwordRules", :append-icon="hidePass ? 'mdi-eye' : 'mdi-eye-off'", :append-icon-cb="() => (hidePass = !hidePass)", :type="hidePass ? 'password' : 'text'", counter, required)
 
 					
 					v-btn.not-padding(@click="submit", :disabled="loading", color="info", :loading="loading")
-						span(v-if="!loader") {{ $word('done') }}
+						span(v-if="!loader") {{ text.done }}

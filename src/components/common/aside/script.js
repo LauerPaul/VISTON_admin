@@ -10,6 +10,7 @@
 * @copyright 2018©lauer.agency
 */
 
+import { mapState } from 'vuex'
 import menu from "./listMenu.js"
 
 const data = {
@@ -83,6 +84,14 @@ export default {
 
 	// Set data
 	data () { return data },
+
+	/**
+	*  @desc <strong style="color:red; font-size: 18px;">ⓘ</strong> This component computed:
+	*  variable **aside_min** - from [Store Site]{@link module:store/site}
+	**/
+	computed: {
+		...mapState('Site', ['aside_min'])
+	},
 
 	// Methods
 	methods: methods,

@@ -1,4 +1,4 @@
-v-navigation-drawer.aside_menu(app, fixed, hide-overlay, :mini-variant.sync="$site.aside_min", v-model="drawer", mini-variant-width="64", width="220")
+v-navigation-drawer.aside_menu(app, fixed, hide-overlay, :mini-variant.sync="aside_min", v-model="drawer", mini-variant-width="64", width="220")
 	v-toolbar.transparent(flat)
 		v-list.pa-0
 			v-list-tile(avatar)
@@ -6,7 +6,7 @@ v-navigation-drawer.aside_menu(app, fixed, hide-overlay, :mini-variant.sync="$si
 					img(src="https://randomuser.me/api/portraits/men/85.jpg")
 				v-list-tile-content
 					v-list-tile-title.user-info
-						.name {{ $user().data.first_name }} {{ $user().data.last_name }}
+						.name {{ $store.state.Auth.user.data.first_name }} {{ $store.state.Auth.user.data.last_name }}
 						.status {{ status }}
 
 	v-list.pt-0(dense).wrapper-menu

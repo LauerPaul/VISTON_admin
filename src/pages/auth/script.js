@@ -25,6 +25,7 @@ const data = {
 	* 	@property {array} loginRules - Правила валидации поля "логин" ([подробнее]{@link https://vuetifyjs.com/en/components/forms})
 	* 	@property {string} password - Пароль (зарезервированная переменная)
 	* 	@property {array} passwordRules - Правила валидации поля "пароль" ([подробнее]{@link https://vuetifyjs.com/en/components/forms})
+	* 	@property {string} passwordMinLength - Минимальная длина пароля
 	*
 	* 	@property {object} text - тексты
 	*/
@@ -37,12 +38,13 @@ const data = {
 	loginRules: [],
 	password: '',
 	passwordRules: [],
+	passwordMinLength: 5,
 
 	text: {
 		pageTitle: 'Loading...',
 		login: '',
 		password: '',
-		characters_5_min: '',
+		characters_min: '',
 		done: ''
 	}
 }
@@ -78,20 +80,21 @@ const methods = {
 	setText(){
 		// Dev. debug
 		this.$log.debug('page \'Auth\' (@/pages/auth) - method init');
-		
+
+		var characters_min = this.$replace(this.GET_WORD('characters_min'), this.passwordMinLength);
 		this.text.login = this.GET_WORD('login')
 		this.text.password = this.GET_WORD('password')
-		this.text.characters_5_min = this.GET_WORD('characters_5_min')
-		this.text.done = this.GET_WORD('done')
+		this.text.characters_min = characters_min
+		this.text.done = this.GET_WORD('loginBtn')
 
 		// Validation set
 		this.loginRules = [
-			v => !!v || this.GET_WORD('login') + ' - ' + this.GET_WORD('required') + '!',
+			v => !!v || this.GET_WORD('login') + ' - ' + this.GET_WORD('required').toLowerCase().trim() + '!',
 			v => (v && v.length >= 2) || '...'
 		]
 		this.passwordRules = [
-			v => !!v || this.GET_WORD('password') + ' - ' + this.GET_WORD('required') + '!',
-			v => (v && v.length >= 5) || this.GET_WORD('characters_5_min')
+			v => !!v || this.GET_WORD('password') + ' - ' + this.GET_WORD('required').toLowerCase().trim() + '!',
+			v => (v && v.length >= 5) || characters_min
 		]
 	}
 }

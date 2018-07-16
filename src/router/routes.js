@@ -1,3 +1,4 @@
+import CONFIG from '@/config_admin.js'
 import Vue from 'vue'
 import Meta from 'vue-meta'
 import store from '@/store'
@@ -23,10 +24,27 @@ import settings from '@/pages/settings'
 import settingsPrimary from '@/pages/settings'
 import settingsMail from '@/pages/settings'
 
+// Определяем языки
+const langs = function(){
+	var langsArray = null
+	if(CONFIG.language.multilang){
+		CONFIG.language.library.forEach((obj)=>{
+			if(obj.status){
+				if(langsArray == null) langsArray = obj.code
+				else langsArray += '|' + obj.code
+			}
+		})
+	}else langsArray = CONFIG.language.default;
+	console.log('%c App lang: ' + '%c' + langsArray + ' ',
+				'background: #ffd600; color: #705e00; font-weight: bold; line-height: 24px',
+				'background: #ffd600; color: #705e00; line-height: 24px');
+	return langsArray
+}
+
 const routes = [
 	{	
 		/*Index page*/
-		path: '/:lang(en|ua|ru|de)?',
+		path: '/:lang('+langs()+')?',
      	props: true,
     	component: template,
         meta: {

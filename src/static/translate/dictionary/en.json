@@ -1,0 +1,7 @@
+{
+	"login": 	"Login",
+	"password": "Password",
+	"loginBtn": "Done",
+	"characters_min": "At least % characters",
+	"required": "Required"
+}

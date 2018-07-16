@@ -39,8 +39,8 @@ export default {
     		this.locationClass = this.$route.name;
       	},
       	'$store.state.Auth.auth': function (v) {
-      		if(this.$store.state.Auth.auth) this.$router.push({name: 'home', params: { lang: this.$store.state.Site.current_language }});
-      		else this.$router.push({name: 'login', params: { lang: this.$store.state.Site.current_language }});
+      		if(this.$store.state.Auth.auth) this.$router.push({name: 'home', params: { lang: this.$store.state.Site.urlPrefix }});
+      		else this.$router.push({name: 'login', params: { lang: this.$store.state.Site.urlPrefix }});
       		this.auth = this.$store.state.Auth.auth
       	},
     }

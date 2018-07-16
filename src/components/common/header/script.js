@@ -10,6 +10,8 @@
 * @copyright 2018©lauer.agency
 */
 
+import { mapState } from 'vuex'
+
 const data = {
 	/**
 	* @typedef {Object} Data
@@ -34,6 +36,16 @@ export default {
 	
 	// Methods
 	methods: methods,
+
+	/**
+	*  @desc <strong style="color:red; font-size: 18px;">ⓘ</strong> This component computed:
+	*  variable **logo** - from [Store Site]{@link module:store/site}
+	*  variable **logo_alt** - from [Store Site]{@link module:store/site}
+	*  variable **urlPrefix** - from [Store Site]{@link module:store/site}
+	**/
+	computed: {
+		...mapState('Site', ['logo', 'logo_alt', 'urlPrefix'])
+	},
 
 	/**
 	* @desc ▶ Hook reporting <br>

@@ -23,7 +23,7 @@ export default {
 		// Статус мультиязычности приложения
 		multilang: true,
 		// Массив используемых языков в админ панеле
-		library: [
+		lng: [
 			{
 				name: 'English',
 				code: 'en',
@@ -44,7 +44,15 @@ export default {
 				code: 'de',
 				status: false
 			}
-		]
+		],
+		
+	},
+	// Параметры языка на основном сайте
+	site_language: {
+		// Язык по умолчанию
+		default: 'ru',
+		// Статус мультиязычности основного сайта
+		siteML: true,
 	},
 	dictionary: dictionary,
 	// ---------------------

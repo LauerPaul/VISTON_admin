@@ -27,8 +27,11 @@ const Site = {
         *
         *   @property {string} default_language - Язык по умолчанию
         *   @property {boolean} multilang - Статус мультиязычности приложения
-        *   @property {object} languages - Массив используемых языков в админ панеле
+        *   @property {object} langs - Массив используемых языков в админ панеле
         *   @property {object} dictionary - Словарь
+        *
+        *   @property {string} site_default_language - Язык по умолчанию
+        *   @property {boolean} site_multilang - Статус мультиязычности основного сайта
         *
         *   @property {boolean} logAdmin_write - Статус записи лога событий в админ панеле
         *   @property {boolean} logAdmin_write_url - Ссылка для отправки событий в лог на сервер
@@ -46,6 +49,9 @@ const Site = {
                 multilang: CONFIG.language.multilang,
                 langs: CONFIG.language.library,
                 dictionary: CONFIG.dictionary,
+                
+                site_default_language: CONFIG.site_language.default,
+                site_multilang: CONFIG.site_language.multilang,
             // ***********************************************
                 logAdmin_write: CONFIG.developer.logStatus,
                 logAdmin_write_url: CONFIG.developer.logWriteLink,

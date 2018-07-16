@@ -28,7 +28,7 @@ import settingsMail from '@/pages/settings'
 const langs = function(){
 	var langsArray = null
 	if(CONFIG.language.multilang){
-		CONFIG.language.library.forEach((obj)=>{
+		CONFIG.language.lng.forEach((obj)=>{
 			if(obj.status){
 				if(langsArray == null) langsArray = obj.code
 				else langsArray += '|' + obj.code

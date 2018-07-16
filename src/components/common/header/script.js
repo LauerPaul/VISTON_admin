@@ -11,6 +11,7 @@
 */
 
 import { mapState } from 'vuex'
+import langs from '@/components/common/langs_switcher'
 
 const data = {
 	/**
@@ -45,6 +46,14 @@ export default {
 	**/
 	computed: {
 		...mapState('Site', ['logo', 'logo_alt', 'urlPrefix'])
+	},
+	
+	/**
+	*	This layout use components:
+	*		> [Langs]{@link module:components/common/langs_switcher}
+	*/
+	components: {
+		'langs-case': langs,
 	},
 
 	/**

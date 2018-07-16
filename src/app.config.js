@@ -25,6 +25,7 @@ import layout from '@/layouts/index.vue'
 import querystring from 'querystring'
 // ------------------------------------
 // ************************************
+import filters from '@/filters'
  
 Vue.config.productionTip = false
 
@@ -60,5 +61,6 @@ var vm = new Vue({
         registerDirective: true,     // Registers `v-wait` directive
         directiveName: 'wait',       // <span v-wait /> directive name, you can set `my-loader` etc.
     }),
+    filters: filters,
     render: h => h(layout),
 })

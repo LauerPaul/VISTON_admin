@@ -1,0 +1,13 @@
+v-menu(bottom, origin="bottom center", transition="scale-transition")
+	span.lang-dropdown(slot="activator")
+		i.mdi.mdi-web
+		span.label {{ curLng|uppercase }}
+		i.mdi.mdi-menu-down.drop-arrow
+
+	v-list
+		v-list-tile(v-for="item in langs",
+					:key="item.code",
+					v-if="item.status")
+			v-list-tile-title(v-if="item.code == curLng") {{ item.name }}
+			v-list-tile-title(v-else)
+				router-link(:to="{name: $route.name, params: {lang: item.code}}") {{ item.name }}

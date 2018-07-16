@@ -1,0 +1,30 @@
+.langs-case {
+	height: 100%;
+}
+
+.lang-dropdown {
+    color: rgba(0, 0, 0, 0.54);
+    margin-right: 16px;
+    height: 100%;
+    text-transform: uppercase;
+	
+	i {
+		font-size: 31px;
+	}
+
+	.label {
+		opacity: 0.8;
+	}
+
+	.drop-arrow {
+		font-size: 16px;
+	}
+
+	&:hover {
+		color: #ffd600;
+
+		.label {
+			color: #705e00;
+		}
+	}
+}

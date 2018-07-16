@@ -47,7 +47,7 @@ const Site = {
             // ***********************************************
                 default_language: CONFIG.language.default,
                 multilang: CONFIG.language.multilang,
-                langs: CONFIG.language.library,
+                langs: CONFIG.language.lng,
                 dictionary: CONFIG.dictionary,
                 
                 site_default_language: CONFIG.site_language.default,
@@ -154,6 +154,7 @@ const Site = {
         *   @method LANGUAGE_CONTROL
         **/
         LANGUAGE_CONTROL({commit, state}, to){
+            console.log(state.langs);
             // Если включен параметр мультиязычности
             if(state.multilang){
                 // Languages redirect 

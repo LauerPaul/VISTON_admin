@@ -60,7 +60,7 @@ const methods = {
 				this.statistics.off += 1;
 			}
 
-			if(parseInt(item.posts_count) > 0) {
+			if(parseInt(item.subcats_count) > 0) {
 				this.statistics.full += 1;
 			} else {
 				this.statistics.clear += 1;

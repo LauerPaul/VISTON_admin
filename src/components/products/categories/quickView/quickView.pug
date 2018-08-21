@@ -28,7 +28,7 @@ v-dialog(v-model="status",
 
 				v-btn(v-if="access",
 						dark, flat,
-						:to="{name: 'blogCategory', params: {id: item.id}}",
+						:to="{name: 'productsCategory', params: {id: item.id}}",
 						:title="text.editCategory")
 					v-icon mdi-pencil
 					|&nbsp;&nbsp;{{ text.edit }}
@@ -54,7 +54,7 @@ v-dialog(v-model="status",
 			v-divider
 			v-list(one-line, subheader)
 				v-subheader {{ text.postsCount }} - &nbsp;
-					strong {{ item.posts_count }}
+					strong {{ item.subcats_count }}
 			
 			v-divider
 			v-list(three-line, subheader)

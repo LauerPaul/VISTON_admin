@@ -83,7 +83,7 @@ const data = {
 			align: 'left',
 			value: 'name'
 		},
-		{ text: 'Кол-во пуб.', align: 'center', value: 'posts_count' },
+		{ text: 'Кол-во пуб.', align: 'center', value: 'subcats_count' },
 		{ text: 'Статус', value: 'status', align: 'left' },
 		{ text: '', value: '', sortable: false }
 	],
@@ -164,14 +164,14 @@ const methods = {
 		if(this.$access('remove')){
 			this.dialogRemove.url = this.catRemoveUrl + this.selectItem.id
 
-			if(this.selectItem.posts_count == 0){
+			if(this.selectItem.subcats_count == 0){
 				this.dialogRemove.error = false
 				this.dialogRemove.title = 'ПОДТВЕРДИТЕ ДЕЙСТВИЕ'
 				this.dialogRemove.text = 'Вы действительно хотите удалить категорию блога с названием<br><strong>"'+ this.selectItem.name +'"</strong> - <strong>ID '+ this.selectItem.id +'</strong>?'
 			}else {
 				this.dialogRemove.error = true
 				this.dialogRemove.title = 'УДАЛЕНИЕ НЕВОЗМОЖНО'
-				this.dialogRemove.text = 'Вы пытаетесь удалить категорию блога<br><strong>"'+ this.selectItem.name +'"</strong> - <strong> ID '+ this.selectItem.id +'</strong>.<br>В данной категории'+ this.selectItem.posts_count +'публикаций.'
+				this.dialogRemove.text = 'Вы пытаетесь удалить категорию блога<br><strong>"'+ this.selectItem.name +'"</strong> - <strong> ID '+ this.selectItem.id +'</strong>.<br>В данной категории'+ this.selectItem.subcats_count +'публикаций.'
 			}
 
 			this.dialogRemove.status = true;

@@ -5,7 +5,7 @@
 
 				v-toolbar(color="blue", dark)
 					v-icon mdi-archive
-					v-toolbar-title Категории блога
+					v-toolbar-title Категории раздела "Продукция"
 					v-spacer
 					v-btn(icon, @click="toggleSearch", title="Найти категорию")
 						v-icon(v-if="!searchlineShow") mdi-magnify
@@ -13,6 +13,17 @@
 					v-text-field(v-show="searchlineShow", v-model="search", label="Поиск", single-line, hide-details)
 					v-btn(icon, title="Добавить категорию", @click="access.add ? addNew_window = true : $access('add')")
 						v-icon add
+
+
+				v-stepper(non-linear, v-model="step")
+					v-stepper-header
+						v-stepper-step(step="1", editable, edit-icon="mdi-settings", :complete="step > 1") EN
+						v-divider
+						v-stepper-step(step="2", editable, edit-icon="mdi-search-web", :complete="step > 2") DE
+						v-divider
+						v-stepper-step(step="3", editable, edit-icon="mdi-search-web", :complete="step > 3") RU
+						v-divider
+						v-stepper-step(:step="step", editable, complete, edit-icon="mdi-content-save", @click.native="submit") UA
 
 				//- Таблица
 				v-data-table.elevation-1(v-model="selected", :headers="headers", :items="categories", :pagination.sync="pagination", :search="search", item-key="name", sort-icon="mdi-menu-down", prev-icon="mdi-menu-left", next-icon="mdi-menu-right", :loading="loading")
@@ -23,10 +34,10 @@
 								strong.opacity_6 {{ props.item.id }}
 
 							td.text-left(:class="{opacity_6 : !parseInt(props.item.status)}")
-								router-link(v-if="access.edit", tag="button", :to="{name: 'blogCategory', params: {id: props.item.id}}") {{ props.item.name }}
+								router-link.text-left(v-if="access.edit", tag="button", :to="{name: 'productsCategory', params: {id: props.item.id}}") {{ props.item.name }}
 								span(v-else) {{ props.item.name }} 
 
-							td.text-center {{ props.item.posts_count }}
+							td.text-center {{ props.item.subcats_count }}
 
 							td.text-left(style="width: 80px;")
 								v-icon(v-if="props.item.status == '1'", color="green") check
@@ -38,10 +49,10 @@
 									v-btn.mini-circle(icon, title="Быстрый просмотр", fab, dark, small, color="green", @click.stop="quickView = !quickView; setSelectItem(props.item, props.index);")
 										v-icon(color="gray") mdi-magnify
 									//- Edit
-									v-btn.mini-circle(v-if="access.edit", fab, dark, small, color="blue", :to="{name: 'blogCategory', params: {id: props.item.id}}", title="Редактировать")
+									v-btn.mini-circle(v-if="access.edit", fab, dark, small, color="blue", :to="{name: 'productsCategory', params: {id: props.item.id}}", title="Редактировать")
 											v-icon mdi-pencil
 									//- Remove
-									v-btn.mini-circle(v-if="access.remove", icon, @click.stop="setSelectItem(props.item, props.index); removeAlert()", title="Удалить", fab, small, :dark="props.item.posts_count == 0", :color="props.item.posts_count > 0 ? 'gray ighten-1' : 'red'", :disabled="props.item.posts_count > 0")
+									v-btn.mini-circle(v-if="access.remove", icon, @click.stop="setSelectItem(props.item, props.index); removeAlert()", title="Удалить", fab, small, :dark="props.item.subcats_count == 0", :color="props.item.subcats_count > 0 ? 'gray ighten-1' : 'red'", :disabled="props.item.subcats_count > 0")
 										v-icon mdi-delete
 
 					//- Если таблица пустая

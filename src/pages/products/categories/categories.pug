@@ -17,13 +17,11 @@
 
 				v-stepper(non-linear, v-model="step")
 					v-stepper-header
-						v-stepper-step(step="1", editable, edit-icon="mdi-settings", :complete="step > 1") EN
+						v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getCategories('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
 						v-divider
-						v-stepper-step(step="2", editable, edit-icon="mdi-search-web", :complete="step > 2") DE
+						v-stepper-step(step="de", editable, :complete="step == 'de'", @click.native="getCategories('de')", edit-icon="mdi-check") {{ step == 'de' ? 'DE' : '' }}
 						v-divider
-						v-stepper-step(step="3", editable, edit-icon="mdi-search-web", :complete="step > 3") RU
-						v-divider
-						v-stepper-step(:step="step", editable, complete, edit-icon="mdi-content-save", @click.native="submit") UA
+						v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getCategories('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
 
 				//- Таблица
 				v-data-table.elevation-1(v-model="selected", :headers="headers", :items="categories", :pagination.sync="pagination", :search="search", item-key="name", sort-icon="mdi-menu-down", prev-icon="mdi-menu-left", next-icon="mdi-menu-right", :loading="loading")
@@ -37,7 +35,10 @@
 								router-link.text-left(v-if="access.edit", tag="button", :to="{name: 'productsCategory', params: {id: props.item.id}}") {{ props.item.name }}
 								span(v-else) {{ props.item.name }} 
 
-							td.text-center {{ props.item.subcats_count }}
+							td.text-center
+								|{{ !parseInt(props.item.publication) ? props.item.subcats_count : '' }}
+								router-link.text-left(v-if="parseInt(props.item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: props.item.publication_id}}")
+									i.mdi.mdi-link.red--text(style="font-size: 18px;")
 
 							td.text-left(style="width: 80px;")
 								v-icon(v-if="props.item.status == '1'", color="green") check

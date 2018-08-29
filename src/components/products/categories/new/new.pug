@@ -6,12 +6,19 @@ v-dialog(v-model="visible", max-width="500px", persistent)
 					v-model="valid", 
 					@submit.prevent="addCategory",
 					@keydown.esc="windowHide")
-				v-layout(style="margin-bottom: 16px;")
+				v-layout
 					v-text-field(v-model="newName",
 								label="Укажите название",
 								required,
 								color="light-green",
 								:rules="nameRules")
+				v-layout(style="margin-bottom: 16px;")
+					v-select(:items="langs",
+								label="Язык",
+								required,
+								outline,
+								:rules="[v => !!v || 'Укажите язык']",
+								v-model="langSelect")
 
 				v-layout.justify-content-end(v-if="!submit")
 				

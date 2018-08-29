@@ -121,6 +121,18 @@ const routes = [
 						component: productsArticles
 					},
 		        	{
+						path: 'article',
+						component: productsArticles,
+						redirect: 'article',
+				        children: [
+				        	{
+								path: ':id',
+								name: 'productsArticle',
+								component: productsArticles
+							}
+						]
+					},
+		        	{
 						path: 'seo',
 						name: 'productsSeo',
 						component: productsSeo

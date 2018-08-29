@@ -44,6 +44,8 @@ const data = {
 	*
 	*	@property {string} search - Значения поиска (Зарезервированная переменная)
 	*	@property {string} img - (Зарезервированная переменная)
+	*	@property {string} language - Язык в системе
+	* 	@property {int} step - Шаги заполнения данных (зарезервированная переменная)
 	*
 	*	@property {object} selectItem - Данные выбранной категории (зарезервированная переменная)
 	*		@property {object} selectItem.id - ID категории (зарезервированная переменная)
@@ -90,7 +92,9 @@ const data = {
 	selected: [],
 	categories: [],
 	img: '',
-	
+	language: '',
+	step: 'ru',
+
 	search: '',
 	
     selectItem: {id: 0},
@@ -101,13 +105,15 @@ const methods = {
 	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрос списка категорий блога (AJAX)
 	*	@method getUsersList
 	**/
-	getCategories (){
+	getCategories (lng=false){
 		this.$log.info('page \'products categories\' (@/pages/products/categories) - method init');
-		
+
 		if(this.$access('access')){
+			var url = !lng ? this.catsListUrl : '/' + lng + this.catsListUrl;
+			
 			return this.axios({
 	            method: 'get',
-	            url: this.catsListUrl,
+	            url: url,
 	            withCredentials: true,
 	            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 	            responseType: 'json',
@@ -123,6 +129,7 @@ const methods = {
 	            }else {
 					this.$log.debug('page \'products categories\' (@/pages/products/categories) - AJAX success');
 	                this.categories = response.data.categories;
+	                this.language = response.data.language;
 	            }
 	        });
 		}
@@ -200,7 +207,7 @@ const methods = {
 		this.img = this.$root.domain + this.selectItem.img;
 		if(this.selectItem.status == '0' || this.selectItem.status == 0) this.selectItem.status = false
 		else this.selectItem.status = true
-	},
+	}
 }
 
 /** Export component */

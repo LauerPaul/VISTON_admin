@@ -15,8 +15,10 @@ const data = {
 	*	@property {boolean} visible - Статус видимости окна (зарезервированная переменная)
 	*	@property {boolean} submit - Статус отправки формы (зарезервированная переменная)
 	* 	@property {boolean} valid - Валидация (зарезервированная переменная)
+	* 	@property {array} langs - Массив языков для select
 	*
 	*	@property {string} newName - Название новой категори (Зарезервированная переменная)
+	*	@property {string} langSelect - Язык новой категори (Зарезервированная переменная)
 	* 	@property {array} nameRules - Правила валидации поля name ([подробнее]{@link https://vuetifyjs.com/en/components/forms})
 	*
 	*	@property {object} text - Текст
@@ -26,8 +28,10 @@ const data = {
 	visible: false,
 	submit: false,
 	valid: true,
+	langs: ['ru', 'en', 'de'],
 
 	newName: '',
+	langSelect: null,
 	nameRules: [
 		v => !!v || 'Назваение обязательно к заполнению',
 		v => (v && v.length > 4) || 'Имя должно быть более 4-х символов. Введено - ' + v.length
@@ -65,6 +69,7 @@ const methods = {
 				const url_ = this.$translit(this.newName)
 				const data = {
 					name: this.newName,
+					lang: this.langSelect,
 					url: url_
 				}
 
@@ -88,7 +93,7 @@ const methods = {
 
 	                    this.$notify.success('Новая категория добавлена успешно!');
 	                	this.windowHide()
-	                    this.$router.push({name: 'blogCategory', params: {id: response.data.id}});
+	                    this.$router.push({name: 'productsCategory', params: {id: response.data.id}});
 	 				}
 	            });
 			}

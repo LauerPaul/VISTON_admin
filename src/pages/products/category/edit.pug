@@ -45,14 +45,36 @@
 	.col-md-3
 		v-card(light, disabled, color="blue-grey", dark).statistic
 			v-list-tile
-				v-list-tile-content Статус
+				v-list-tile-content
+					span
+						i.mdi.mdi-checkbox-blank-circle-outline(v-if="statusText == 'OFF'", style="font-size: 16px; color: #dcdcdc;")
+						i.mdi.mdi-checkbox-marked-circle-outline(v-else, style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;Статус
 				v-list-tile-content.align-end {{ statusText }}
 			v-list-tile
-				v-list-tile-content ID категории
+				v-list-tile-content
+					span
+						i.mdi.mdi-key(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;ID категории в БД
 				v-list-tile-content.align-end {{ id }}
-			v-list-tile
-				v-list-tile-content Публикаций в категории
+			v-list-tile(v-if="!link")
+				v-list-tile-content
+					span
+						i.mdi.mdi-file-document(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;Публикаций в категории
 				v-list-tile-content.align-end {{ posts_count }}
+			v-list-tile(v-else)
+				v-list-tile-content
+					span
+						i.mdi.mdi-link(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;Категория ведет к публикации
+				v-list-tile-content.align-end {{ posts_count }}
+			v-list-tile
+				v-list-tile-content
+					span
+						i.mdi.mdi-web(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;Язык категории
+				v-list-tile-content.align-end(style="text-transform: uppercase;") {{ lang }}
 			
 			
 	imageCover(field="img", v-model="imageUploadWindow", @crop-success="cropSuccess", :width="cropWidth", :height="cropHeight", url="", img-format="png", :langType="'ru'", :noCircle="true")

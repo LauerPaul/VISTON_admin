@@ -28,13 +28,15 @@ const data = {
 	loading: false,
 	statistics: {
 		full: 0,
+		link: 0,
 		clear: 0,
 		on: 0,
 		off: 0
 	},
 	text: {
 		full: 'Со статьями',
-		clear: 'Пустые',
+		link: 'Ссылок',
+		clear: 'Пустых',
 		on: 'Активных',
 		off: 'Не активных'
 	}
@@ -52,6 +54,8 @@ const methods = {
 		this.statistics.off = 0
 		this.statistics.full = 0
 		this.statistics.clear = 0
+		this.statistics.clear = 0
+		this.statistics.link = 0
 
 		this.categories.forEach((item, i, arr) => {
 			if(parseInt(item.status) == 1 || item.status == true) {
@@ -60,9 +64,13 @@ const methods = {
 				this.statistics.off += 1;
 			}
 
-			if(parseInt(item.subcats_count) > 0) {
+			if(parseInt(item.subcats_count) > 0 && !parseInt(item.publication)) {
 				this.statistics.full += 1;
-			} else {
+			}
+			else if(parseInt(item.subcats_count) > 0 && parseInt(item.publication)) {
+				this.statistics.link += 1;
+			}
+			else {
 				this.statistics.clear += 1;
 			}
 		});

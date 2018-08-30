@@ -37,7 +37,11 @@ const methods = {
 	            withCredentials: true,
 	            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 	            responseType: 'json',
-	            data: this.$root.querystring.stringify({seo: this.seoId}),
+	            data: this.$root.querystring.stringify({
+	            										seo: this.seoId,
+	            										img: this.img,
+														banner_img: this.banner_img
+	            									}),
 	        }).then((response) => {
 	            this.loading = false;
 
@@ -83,7 +87,9 @@ export default {
 		'name',
 		'content',
 		'error',
-		'seoId'
+		'seoId',
+		'img',
+		'banner_img'
 	],
 
 	// Methods

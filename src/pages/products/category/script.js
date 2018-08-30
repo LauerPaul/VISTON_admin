@@ -1,7 +1,7 @@
 /**
 * @vuedoc
-* @module pages/blog/category
-* @see @/pages/blog/category
+* @module pages/products/category
+* @see @/pages/products/category
 *
 * @version 1.0
 * @desc Страница редактирования категории блога
@@ -54,8 +54,8 @@ const data = {
 	*		@property {boolean} seo.imageOgNew - переменная изменяет значение, если добавлено новое изображение seoOgImg (зарезервированная переменная)
 	*
 	*/
-	catDataUrl: '/blog/category/',	
-	catSaveDataUrl: '/blog/category/save/',
+	catDataUrl: '/products/category/',	
+	catSaveDataUrl: '/products/category/save/',
 	valid: true,
 	loading: true,
 	transliteration: false,
@@ -69,7 +69,7 @@ const data = {
 		v => (v && v.length > 2) || 'URL должно быть более 2-х символов. Введено - ' + v.length
 	],
 	step: 0,
-	statusText: 'off',
+	statusText: 'OFF',
 	cropWidth: 600,
 	cropHeight: 300,
 	// Данные категории
@@ -78,6 +78,8 @@ const data = {
 	url: '',
 	status: 0,
 	posts_count: 0,
+	lang: 0,
+	link: false,
 	imgDataUrl: false,
 	seoId: 0,
 	img: '',
@@ -101,7 +103,7 @@ const methods = {
 	*	@method getCategory
 	**/
 	getCategory (){
-		this.$log.info('page \'Blog category\' (@/pages/blog/category) - method init');
+		this.$log.info('page \'Products category\' (@/pages/products/category) - method init');
 		
 		return this.axios({
             method: 'get',
@@ -115,13 +117,13 @@ const methods = {
             this.loading = false;
 
             if(response.data.status == "ERROR") {
-				this.$log.error('page \'Blog category\' (@/pages/blog/category) - AJAX error');
+				this.$log.error('page \'Products category\' (@/pages/products/category) - AJAX error');
 
             	this.notify = 'Произошла ошибка при загрузке данных...'
                 this.$store.commit('error', response.data.error);
             }
             else {
-				this.$log.debug('page \'Blog category\' (@/pages/blog/category) - AJAX success');
+				this.$log.debug('page \'Products category\' (@/pages/products/category) - AJAX success');
 
             	const item = response.data.category;
 
@@ -129,10 +131,12 @@ const methods = {
 				this.name = item.name
 				this.url = item.url
 				this.status = parseInt(item.status)
-				this.posts_count = item.posts_count
+				this.posts_count = item.subcats_count
+				this.lang = item.lang
+				this.link = parseInt(item.publication)
 				this.imgDataUrl = item.img
 				this.seoId = item.seo
-				this.img = this.imgDataUrl == '' ? false : this.$root.domain + this.imgDataUrl + this.$root.random();
+				this.img = this.imgDataUrl == '' ? false : this.$root.domain + this.imgDataUrl + this.$random();
 
 				this.seo.seoTitle = item.seo_data.title
 				this.seo.seoDescription = item.seo_data.description
@@ -153,7 +157,7 @@ const methods = {
 	*	@method cropSuccess
 	**/
 	cropSuccess(imgDataUrl, field){
-		this.$log.info('page \'Blog category\' (@/pages/blog/category) - method init');
+		this.$log.info('page \'Products category\' (@/pages/products/category) - method init');
 
 		this.imgDataUrl = imgDataUrl;
 		this.img = imgDataUrl;
@@ -165,7 +169,7 @@ const methods = {
 	*	@method submit
 	**/
 	submit() {
-		this.$log.info('page \'Blog category\' (@/pages/blog/category) - method init');
+		this.$log.info('page \'Products category\' (@/pages/products/category) - method init');
 
 		if(this.$refs.form.validate()){
 			this.loading = true;
@@ -199,12 +203,12 @@ const methods = {
                 this.loading = false;
 
                 if(response.data.status == "ERROR") {
-					this.$log.error('page \'Blog category\' (@/pages/blog/category) - AJAX error');
+					this.$log.error('page \'Products category\' (@/pages/products/category) - AJAX error');
 
                 	this.notify = 'Произошла ошибка при загрузке данных...'
                     this.$store.commit('error', response.data.error);
                 } else {
-					this.$log.debug('page \'Blog category\' (@/pages/blog/category) - AJAX success');
+					this.$log.debug('page \'Products category\' (@/pages/products/category) - AJAX success');
 
                     this.$store.commit('success', 'Все отлично сохранилось, можешь спасть спокойно!');
  				}
@@ -243,10 +247,10 @@ export default {
 	* @desc ▶ Hook reporting
 	* <strong style="color:red; font-size: 18px;">ⓘ</strong> Установка переменной id
 	* <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрашиваем данные категории при загрузке компонента -> getCategory()
-	* @event module:pages/blog/category~Page <strong>Blog category</strong> mounted
+	* @event module:pages/products/category~Page <strong>Products category</strong> mounted
 	*/
 	mounted: function(){
-		this.$log.info('page \'Blog category\' (@/pages/blog/category) - mounted hook init');
+		this.$log.info('page \'Products category\' (@/pages/products/category) - mounted hook init');
 		
 		// Устанавливаем ID категории в переменную
 		this.id = this.$route.params.id;
@@ -262,7 +266,7 @@ export default {
 	*/
 	watch: {
 		name () {
-			this.$log.debug('page \'Blog category\' (@/pages/blog/category) - watch name');
+			this.$log.debug('page \'Products category\' (@/pages/products/category) - watch name');
 			
 			if(this.transliteration) {
 				const url = this.$root.translite(this.name);
@@ -270,9 +274,9 @@ export default {
 			}
 		},
 		status (){
-			this.$log.debug('page \'Blog category\' (@/pages/blog/category) - watch status');
+			this.$log.debug('page \'Products category\' (@/pages/products/category) - watch status');
 
-			this.statusText = this.status ? 'on' : 'off'
+			this.statusText = this.status ? 'ON' : 'OFF'
 		}
 	},
 }

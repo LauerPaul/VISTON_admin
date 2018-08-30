@@ -52,9 +52,14 @@ v-dialog(v-model="status",
 						v-list-tile-sub-title {{ item.url }}
 			
 			v-divider
-			v-list(one-line, subheader)
+			v-list(v-if="!parseInt(item.publication)", one-line, subheader)
 				v-subheader {{ text.postsCount }} - &nbsp;
 					strong {{ item.subcats_count }}
+			v-list(v-else, one-line, subheader)
+				v-subheader 
+					i.mdi.mdi-link.red--text(style="font-size: 18px;")
+					|&nbsp;
+					router-link.text-left(v-if="parseInt(item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: item.publication_id}}") Link
 			
 			v-divider
 			v-list(three-line, subheader)

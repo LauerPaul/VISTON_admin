@@ -40,32 +40,45 @@ v-dialog(v-model="status",
 		
 		v-card-text
 			v-list(three-line, subheader)
-				v-subheader {{ text.categoryId }} - &nbsp;
-					strong  {{ item.id }}
-				v-list-tile(avatar)
-					v-list-tile-content
-						v-list-tile-title {{ text.categoryName }}
-						v-list-tile-sub-title {{ item.name }}
-				v-list-tile(avatar)
-					v-list-tile-content
-						v-list-tile-title {{ text.categoryUrl }}
-						v-list-tile-sub-title {{ item.url }}
-			
-			v-divider
-			v-list(v-if="!parseInt(item.publication)", one-line, subheader)
-				v-subheader {{ text.postsCount }} - &nbsp;
-					strong {{ item.subcats_count }}
-			v-list(v-else, one-line, subheader)
-				v-subheader 
-					i.mdi.mdi-link.red--text(style="font-size: 18px;")
-					|&nbsp;
-					router-link.text-left(v-if="parseInt(item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: item.publication_id}}") Link
-			
-			v-divider
+				.row
+					.col-md-6
+						v-subheader {{ text.categoryId }} - &nbsp;
+							strong  {{ item.id }}
+					.col-md-6
+						v-list(v-if="!parseInt(item.publication)", one-line, subheader).float-right
+							v-subheader {{ text.postsCount }} - &nbsp;
+								strong {{ item.subcats_count }}
+						v-list(v-else, one-line, subheader).float-right
+							v-subheader
+								i.mdi.mdi-link.red--text(style="font-size: 18px;")
+								|&nbsp;
+								router-link.text-left(v-if="parseInt(item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: item.publication_id}}") Link
+				v-divider
+				.row
+					.col-md-4
+						v-list-tile(avatar)
+							v-list-tile-content
+								v-list-tile-title {{ text.categoryName }}
+								v-list-tile-sub-title {{ item.name }}
+					.col-md-4
+						v-list-tile(avatar)
+							v-list-tile-content
+								v-list-tile-title {{ text.categoryUrl }}
+								v-list-tile-sub-title {{ item.url }}
+					.col-md-4
+				v-divider
 			v-list(three-line, subheader)
-				v-subheader {{ text.categoryImage }}
-				v-list-tile(avatar)
-					v-list-tile-content
-						img(:src="img + $random()", style="max-height: 100%; max-width: 100%;")
+				.row
+					.col-md-4
+						v-subheader {{ text.categoryImage }}
+						v-list-tile(avatar)
+							v-list-tile-content
+								img(:src="img + $random()", style="max-height: 100%; max-width: 100%;")
+					.col-md-4
+						v-subheader Краткое описание
+						v-list-tile(avatar)
+							v-list-tile-content(v-html="item.description_mini")
+					.col-md-4
+			v-divider
 
 		div(style="flex: 1 1 auto;")

@@ -23,6 +23,9 @@ export default {
 		* 		@property {string} props.seoDescription - meta description (зарезервированная переменная)
 		* 		@property {string} props.seoOgTitle - meta Open Graph title (зарезервированная переменная)
 		* 		@property {string} props.seoOgDescription - meta Open Graph description (зарезервированная переменная)
+		* 		@property {string} props.alternateRu - id альтернативной записи на русском языке (зарезервированная переменная)
+		* 		@property {string} props.alternateEn - id альтернативной записи на английском языке (зарезервированная переменная)
+		* 		@property {string} props.alternateDe - id альтернативной записи на немецком языке (зарезервированная переменная)
 		* 		@property {string} props.seoOgImage - meta Open Graph image (зарезервированная переменная)
 		* 		@property {string} props.seoOgImg - meta Open Graph image (зарезервированная переменная)
 		* 		@property {string} props.seoRobots - robots param (зарезервированная переменная)
@@ -62,6 +65,7 @@ export default {
 			{text: 'index,nofollow'},
 			{text: 'noindex,nofollow'}
 		],
+
 	}),
 
 	// Components

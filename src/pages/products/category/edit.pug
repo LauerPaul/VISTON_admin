@@ -5,7 +5,9 @@
 				v-stepper-header
 					v-stepper-step(step="1", editable, edit-icon="mdi-settings", :complete="step > 1") Основное
 					v-divider
-					v-stepper-step(step="2", editable, edit-icon="mdi-search-web", :complete="step > 2") SEO
+					v-stepper-step(step="2", editable, edit-icon="mdi-image-area", :complete="step > 2") Страница
+					v-divider
+					v-stepper-step(step="3", editable, edit-icon="mdi-search-web", :complete="step > 3") SEO
 					v-divider
 					v-stepper-step(:step="step", editable, complete, edit-icon="mdi-content-save", @click.native="submit") Сохранить
 				v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
@@ -22,23 +24,56 @@
 									v-switch(v-model="transliteration", color="light-green", label="Транслитерация url")
 								v-layout
 									v-switch(v-model="status", color="light-green", label="Статус отображения на сайте")
+									
 							.col-md-4
 								v-btn(@click="imageUploadWindow = !imageUploadWindow", v-if="!imgDataUrl", type="button", color="light-green", icon, dark).float-right
 									v-icon mdi-image-plus
 								img(:src="img", v-else, style="max-width: 100%;", @click="imageUploadWindow = !imageUploadWindow")
 								.clearfix
+							
+							.col-12
+								v-divider
+								div(style="padding-bottom: 12px; color: rgba(0, 0, 0, 0.54); font-size:12px") Краткое описание
+								v-layout(style="padding-bottom: 24px;")
+									tinymce(:init="editorMiniDescription", v-model="miniDescription")
 
 						v-btn(color="grey", flat, @click="$router.go(-1)")
 							i.mdi.mdi-arrow-left
 						v-btn(color="green", dark, @click.native="step = 2").float-right Далее
 						.clearfix
-							
+					
 					v-stepper-content(step="2")
+						v-tabs(color="blue", slider-color="white", dark)
+							v-tab Описание категории
+							v-tab-item
+								br
+								.row
+									.col-md-9
+										v-text-field(v-model="title", label="Заголовок",color="light-green", :rules="nameRules")
+									.col-md-3
+										v-select(v-model="titleVariant", label="Tag", item-value="text", :items="titleVariants", single-line, color="light-green")
+								br
+								.row
+									.col-12
+										tinymce(:init="editorinfoDescription", v-model="infoDescription")
+							v-tab Banner
+							v-tab-item
+								br
+								.row
+									.col-12
+										img(style="max-width: 100%;", :src="(banner ? banner : noBannerSrc)", alt="no image", @click="bannerUploadWindow = !bannerUploadWindow")
+						.row
+							.col-md-12(style="padding-top: 24px;")
+								v-btn(color="grey", dark, @click.native="step = 1") Назад
+								v-btn(color="green", dark, @click.native="step = 3").float-right Далее
+								.clearfix
+
+					v-stepper-content(step="3")
 
 						componemt(is="seo", :props="seo", :required="status")
 
 						br
-						v-btn(@click.native="step = 1", color="grey", dark) Назад
+						v-btn(@click.native="step = 2", color="grey", dark) Назад
 						v-btn(@click.native="submit", color="green", dark).float-right Сохранить
 						.clearfix
 
@@ -51,12 +86,21 @@
 						i.mdi.mdi-checkbox-marked-circle-outline(v-else, style="font-size: 16px; color: #dcdcdc;")
 						|&nbsp;&nbsp;Статус
 				v-list-tile-content.align-end {{ statusText }}
+
+			v-list-tile
+				v-list-tile-content
+					span
+						i.mdi.mdi-web(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;Язык категории
+				v-list-tile-content.align-end(style="text-transform: uppercase;") {{ lang }}
+
 			v-list-tile
 				v-list-tile-content
 					span
 						i.mdi.mdi-key(style="font-size: 16px; color: #dcdcdc;")
 						|&nbsp;&nbsp;ID категории в БД
 				v-list-tile-content.align-end {{ id }}
+
 			v-list-tile(v-if="!link")
 				v-list-tile-content
 					span
@@ -67,14 +111,31 @@
 				v-list-tile-content
 					span
 						i.mdi.mdi-link(style="font-size: 16px; color: #dcdcdc;")
-						|&nbsp;&nbsp;Категория ведет к публикации
-				v-list-tile-content.align-end {{ posts_count }}
-			v-list-tile
+						|&nbsp;&nbsp;Ссылка
+				v-list-tile-content.align-end
+			v-list-tile(v-if="parseInt(seo.alternateEn)")
 				v-list-tile-content
 					span
-						i.mdi.mdi-web(style="font-size: 16px; color: #dcdcdc;")
-						|&nbsp;&nbsp;Язык категории
-				v-list-tile-content.align-end(style="text-transform: uppercase;") {{ lang }}
+						i.mdi.mdi-link-variant(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;
+						router-link(:to="{name: 'productsCategory', params: {id: parseInt(seo.alternateEn)}}", style="color: white;") Alternative
+				v-list-tile-content.align-end EN
+			v-list-tile(v-if="parseInt(seo.alternateRu)")
+				v-list-tile-content
+					span
+						i.mdi.mdi-link-variant(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;
+						router-link(:to="{name: 'productsCategory', params: {id: parseInt(seo.alternateRu)}}", style="color: white;") Alternative
+				v-list-tile-content.align-end RU
+			v-list-tile(v-if="parseInt(seo.alternateDe)")
+				v-list-tile-content
+					span
+						i.mdi.mdi-link-variant(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;
+						router-link(:to="{name: 'productsCategory', params: {id: parseInt(seo.alternateDe)}}", style="color: white;") Alternative
+				v-list-tile-content.align-end DE
 			
 			
 	imageCover(field="img", v-model="imageUploadWindow", @crop-success="cropSuccess", :width="cropWidth", :height="cropHeight", url="", img-format="png", :langType="'ru'", :noCircle="true")
+
+	imageCover(field="img", v-model="bannerUploadWindow", @crop-success="cropSuccessBanner", :width="cropBannerWidth", :height="cropBannerHeight", url="", :langType="'ru'", :noCircle="true")

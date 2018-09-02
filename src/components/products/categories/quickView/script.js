@@ -99,14 +99,14 @@ export default {
 	* @typedef {Object} Props
 	* 	@property {boolean} status - Статус видимости виджета
 	* 	@property {boolean} item - Объект с данными
-	* 	@property {boolean} img - Изображение категории
-	* 	@property {boolean} url - url по которому будет выполнятся запрос
+	* 	@property {string} img - Изображение категории
+	* 	@property {string} url - url по которому будет выполнятся запрос
 	*/
 	props: [
 		'status',
 		'item',
 		'img',
-		'url'
+		'url',
 	],
 
 	// Methods

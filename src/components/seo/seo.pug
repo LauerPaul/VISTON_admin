@@ -7,7 +7,18 @@ div
 				v-text-field(v-model="props.seoTitle", label="Title", :required="(required == 1 ? true : false)", color="light-green", :counter="80", :rules="(required == 1 ? titleRules : [])")
 			v-layout
 				v-text-field(v-model="props.seoDescription", label="Description", :required="(required == 1 ? true : false)", color="light-green", multi-line, :counter="190", :rules="(required == 1 ? descriptionRules : [])")
-			v-select(v-model="props.seoRobots", label="Robots", item-value="text", :items="robots", single-line, color="light-green")
+			v-layout(v-if="props.alternateDe || props.alternateEn || props.alternateRu")
+				.container-fluid(style="padding-left: 0px; padding-right: 0px;")
+					.row
+						.col-md-6(v-if="props.alternateRu !== false")
+							v-text-field(type="number", min="0", v-model="props.alternateRu", label="Alternate ID (RU)", color="light-green")
+						.col-md-6(v-if="props.alternateEn !== false")
+							v-text-field(type="number", min="0", v-model="props.alternateEn", label="Alternate ID (EN)", color="light-green")
+						.col-md-6(v-if="props.alternateDe !== false")
+							v-text-field(type="number", min="0", v-model="props.alternateDe", label="Alternate ID (DE)", color="light-green")
+
+			v-layout
+				v-select(v-model="props.seoRobots", label="Robots", item-value="text", :items="robots", single-line, color="light-green")
 
 		v-tab Open Graph
 		v-tab-item

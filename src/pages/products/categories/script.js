@@ -123,8 +123,8 @@ const methods = {
 
 	            if(response.data.status == "ERROR") {
 					this.$log.error('page \'products categories\' (@/pages/products/categories) - AJAX error');
-					this.$logger('error', 'Произошла ошибка при загрузке категорий блога. Ошибка: ' + response.data.error)
-	            	this.$notify.error('Произошла ошибка при загрузке категорий блога.')
+					this.$logger('error', 'Произошла ошибка при загрузке категорий продукции. Ошибка: ' + response.data.error)
+	            	this.$notify.error('Произошла ошибка при загрузке категорий продукции.')
 	            	console.log(response.data.error);
 	            }else {
 					this.$log.debug('page \'products categories\' (@/pages/products/categories) - AJAX success');
@@ -220,7 +220,7 @@ export default {
 
 	// Head
 	metaInfo: {
-		title: 'Админ панель - Блог категории'
+		title: 'Админ панель - Продукция категории'
 	},
 
 	/**
@@ -246,7 +246,7 @@ export default {
 	mounted: function () {
 		this.$log.info('page \'products categories\' (@/pages/products/categories) - mounted hook init');
 		
-		// Исбавляемся от кеша
+		// Избавляемся от кеша
 		this.addNew_window = false
 		// Запрашиваем список категорий при загрузке компонента
 		this.getCategories();

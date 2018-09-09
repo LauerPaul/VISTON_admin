@@ -6,19 +6,35 @@ v-dialog(v-model="visible", max-width="500px", persistent)
 					v-model="valid", 
 					@submit.prevent="addCategory",
 					@keydown.esc="windowHide")
+
 				v-layout
-					v-text-field(v-model="newName",
+					v-text-field(v-if="!link", v-model="newName",
 								label="Укажите название",
 								required,
 								color="light-green",
-								:rules="nameRules")
-				v-layout(style="margin-bottom: 16px;")
+								:rules="nameRules", :disabled="link")
+
+				v-layout(v-if="articles && categoriesList")
+
+					v-select(:items="categoriesList",
+								label="Категория",
+								required,
+								outline,
+								:rules="[v => !!v || 'Укажите категорию']",
+								v-model="categoryId")
+						template(slot="selection", slot-scope="data") {{ data.item.name }}
+						template(slot="item", slot-scope="data") {{ data.item.name }} 
+
+				v-layout(:style="articles ? '' : 'margin-bottom: 16px;'")
 					v-select(:items="langs",
 								label="Язык",
 								required,
 								outline,
 								:rules="[v => !!v || 'Укажите язык']",
 								v-model="langSelect")
+
+				v-layout(v-if="articles", style="margin-top:0px;")
+					v-checkbox(label="Категория ссылается на эту публикацию", v-model="link")
 
 				v-layout.justify-content-end(v-if="!submit")
 				

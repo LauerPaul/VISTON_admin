@@ -28,7 +28,7 @@ v-dialog(v-model="status",
 
 				v-btn(v-if="access",
 						dark, flat,
-						:to="{name: 'productsCategory', params: {id: item.id}}",
+						:to="{name: (articles ? 'productsArticle' : 'productsCategory'), params: {id: item.id}}",
 						:title="text.editCategory")
 					v-icon mdi-pencil
 					|&nbsp;&nbsp;{{ text.edit }}
@@ -43,8 +43,8 @@ v-dialog(v-model="status",
 				.row
 					.col-md-6
 						v-subheader {{ text.categoryId }} - &nbsp;
-							strong  {{ item.id }}
-					.col-md-6
+							strong  {{ articles ? item.parent_id : item.id }}
+					.col-md-6(v-if="!articles")
 						v-list(v-if="!parseInt(item.publication)", one-line, subheader).float-right
 							v-subheader {{ text.postsCount }} - &nbsp;
 								strong {{ item.subcats_count }}
@@ -53,24 +53,29 @@ v-dialog(v-model="status",
 								i.mdi.mdi-link.red--text(style="font-size: 18px;")
 								|&nbsp;
 								router-link.text-left(v-if="parseInt(item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: item.publication_id}}") Link
+					.col-md-6(v-else)
+						v-list(one-line, subheader).float-right
+							v-subheader ID публикации - &nbsp;
+								strong {{ item.id }}
+
 				v-divider
 				.row
 					.col-md-4
 						v-list-tile(avatar)
 							v-list-tile-content
-								v-list-tile-title {{ text.categoryName }}
+								v-list-tile-title {{ articles ? 'Название публикации' : text.categoryName }}
 								v-list-tile-sub-title {{ item.name }}
 					.col-md-4
 						v-list-tile(avatar)
 							v-list-tile-content
-								v-list-tile-title {{ text.categoryUrl }}
+								v-list-tile-title {{ articles ? 'URL страницы' : text.categoryUrl }}
 								v-list-tile-sub-title {{ item.url }}
 					.col-md-4
 				v-divider
 			v-list(three-line, subheader)
 				.row
 					.col-md-4
-						v-subheader {{ text.categoryImage }}
+						v-subheader {{ articles ? 'Изображение в катигории' : text.categoryImage }}
 						v-list-tile(avatar)
 							v-list-tile-content
 								img(:src="img + $random()", style="max-height: 100%; max-width: 100%;")

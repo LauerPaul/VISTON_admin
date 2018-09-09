@@ -101,12 +101,14 @@ export default {
 	* 	@property {boolean} item - Объект с данными
 	* 	@property {string} img - Изображение категории
 	* 	@property {string} url - url по которому будет выполнятся запрос
+	* 	@property {boolean} articles - вызывается для модуля articles
 	*/
 	props: [
 		'status',
 		'item',
 		'img',
 		'url',
+		'articles',
 	],
 
 	// Methods

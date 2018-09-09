@@ -21,7 +21,7 @@ export default {
 		// Язык по умолчанию
 		default: 'ru',
 		// Статус мультиязычности приложения
-		multilang: true,
+		multilang: false,
 		// Массив используемых языков в админ панеле
 		lng: [
 			{

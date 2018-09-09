@@ -39,3 +39,18 @@ main.content.auth .content--wrap {
 }
 
 .mce-notification-warning, .mce-branding { display: none !important; }
+.v-content:not(.login) { padding-top: 80px !important; padding-bottom: 40px !important; }
+.v-list__tile { 
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.5;
+    height: 32px;
+}
+.theme--dark.v-card { padding: 16px 0; }
+
+.v-toolbar__title { font-size: 16px; margin-left: 16px !important; }
+.v-icon { font-size: 21px; }
+.v-expansion-panel__body .v-card__text { padding: 0px 16px; }
+.v-content:not(.login) .v-content__wrap { padding: 0px 24px; }
+.v-input__slot { padding: 0px !important; }
+.v-text-field.v-text-field--enclosed .v-text-field__details, .v-text-field.v-text-field--enclosed .v-input__slot {padding:0px;}

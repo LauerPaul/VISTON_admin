@@ -51,6 +51,15 @@ const Auth = {
                 add: 1
             },
             productsCategory: {
+                access: 1,
+            },
+            productsArticles: {
+                access: 1,
+                remove: 1,
+                edit: 1,
+                add: 1
+            },
+            productsArticle: {
                 access: 1
             },
             productsSeo:{

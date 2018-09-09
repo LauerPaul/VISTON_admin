@@ -5,38 +5,55 @@
 
 				v-toolbar(color="blue", dark)
 					v-icon mdi-archive
-					v-toolbar-title Категории блога
+					v-toolbar-title Публикации раздела "Продукция"
 					v-spacer
 					v-btn(icon, @click="toggleSearch", title="Найти категорию")
 						v-icon(v-if="!searchlineShow") mdi-magnify
 						v-icon(v-else) mdi-close
 					v-text-field(v-show="searchlineShow", v-model="search", label="Поиск", single-line, hide-details)
-					v-btn(icon, title="Добавить категорию", @click="addNew = !addNew")
+					v-btn(icon, title="Добавить категорию", @click="access.add ? addNew_window = true : $access('add')")
 						v-icon add
 
+
+				v-stepper(non-linear, v-model="step")
+					v-stepper-header
+						v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getCategories('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
+						v-divider
+						v-stepper-step(step="de", editable, :complete="step == 'de'", @click.native="getCategories('de')", edit-icon="mdi-check") {{ step == 'de' ? 'DE' : '' }}
+						v-divider
+						v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getCategories('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
+
 				//- Таблица
-				v-data-table.elevation-1(v-model="selected", :headers="headers", :items="posts", :pagination.sync="pagination", :search="search", item-key="name", sort-icon="mdi-menu-down", prev-icon="mdi-menu-left", next-icon="mdi-menu-right", :loading="loading")
+				v-data-table.elevation-1(v-model="selected", :headers="headers", :items="categories", :pagination.sync="pagination", :search="search", item-key="name", sort-icon="mdi-menu-down", prev-icon="mdi-menu-left", next-icon="mdi-menu-right", :loading="loading")
 					v-progress-linear(slot="progress", color="light-blue", indeterminate)
 					template(slot="items", slot-scope="props")
-						tr(:active="props.selected", @click="props.selected = !props.selected", :id="'CatBlog_'+props.item.id")
+						tr(:active="props.selected", @click="props.selected = !props.selected")
 							td.justify-center
 								strong.opacity_6 {{ props.item.id }}
+
 							td.text-left(:class="{opacity_6 : !parseInt(props.item.status)}")
-								router-link(tag="button", :to="{name: 'blogCategory', params: {id: props.item.id}}") {{ props.item.name }}
-							td.text-center {{ props.item.posts_count }}
+								router-link.text-left(v-if="access.edit", tag="button", :to="{name: 'productsArticle', params: {id: props.item.id}}") {{ props.item.name }}
+								span(v-else) {{ props.item.name }} 
+
+							td.text-center
+								router-link.text-left(tag="button", :to="{name: 'productsCategory', params: {id: ( props.item.parent_id == 0 ? props.item.id : props.item.parent_id )}}")
+									i.mdi.mdi-link.red--text(v-if="props.item.parent_id == 0", style="font-size: 18px;")
+									|{{ props.item.parent_id == 0 ? '' : props.item.parent_id }}
+
 							td.text-left(style="width: 80px;")
 								v-icon(v-if="props.item.status == '1'", color="green") check
 								v-icon(v-else, color="gray") visibility_off
+								
 							td.justify-start.layout.px-0
 								.control-wrapper.d-flex.align-items-center
 									//- Quick view
-									v-btn.mini-circle(icon, title="Быстрый просмотр", fab, dark, small, color="green", @click.stop="quickView = !quickView; setSelectItem(props.item);")
+									v-btn.mini-circle(icon, title="Быстрый просмотр", fab, dark, small, color="green", @click.stop="quickView = !quickView; setSelectItem(props.item, props.index);")
 										v-icon(color="gray") mdi-magnify
 									//- Edit
-									v-btn.mini-circle(fab, dark, small, color="blue", :to="{name: 'blogCategory', params: {id: props.item.id}}", title="Редактировать")
+									v-btn.mini-circle(v-if="access.edit", fab, dark, small, color="blue", :to="{name: 'productsCategory', params: {id: props.item.id}}", title="Редактировать")
 											v-icon mdi-pencil
 									//- Remove
-									v-btn.mini-circle(icon, @click.stop="setSelectItem(props.item); removeAlert()", title="Удалить", fab, small, :dark="props.item.posts_count == 0", :color="props.item.posts_count > 0 ? 'gray ighten-1' : 'red'", :disabled="props.item.posts_count > 0")
+									v-btn.mini-circle(v-if="access.remove", icon, @click.stop="setSelectItem(props.item, props.index); removeAlert()", title="Удалить", fab, small, dark, color="red")
 										v-icon mdi-delete
 
 					//- Если таблица пустая
@@ -48,26 +65,35 @@
 						v-alert(slot="no-results", :value="true", color="error", icon="warning") Совпадений с "{{ search }}" в категориях блога не найдено.
 
 		.col-md-4
-			v-card(light, disabled, width="160px", color="blue-grey", dark, v-if="statisticWindow").statistic
-				v-list-tile
-					v-list-tile-content
-						strong Со статьями:
-					v-list-tile-content.align-end {{ statistics.full }}
-				v-list-tile
-					v-list-tile-content
-						strong Пустые:
-					v-list-tile-content.align-end {{ statistics.clear }}
-				v-list-tile
-					v-list-tile-content
-						strong Активные:
-					v-list-tile-content.align-end {{ statistics.on }}
-				v-list-tile
-					v-list-tile-content
-						strong Не активные:
-					v-list-tile-content.align-end {{ statistics.off }}
+			statistic-widget(v-if="statisticWindow", :categories="categories")
 
+	//- Всплывающее окно быстрого просмотра
+	quick-view(:status="quickView",
+				:item="selectItem",
+				:url="catStatusToggle",
+				:img="img",
+				:articles="true",
+				@close="quickView = false")
 
 	//- Всплывающее окно подтверждения удаления
-	include ./dialog-remove.pug
+	dialog-remove(:url="dialogRemove.url",
+					:status="dialogRemove.status",
+					:error="dialogRemove.error",
+					:seoId="selectItem.seo",
+					:img="selectItem.img",
+					:article="selectItem.publication_id",
+					:category="selectItem.parent_id == 0 ? selectItem.publication_id : ''",
+					:banner_img="selectItem.banner_img",
+					:name="'Публикация \"'+ selectItem.name + '\" (ID ' + selectItem.id + ')'",
+					:content="{ title: dialogRemove.title, text: dialogRemove.text }"
+					@cancel="dialogRemove.status = false",
+					@ok="removeSuccess")
+					
+	//- Всплывающее окно добавления новой категории 
+	add-new(:url="catAddNewURL",
+			:status="addNew_window",
+			:catsUrl="catsListUrl",
+			:articles="true",
+			@close="addNew_window = false")
 	
 	

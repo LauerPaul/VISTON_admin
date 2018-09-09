@@ -31,6 +31,7 @@ const methods = {
 		this.$log.info('page \'Blog dialog-remove\' (@/components/blog/dialog-remove) - method init');
 
 		if(this.$access('remove')){
+			console.log(this.category);
 			return this.axios({
 	            method: 'post',
 	            url: this.url,
@@ -40,7 +41,9 @@ const methods = {
 	            data: this.$root.querystring.stringify({
 	            										seo: this.seoId,
 	            										img: this.img,
-														banner_img: this.banner_img
+														banner_img: this.banner_img,
+														article: this.article,
+														category_link: this.category
 	            									}),
 	        }).then((response) => {
 	            this.loading = false;
@@ -76,6 +79,7 @@ export default {
 	* 	@property {boolean} status - Статус видимости модуля
 	* 	@property {string} url - url по которому будет отправлен запрос
 	* 	@property {string} name - название элемента (для записи в лог)
+	* 	@property {int} article - ID публикации
 	* 	@property {boolean} error - ошибка (мпользуется, чтоб скрыть кнопку "ок" и запретить отправку AJAX запроса)
 	* 	@property {object} content - Текст
 	* 		@property {string} content.title - Заголовок
@@ -89,7 +93,9 @@ export default {
 		'error',
 		'seoId',
 		'img',
-		'banner_img'
+		'banner_img',
+		'article',
+		'category'
 	],
 
 	// Methods

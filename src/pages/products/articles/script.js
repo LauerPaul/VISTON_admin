@@ -1,75 +1,83 @@
 /**
 * @vuedoc
-* @module pages/blog/articles
-* @see @/pages/blog/articles
+* @module pages/products/articles
+* @see @/pages/products/articles
 *
 * @version 1.0
-* @desc Страница списка публикаций блога
+* @desc Страница списка категории блога
 *
 * @author Pavel Uhrynovych (Lauer)
 * @copyright 2018©lauer.agency
 */
+import addNewComponent from '@/components/products/categories/new'
+import dialogRemove from '@/components/products/dialog-remove'
+import statisticWidget from '@/components/products/categories/statistic'
+import quickView from '@/components/products/categories/quickView'
 
 const data = {
 	/**
 	* @typedef {Object} Data
+	* 	@property {string} catsListUrl - url для запроса списка категорий
+	* 	@property {string} catRemoveUrl - url для удаления категории
+	* 	@property {string} catStatusToggle - url для переключения статуса отображения категории на сайте
+	* 	@property {string} catAddNewURL - url для добавления новой категории
 	*
-	* 	@property {string} postsListUrl - url для запроса списка публикаций
-	* 	@property {string} postRemoveUrl - url для запроса удаления публикации
-	* 	@property {string} postStatusToggle - url для запроса переключения статуса отображения публикации на сайте
-	* 	@property {string} postAddNewURL - url для запроса добавления новой публикации
-	* 	@property {string} statutsUrlPostprefix - статус видимости - приставка к url (зарезервированная переменная)
-	*
-	* 	@property {boolean} valid - Валидация (зарезервированная переменная)
 	*	@property {boolean} loading - Статус загрузки данных (зарезервированная переменная)
 	*	@property {boolean} searchlineShow - Стутс отображения поиска (резерв, [подробнее]{@link https://vuetifyjs.com/en/components/data-tables})
-	*	@property {boolean} addNew - Статус видимости попап окна новой публикации
-	*	@property {boolean} dialogRemoveItem - Статус отображения диалогового окна при попытке уаления публикации из списка
+	*	@property {boolean} addNew_window - Статус видимости попап окна новой категории
+	*
+	*	@property {object} dialogRemove - Параметры для диалогового окна при попытке удалить категорию (компонент [dialog-remove]{@link module:components/products/dialog-remove})
+	*		@property {boolean} dialogRemove.status - Статус отображения диалогового окна при попытке уаления категории из списка
+	*		@property {boolean} dialogRemove.error - Ошибка (возникает в случае попытки удалить категорию, к которой прикреплены публикации)
+	*		@property {string} dialogRemove.url - Ссылка запроса на удаление
+	*		@property {string} dialogRemove.title - Заголовок диалогового окна
+	*		@property {string} dialogRemove.text - Текст диалогового окна
+	*
 	*	@property {boolean} sound - Статус звуковых оповещений
 	*	@property {boolean} quickView - Статус отображения виджета быстрого просмотра
-	*	@property {boolean} statisticWindow - Статус отображения статистики
-	*	@property {boolean} sendNewName - Статус связи с сервером при создании новой категории (зарезервированная переменная)
-	*
-	* 	@property {array} nameRules - Правила валидации поля name ([подробнее]{@link https://vuetifyjs.com/en/components/forms})
+	*	@property {boolean} statisticWindow - Статус отображения виджета статистики [products category statistic-widgetsc]{@link module:/components/products/categories/statistic}
 	*
 	*	@property {object} pagination - Параметры пагинации таблицы (резерв, [подробнее]{@link https://vuetifyjs.com/en/components/data-tables})
 	*	@property {array} headers - Параметры таблицы ([подробнее]{@link https://vuetifyjs.com/en/components/data-tables})
 	*	@property {array} selected - Выделенные элементы таблицы
-	*	@property {array} posts - Список публикаций (Зарезервированная переменная)
+	*	@property {array} categories - Список категорий (Зарезервированная переменная)
+	*	@property {array} parents - Список родительских категорий (Зарезервированная переменная)
 	*
 	*	@property {string} search - Значения поиска (Зарезервированная переменная)
-	*	@property {string} notify - Текст оповещения (Зарезервированная переменная)
-	*	@property {string} newName - Название новой публикации (Зарезервированная переменная)
 	*	@property {string} img - (Зарезервированная переменная)
+	*	@property {string} language - Язык в системе
+	* 	@property {int} step - Шаги заполнения данных (зарезервированная переменная)
 	*
-	*	@property {object} selectItem - Данные выбранной публикации (зарезервированная переменная)
-	*		@property {object} selectItem.id - ID публикации (зарезервированная переменная)
-	*
-	*	@property {object} statistics - Статистика по публикация блога
-	*		@property {int} statistics.full - Всего публикаций (Зарезервированная переменная)
-	*		@property {int} statistics.clear - Пустых публикаций (Зарезервированная переменная)
-	*		@property {int} statistics.on - Активных публикаций (Зарезервированная переменная)
-	*		@property {int} statistics.off - Неактивных публикаций (Зарезервированная переменная)
+	*	@property {object} selectItem - Данные выбранной категории (зарезервированная переменная)
+	*		@property {object} selectItem.id - ID категории (зарезервированная переменная)
 	*
 	*/
-	postsListUrl: '/blog/posts/',
-	postRemoveUrl: '/blog/posts/remove/',
-	postStatusToggle: '/blog/posts/status/',
-	postAddNewURL: '/blog/category/new',
-	statutsUrlPostprefix: '',
-	valid: true,
+	catsListUrl: '/products/categories/articles/',
+	catRemoveUrl: '/products/categories/remove/',
+	catStatusToggle: '/products/categories/status/',
+	catAddNewURL: '/products/category/new/articles/',
+
+	access: {
+		edit: true,
+		remove: true,
+		add: true,
+		quickView: true
+	},
+	
 	loading: true,
 	searchlineShow: false,
-	addNew: false,
-	dialogRemoveItem: false,
+	addNew_window: false,
+	dialogRemove: {
+		status: false,
+		error: false,
+		url: '',
+		title: '',
+		text: ''
+	},
 	sound: true,
     quickView: false,
-	statisticWindow: false,
-	sendNewName: false,
-	nameRules: [
-		v => !!v || 'Назваение обязательно к заполнению',
-		v => (v && v.length > 4) || 'Имя должно быть более 4-х символов. Введено - ' + v.length
-	],
+	statisticWindow: true,
+
 	pagination: {sortBy: 'id'},
 	headers: [
 		{ text: 'ID', value: 'id' },
@@ -78,82 +86,56 @@ const data = {
 			align: 'left',
 			value: 'name'
 		},
-		{ text: 'Кол-во пуб.', align: 'center', value: 'posts_count' },
+		{ text: 'ID кат-и', align: 'center', value: 'parent_id' },
 		{ text: 'Статус', value: 'status', align: 'left' },
 		{ text: '', value: '', sortable: false }
 	],
 	selected: [],
-	posts: [],
+	parents: [],
+	categories: [],
+	img: '',
+	language: '',
+	step: 'ru',
+
 	search: '',
-	notify: '',
-	newName: '',
+	
     selectItem: {id: 0},
-	statistics: {
-		full: 0,
-		clear: 0,
-		on: 0,
-		off: 0
-	},
-	img: ''
 }
 
 const methods = {
 	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрос списка публикаций блога (AJAX)
-	*	@method getPosts
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрос списка категорий блога (AJAX)
+	*	@method getUsersList
 	**/
-	getPosts (){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
+	getCategories (lng=false){
+		this.$log.info('page \'products articles\' (@/pages/products/articles) - method init');
 
-		return this.axios({
-            method: 'get',
-            url: this.postsListUrl,
-            withCredentials: true,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            responseType: 'json',
-            data: '',
-        }).then((response) => {
-            // console.log(response.data)                
-            this.loading = false;
+		if(this.$access('access')){
+			var url = !lng ? this.catsListUrl : '/' + lng + this.catsListUrl;
+			
+			return this.axios({
+	            method: 'get',
+	            url: url,
+	            withCredentials: true,
+	            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+	            responseType: 'json',
+	            data: '',
+	        }).then((response) => {
+	            this.loading = false;
 
-            if(response.data.status == "ERROR") {
-				this.$log.error('page \'Blog categories\' (@/pages/blog/articles) - AJAX error');
-
-            	this.notify = 'Произошла ошибка при загрузке данных...'
-                this.$store.commit('error', this.notify);
-            }
-            else {
-				this.$log.debug('page \'Blog categories\' (@/pages/blog/articles) - AJAX success');
-
-                this.posts = response.data.posts;
-                this.getStatistics();
-            }
-        });
-	},
-
-	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Сбор статистики публикаций блога
-	*	@method getStatistics
-	**/
-	getStatistics(){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
-
-		const t = this;
-		this.posts.forEach(function(item, i, arr) {
-			if(parseInt(item.status) == 1) {
-				t.statistics.on += 1;
-			} else {
-				t.statistics.off += 1;
-			}
-
-			if(parseInt(item.posts_count) > 0) {
-				t.statistics.full += 1;
-			} else {
-				t.statistics.clear += 1;
-			}
-		});
-
-		this.statisticWindow = true;
+	            if(response.data.status == "ERROR") {
+					this.$log.error('page \'products articles\' (@/pages/products/articles) - AJAX error');
+					this.$logger('error', 'Произошла ошибка при загрузке категорий продукции. Ошибка: ' + response.data.error)
+	            	this.$notify.error('Произошла ошибка при загрузке категорий продукции.')
+	            	console.log(response.data.error);
+	            }else {
+					this.$log.debug('page \'products articles\' (@/pages/products/articles) - AJAX success');
+	                this.parents = response.data.parents;
+	                this.categories = response.data.categories;
+	                this.language = response.data.language;
+	            }
+	        });
+		}
 	},
 
 	/**
@@ -161,12 +143,9 @@ const methods = {
 	*	@method toggleSearch
 	**/
 	toggleSearch (){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
+		this.$log.info('page \'products articles\' (@/pages/products/articles) - method init');
 
-		if(this.searchlineShow){
-			this.search = '';
-		}
-
+		if(this.searchlineShow) this.search = ''
 		this.searchlineShow = !this.searchlineShow;
 	},
 
@@ -175,7 +154,7 @@ const methods = {
 	*	@method changeSort
 	**/
 	changeSort (column) {
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
+		this.$log.info('page \'products articles\' (@/pages/products/articles) - method init');
 
 		if (this.pagination.sortBy === column) {
 			this.pagination.descending = !this.pagination.descending
@@ -186,185 +165,99 @@ const methods = {
 	},
 
 	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Всплывающее окно при попытке удаления публикации
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Всплывающее окно при попытке удаления категории
 	*	@method removeAlert
 	**/
 	removeAlert (){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
+		this.$log.info('page \'products articles\' (@/pages/products/articles) - method init');
 		
-		if(this.sound) {
-			const audio = new Audio();
-			audio.preload = 'auto';
-			audio.src = '/sound/system/Sound_11990.wav';
-			audio.play();
-		}
+		if(this.$access('remove')){
+			this.dialogRemove.url = this.catRemoveUrl + this.selectItem.id
 
-		this.dialogRemoveItem = true;
+			if(parseInt(this.selectItem.parent_id) == 0){
+				this.dialogRemove.error = false
+				this.dialogRemove.title = 'ПОДТВЕРДИТЕ ДЕЙСТВИЕ'
+				this.dialogRemove.text = 'Вы действительно хотите удалить публикацию продукции с названием<br><strong>"'+ this.selectItem.name +'"</strong> - <strong>ID '+ this.selectItem.id +'</strong>? <br> <br> Публикация будет удалена, категория - выключена из видимости на сайте.'
+			}else {
+				this.dialogRemove.error = false
+				this.dialogRemove.title = 'ПОДТВЕРДИТЕ ДЕЙСТВИЕ'
+				this.dialogRemove.text = 'Вы действительно хотите удалить публикацию продукции с названием<br><strong>"'+ this.selectItem.name +'"</strong> - <strong>ID '+ this.selectItem.id +'</strong>?'
+			}
+
+			this.dialogRemove.status = true;
+		}
 	},
 
 	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Выбор публикации
-	*	@param item {object} - Данные выбранной публикации
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Выполняется при успешном удалении элемента
+	*	@method removeSuccess
+	**/
+	removeSuccess(error){
+		this.dialogRemove.status = false;
+		this.getCategories();
+	},
+
+	/**
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Выбор категории
+	*	@param item {object} - назначение данных выбранной категории переменной **selectItem**
 	*	@method setSelectItem
 	**/
-	setSelectItem (item){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
+	setSelectItem (item, index){
+		this.$log.info('page \'products articles\' (@/pages/products/articles) - method init');
 
 		this.selectItem = item;
+		this.selectItem.index = index
 		this.img = this.$root.domain + this.selectItem.img;
 		if(this.selectItem.status == '0' || this.selectItem.status == 0) this.selectItem.status = false
 		else this.selectItem.status = true
-	},
-
-	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрос на удаление публикации (AJAX)
-	*	@method removeArticle
-	**/
-	removeArticle (){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
-
-		this.dialogRemoveItem = false;
-
-		return this.axios({
-            method: 'post',
-            url: this.postRemoveUrl + this.selectItem.id,
-            withCredentials: true,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            responseType: 'json',
-            data: this.$root.querystring.stringify({seo: this.selectItem.seo}),
-        }).then((response) => {
-            this.loading = false;
-
-            if(response.data.status == "ERROR") {
-				this.$log.error('page \'Blog categories\' (@/pages/blog/articles) - AJAX error');
-
-            	this.notify = { error: 'Произошла ошибка при загрузке данных...'}
-                this.$store.commit('error', this.notify);
-            }
-            else {
-				this.$log.debug('page \'Blog categories\' (@/pages/blog/articles) - AJAX success');
-
-                const elem = document.getElementById('CatBlog_' + this.selectItem.id);
-                elem.parentNode.removeChild(elem);
-                this.$store.commit('success', 'Категория успешно удалена.');
-            }
-        });
-	},
-
-	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрос обновления данных публикации (AJAX)
-	*	@method updateStatusArticle
-	**/
-	updateStatusArticle (){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
-
-		if(this.selectItem.status){
-			this.statutsUrlPostprefix = 0;
-        	this.notify = 'Категория не отображается на сайте =('
-		}else {
-			this.statutsUrlPostprefix = 1;
-        	this.notify = 'Все ок! Категория отображается на сайте =)'
-		}
-
-		return this.axios({
-            method: 'get',
-            url: this.postStatusToggle + this.statutsUrlPostprefix + '/' + this.selectItem.id,
-            withCredentials: true,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            responseType: 'json',
-            data: '',
-        }).then((response) => {
-            if(response.data.status == "ERROR") {
-				this.$log.error('page \'Blog categories\' (@/pages/blog/articles) - AJAX error');
-
-                this.$store.commit('error', response.data);
-            }
-            else {
-				this.$log.debug('page \'Blog categories\' (@/pages/blog/articles) - AJAX success');
-
-                this.$store.commit('success', this.notify);
-                this.selectItem.status = !this.selectItem.status;
-                if(!this.selectItem.status) {
-                    this.statistics.on -= 1;
-					this.statistics.off += 1;
-                } else{
-                    this.statistics.on += 1;
-					this.statistics.off -= 1;
-                }
-            }
-        });
-	},
-
-	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Закрытие окна добавления новой публикации
-	*	@method addNewReset
-	**/
-	addNewReset (e){
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
-
-		e.preventDefault();
-		this.addNew = false;
-		this.newName = '';
-	},
-
-	/**
-	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Добавление новой публикации (AJAX)
-	*	@method submitAddNew
-	**/
-	submitAddNew() {
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - method init');
-
-		if(this.$refs.form.validate()){
-			this.sendNewName = true;
-			const url = this.$root.translite(this.newName)
-			const data = {
-				name: this.newName,
-				url: url
-			}
-
-			return this.axios({
-                method: 'post',
-                url: this.postAddNewURL,
-                withCredentials: true,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                responseType: 'json',
-                data: this.$root.querystring.stringify(data),
-            }).then((response) => {
-                this.sendNewName = false;
-                if(response.data.status == "ERROR") {
-					this.$log.error('page \'Blog categories\' (@/pages/blog/articles) - AJAX error');
-
-                    this.$store.commit('error', response.data);
-                } else {
-					this.$log.debug('page \'Blog categories\' (@/pages/blog/articles) - AJAX success');
-
-                    this.$store.commit('success', 'Новая категория добавлена успешно!');
-                    this.$router.push({name: 'blogCategory', params: {id: response.data.id}});
- 				}
-            });
-		}
 	}
 }
 
 /** Export component */
 export default {
-	
 	// Set data
-	data: function(){ return data },
+	data: function() { return data },
 
 	// Methods
-	methods:methods,
-	
+	methods: methods,
+
+	// Head
+	metaInfo: {
+		title: 'Админ панель - Продукция категории'
+	},
+
+	/**
+	* Данная страница использует компоненты:
+	*	
+	*	> [products add-new]{@link module:components/products/categories/new}
+	*	> [products dialog-remove]{@link module:components/products/dialog-remove}
+	*	> [products category statistic-widget]{@link module:/components/products/categories/statistic}
+	*	> [Quick view category widget]{@link module:/components/products/categories/quickView}
+	*/
+	components: {
+		'add-new' : addNewComponent,
+		'dialog-remove' : dialogRemove,
+		'statistic-widget' : statisticWidget,
+		'quick-view' : quickView,
+	},
+
 	/**
 	* @desc ▶ Hook reporting
-	* <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрашиваем список публикаций при загрузке компонента -> getPosts()
-	* @event module:pages/blog/articles~Page <strong>Blog articles</strong> mounted
+	* <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрашиваем список категорий при загрузке компонента -> getCategories()
+	* @event module:pages/products/articles~Page <strong>products articles</strong> mounted
 	*/
 	mounted: function () {
-		this.$log.info('page \'Blog articles\' (@/pages/blog/articles) - mounted hook init');
+		this.$log.info('page \'products articles\' (@/pages/products/articles) - mounted hook init');
 		
+		// Избавляемся от кеша
+		this.addNew_window = false
 		// Запрашиваем список категорий при загрузке компонента
-		const list = this.getPosts.bind(this);
-		list();
+		this.getCategories();
+
+		this.access.edit  = this.$access('edit', true)
+		this.access.remove = this.$access('remove', true)
+		this.access.add = this.$access('add', true)
+
+		console.log(this.access);
 	},
 }

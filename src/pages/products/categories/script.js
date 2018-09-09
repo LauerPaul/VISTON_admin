@@ -54,7 +54,7 @@ const data = {
 	catsListUrl: '/products/categories/',
 	catRemoveUrl: '/products/categories/remove/',
 	catStatusToggle: '/products/categories/status/',
-	catAddNewURL: '/products/category/new',
+	catAddNewURL: '/products/category/new/',
 
 	access: {
 		edit: true,

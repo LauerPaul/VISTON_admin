@@ -19,6 +19,7 @@ import productsArticles from '@/pages/products/articles'
 import productsSeo from '@/pages/products/seo'
 
 import productsCategory from '@/pages/products/category'
+import productsArticle from '@/pages/products/article'
 
 import settings from '@/pages/settings'
 import settingsPrimary from '@/pages/settings'
@@ -122,13 +123,13 @@ const routes = [
 					},
 		        	{
 						path: 'article',
-						component: productsArticles,
+						component: productsArticle,
 						redirect: 'article',
 				        children: [
 				        	{
 								path: ':id',
 								name: 'productsArticle',
-								component: productsArticles
+								component: productsArticle
 							}
 						]
 					},

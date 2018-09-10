@@ -1,0 +1,24 @@
+.row
+	.col-md-8
+		v-layout
+			v-text-field(v-model="props.name", label="Название", required, color="light-green", :rules="nameRules")
+		v-layout
+			v-text-field(v-model="props.url", label="url", required, color="light-green", :rules="urlRules")
+		v-layout
+			v-switch(v-model="transliteration", color="light-green", label="Транслитерация url")
+		v-layout
+			v-switch(v-model="props.status", color="light-green", label="Статус отображения на сайте")
+			
+	.col-md-4
+		v-btn(@click="imageUploadWindow = !imageUploadWindow", v-if="!props.imgDataUrl", type="button", color="light-green", icon, dark).float-right
+			v-icon mdi-image-plus
+		img(:src="props.img", v-else, style="max-width: 100%;", @click="imageUploadWindow = !imageUploadWindow")
+		.clearfix
+	
+	.col-12
+		v-divider
+		div(style="padding-bottom: 12px; color: rgba(0, 0, 0, 0.54); font-size:12px") Краткое описание
+		v-layout(style="padding-bottom: 24px;")
+			tinymce(:init="editorMiniDescription", v-model="props.miniDescription")
+
+	imageCover(field="img", v-model="imageUploadWindow", @crop-success="cropSuccess", :width="props.cropWidth", :height="props.cropHeight", url="", img-format="png", :langType="'ru'", :noCircle="true")

@@ -52,7 +52,7 @@ v-dialog(v-model="status",
 							v-subheader
 								i.mdi.mdi-link.red--text(style="font-size: 18px;")
 								|&nbsp;
-								router-link.text-left(v-if="parseInt(item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: item.publication_id}}") Link
+								router-link.text-left(v-if="parseInt(item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: item.id}}") Link
 					.col-md-6(v-else)
 						v-list(one-line, subheader).float-right
 							v-subheader ID публикации - &nbsp;

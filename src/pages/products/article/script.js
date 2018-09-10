@@ -1,7 +1,7 @@
 /**
 * @vuedoc
-* @module pages/products/category
-* @see @/pages/products/category
+* @module pages/products/article
+* @see @/pages/products/article
 *
 * @version 1.0
 * @desc Страница редактирования категории блога
@@ -30,6 +30,7 @@ const data = {
 	* 	@property {int} id - ID категории в базе данных
 	* 	@property {int} posts_count - Кол-во публикаций в категории
 	* 	@property {int} seoId - ID категории в таблице SEO блога
+	* 	@property {int} publicationID - ID данных страницы в таблице
 	*
 	*	@property {object} primary - SEO данные категории
 	* 		@property {string} primary.name - Название категории
@@ -68,12 +69,12 @@ const data = {
 	cropBannerHeight: 480,
 	// Данные категории
 	id: 0,
-	
 	posts_count: 0,
 	lang: 0,
 	link: false,
 	bannerDataUrl: false,
 	seoId: 0,
+	publicationID: 0,
 	noBannerSrc: '/assets/images/no_banner.jpg',
 	banner: '',
 	bannerNew: false,
@@ -105,7 +106,8 @@ const data = {
 	access: {
 		edit: true
 	},
-
+	options: false,
+	options_: '',
 	titleVariants: [{text: 'div'}, {text: 'h1'}, {text: 'h2'}, {text: 'h3'}, {text: 'h4'}],
 	titleVariant: 'h1',
 	title: '',
@@ -149,11 +151,11 @@ const methods = {
 	*	@method getCategory
 	**/
 	getCategory (){
-		this.$log.info('page \'Products category\' (@/pages/products/category) - method init');
+		this.$log.info('page \'Products article\' (@/pages/products/article) - method init');
 		
 		return this.axios({
             method: 'get',
-            url: this.catDataUrl + this.id,
+            url: this.catDataUrl + this.id + '/article/',
             withCredentials: true,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             responseType: 'json',
@@ -162,13 +164,13 @@ const methods = {
             this.loading = false;
 
             if(response.data.status == "ERROR") {
-				this.$log.error('page \'Products category\' (@/pages/products/category) - AJAX error');
+				this.$log.error('page \'Products article\' (@/pages/products/article) - AJAX error');
 
             	this.notify = 'Произошла ошибка при загрузке данных...'
                 this.$store.commit('error', response.data.error);
             }
             else {
-				this.$log.debug('page \'Products category\' (@/pages/products/category) - AJAX success');
+				this.$log.debug('page \'Products article\' (@/pages/products/article) - AJAX success');
 
             	const item = response.data.category;
 
@@ -179,13 +181,14 @@ const methods = {
 				this.posts_count = item.subcats_count
 				this.titleVariant = item.title && item.title.tag ? item.title.tag : 'h1'
 				this.title = item.title && item.title.text ? item.title.text : ''
-				this.infoDescription = item.description
+				this.infoDescription = item.data.text
 				this.primary.miniDescription = item.description_mini
 				this.lang = item.lang
 				this.link = parseInt(item.publication)
 				this.primary.imgDataUrl = item.img
-				this.bannerDataUrl = item.banner_img
+				this.bannerDataUrl = item.data.image
 				this.seoId = item.seo
+				this.publicationID = item.publication_id
 				this.primary.img = this.primary.imgDataUrl == '' ? false : this.$root.domain + this.primary.imgDataUrl + this.$random();
 				this.banner = this.bannerDataUrl == '' ? false : this.$root.domain + this.bannerDataUrl + this.$random();
 
@@ -204,6 +207,7 @@ const methods = {
 
 				this.seo.seoRobots = item.seo_data.robots
 				this.seo.seoMicro = item.seo_data.micro_markup
+				this.options = item.data.options
             }
         });
 	},
@@ -213,7 +217,7 @@ const methods = {
 	*	@method cropSuccessBanner
 	**/
 	cropSuccessBanner(bannerDataUrl, field){
-		this.$log.info('page \'Products category\' (@/pages/products/category) - method init');
+		this.$log.info('page \'Products article\' (@/pages/products/article) - method init');
 
 		this.bannerDataUrl = bannerDataUrl;
 		this.banner = bannerDataUrl;
@@ -221,22 +225,60 @@ const methods = {
 	},
 
 	/**
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Функция добавления новой опции
+	*	@method addOption
+	**/
+	addOption(){
+		this.$log.info('page \'Products article\' (@/pages/products/article) - method init');
+		if(this.options[this.options.length-1].data.length && this.options[this.options.length-1].name.length)
+			this.options.push({name: '', data: ''})
+		// console.log(toString(this.options));
+	},
+
+	/**
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Функция добавления новой опции
+	*	@method removeOption
+	**/
+	removeOption(index){
+		this.$log.info('page \'Products article\' (@/pages/products/article) - method init');
+		this.options.splice(index, 1);
+	},
+
+	/**
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Функция добавления новой опции
+	*	@method optionsString
+	**/
+	optionsString(){
+		this.$log.info('page \'Products article\' (@/pages/products/article) - method init');
+		if(this.options) {
+			this.options.forEach( (element, index) => {
+				if(!this.options_) this.options_ = '['; else this.options_ += ','; 
+				this.options_ += '{"name":"' + element.name + '","data":"' + element.data + '"}'
+			});
+			this.options_ += ']';
+		}
+	},
+
+	/**
 	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Сохранение данных категории (AJAX)
 	*	@method submit
 	**/
 	submit() {
-		this.$log.info('page \'Products category\' (@/pages/products/category) - method init');
+		this.$log.info('page \'Products article\' (@/pages/products/article) - method init');
 
 		if(this.$refs.form.validate()){
 			this.loading = true;
+
+			if(this.options) this.optionsString();
 
 			const data = {
 				name: this.primary.name,
 				url: this.primary.url,
 				status: this.primary.status,
 				posts_count: this.posts_count,
-				title_info_tag: this.titleVariant,
-				title_info: this.title,
+				options: this.options_,
+				// title_info_tag: this.titleVariant,
+				// title_info: this.title,
 				info: this.infoDescription,
 				description_mini: this.primary.miniDescription,
 				title: this.seo.seoTitle,
@@ -249,6 +291,7 @@ const methods = {
 				img: this.primary.imgDataUrl,
 				banner_img: this.bannerDataUrl,
 				seoId: this.seoId,
+				publicationID: this.publicationID,
 				image_new: this.primary.imageNew,
 				banner_new: this.bannerNew,
 				image_og_new: this.seo.imageOgNew,
@@ -259,7 +302,7 @@ const methods = {
 
 			return this.axios({
                 method: 'post',
-                url: this.catSaveDataUrl + this.id,
+                url: this.catSaveDataUrl + this.id + '/article/',
                 withCredentials: true,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 responseType: 'json',
@@ -268,12 +311,12 @@ const methods = {
                 this.loading = false;
 
                 if(response.data.status == "ERROR") {
-					this.$log.error('page \'Products category\' (@/pages/products/category) - AJAX error');
+					this.$log.error('page \'Products article\' (@/pages/products/article) - AJAX error');
 					this.$logger('error', 'Произошла ошибка при загрузке категории продукции. Ошибка: ' + response.data.error)
 	            	this.$notify.error('Произошла ошибка при загрузке категории продукции.')
 	            	console.log(response.data.error);
                 } else {
-					this.$log.debug('page \'Products category\' (@/pages/products/category) - AJAX success');
+					this.$log.debug('page \'Products article\' (@/pages/products/article) - AJAX success');
                     this.$notify.success('Все отлично сохранилось, можешь спасть спокойно!');
                     this.mountedPage();
  				}
@@ -316,10 +359,10 @@ export default {
 	* @desc ▶ Hook reporting
 	* <strong style="color:red; font-size: 18px;">ⓘ</strong> Установка переменной id
 	* <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрашиваем данные категории при загрузке компонента -> getCategory()
-	* @event module:pages/products/category~Page <strong>Products category</strong> mounted
+	* @event module:pages/products/article~Page <strong>Products article</strong> mounted
 	*/
 	mounted: function(){
-		this.$log.info('page \'Products category\' (@/pages/products/category) - mounted hook init');
+		this.$log.info('page \'Products article\' (@/pages/products/article) - mounted hook init');
 		this.mountedPage()
 	},
 	
@@ -330,14 +373,14 @@ export default {
 	*/
 	watch: {
 		'$route.params.id'(){
-			this.$log.debug('page \'Products category\' (@/pages/products/category) - watch id');
+			this.$log.debug('page \'Products article\' (@/pages/products/article) - watch id');
 			this.loading = false;
 			this.mountedPage();
 		},
 		'primary.status': function() {
-			this.$log.debug('page \'Products category\' (@/pages/products/category) - watch status');
+			this.$log.debug('page \'Products article\' (@/pages/products/article) - watch status');
 
 			this.statusText = this.primary.status ? 'ON' : 'OFF'
-		}
+		},
 	},
 }

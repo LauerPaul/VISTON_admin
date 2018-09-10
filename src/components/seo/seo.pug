@@ -6,7 +6,7 @@ div
 			v-layout
 				v-text-field(v-model="props.seoTitle", label="Title", :required="(required == 1 ? true : false)", color="light-green", :counter="80", :rules="(required == 1 ? titleRules : [])")
 			v-layout
-				v-text-field(v-model="props.seoDescription", label="Description", :required="(required == 1 ? true : false)", color="light-green", multi-line, :counter="190", :rules="(required == 1 ? descriptionRules : [])")
+				v-textarea(v-model="props.seoDescription", label="Description", :required="(required == 1 ? true : false)", color="light-green", :counter="190", :rules="(required == 1 ? descriptionRules : [])")
 			v-layout(v-if="props.alternateDe || props.alternateEn || props.alternateRu")
 				.container-fluid(style="padding-left: 0px; padding-right: 0px;")
 					.row
@@ -28,7 +28,7 @@ div
 					v-layout
 						v-text-field(v-model="props.seoOgTitle", label="Open Graph Title", color="light-green", :counter="80")
 					v-layout
-						v-text-field(v-model="props.seoOgDescription", label="Open Graph Description", color="light-green", multi-line, :counter="190")
+						v-textarea(v-model="props.seoOgDescription", label="Open Graph Description", color="light-green", :counter="190")
 				.col-md-4
 					span(color="grey") Open Graph image:
 					br
@@ -42,6 +42,6 @@ div
 		v-tab-item
 			br
 			v-layout
-				v-text-field(v-model="props.seoMicro", label="Вставьте код", color="light-green", multi-line)
+				v-textarea(v-model="props.seoMicro", label="Вставьте код", color="light-green")
 
 	imageCover(field="img", v-model="imageUploadWindowSeo", @crop-success="cropSuccess", :width="cropWidthSeo", :height="cropHeightSeo", url="", img-format="png", :langType="'ru'", :noCircle="true")

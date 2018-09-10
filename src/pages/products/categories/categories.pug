@@ -37,7 +37,7 @@
 
 							td.text-center
 								|{{ !parseInt(props.item.publication) ? props.item.subcats_count : '' }}
-								router-link.text-left(v-if="parseInt(props.item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: props.item.publication_id}}")
+								router-link.text-left(v-if="parseInt(props.item.publication)", tag="button", :to="{name: 'productsArticle', params: {id: props.item.id}}")
 									i.mdi.mdi-link.red--text(style="font-size: 18px;")
 
 							td.text-left(style="width: 80px;")

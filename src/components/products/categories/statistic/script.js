@@ -49,30 +49,36 @@ const methods = {
 	**/
 	getStatistics(){
 		this.$log.info('page \'Blog categories statistic\' (@/components/blog/categories/statistic) - method init');
+		
+		var list = this.categories ? this.categories : (this.articles ? this.articles : new Array());
+
 		this.loading = true
 		this.statistics.on = 0
 		this.statistics.off = 0
 		this.statistics.full = 0
 		this.statistics.clear = 0
-		this.statistics.clear = 0
 		this.statistics.link = 0
+		
+		if(this.articles){
+			this.statistics.full = false
+			this.statistics.clear = false
+		}
 
-		this.categories.forEach((item, i, arr) => {
-			if(parseInt(item.status) == 1 || item.status == true) {
-				this.statistics.on += 1;
-			} else {
-				this.statistics.off += 1;
-			}
+		list.forEach((item, i, arr) => {
+			if(parseInt(item.status) == 1 || item.status == true) this.statistics.on += 1;
+			else this.statistics.off += 1;
 
-			if(parseInt(item.subcats_count) > 0 && !parseInt(item.publication)) {
-				this.statistics.full += 1;
+			if(this.categories){
+				if(parseInt(item.subcats_count) > 0 && !parseInt(item.publication))
+					this.statistics.full += 1;
+				else if(parseInt(item.subcats_count) > 0 && parseInt(item.publication))
+					this.statistics.link += 1;
+				else if(!this.articles) this.statistics.clear += 1;
 			}
-			else if(parseInt(item.subcats_count) > 0 && parseInt(item.publication)) {
-				this.statistics.link += 1;
+			else if(this.articles){
+				if(parseInt(item.parent_id) == 0) this.statistics.link += 1;
 			}
-			else {
-				this.statistics.clear += 1;
-			}
+			
 		});
 		this.loading = false
 	},
@@ -86,9 +92,11 @@ export default {
 	/**
 	* @typedef {Object} Props
 	* 	@property {string} categories - массив категорий
+	* 	@property {string} articles - массив публикаций
 	*/
 	props: [
-		'categories'
+		'categories',
+		'articles'
 	],
 
 	// Methods
@@ -96,11 +104,10 @@ export default {
 
 	/**
 	* @desc ▶ Hook reporting <br>
-	* @event module:components/blog/categories/new~Component <strong>Add new category (task)</strong> mounted
+	* @event module:components/blog/categories/statistic~Component <strong>Products statistic</strong> mounted
 	*/
 	mounted: function (){
 		this.$log.info('component \'Blog categories statistic\' (@/components/blog/categories/statistic) - mounted hook init');
-
 	},
 
 	watch: {
@@ -109,7 +116,13 @@ export default {
 				return this.getStatistics()
 			},
 			deep: true
-		}
+		},
+		articles: {
+			handler(val){
+				return this.getStatistics()
+			},
+			deep: true
+		},
 	}
 
 }

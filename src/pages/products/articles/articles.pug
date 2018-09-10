@@ -50,7 +50,7 @@
 									v-btn.mini-circle(icon, title="Быстрый просмотр", fab, dark, small, color="green", @click.stop="quickView = !quickView; setSelectItem(props.item, props.index);")
 										v-icon(color="gray") mdi-magnify
 									//- Edit
-									v-btn.mini-circle(v-if="access.edit", fab, dark, small, color="blue", :to="{name: 'productsCategory', params: {id: props.item.id}}", title="Редактировать")
+									v-btn.mini-circle(v-if="access.edit", fab, dark, small, color="blue", :to="{name: 'productsArticle', params: {id: props.item.id}}", title="Редактировать")
 											v-icon mdi-pencil
 									//- Remove
 									v-btn.mini-circle(v-if="access.remove", icon, @click.stop="setSelectItem(props.item, props.index); removeAlert()", title="Удалить", fab, small, dark, color="red")
@@ -65,7 +65,7 @@
 						v-alert(slot="no-results", :value="true", color="error", icon="warning") Совпадений с "{{ search }}" в категориях блога не найдено.
 
 		.col-md-4
-			statistic-widget(v-if="statisticWindow", :categories="categories")
+			statistic-widget(v-if="statisticWindow", :articles="categories", :categories="false")
 
 	//- Всплывающее окно быстрого просмотра
 	quick-view(:status="quickView",

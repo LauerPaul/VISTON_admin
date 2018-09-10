@@ -1,7 +1,7 @@
 /**
 * @vuedoc
-* @module components/blog/dialog-remove
-* @see @/components/blog/dialog-remove
+* @module components/products/dialog-remove
+* @see @/components/products/dialog-remove
 *
 * @version 1.0
 * @desc Диалоговое окно возникает при удалении элементов блога
@@ -28,7 +28,7 @@ const methods = {
 	*	@method removeItem
 	**/
 	removeItem (){
-		this.$log.info('page \'Blog dialog-remove\' (@/components/blog/dialog-remove) - method init');
+		this.$log.info('page \'products dialog-remove\' (@/components/products/dialog-remove) - method init');
 
 		if(this.$access('remove')){
 			console.log(this.category);
@@ -49,13 +49,13 @@ const methods = {
 	            this.loading = false;
 
 	            if(response.data.status == "ERROR") {
-					this.$log.error('page \'Blog dialog-remove\' (@/components/blog/dialog-remove) - AJAX error');
+					this.$log.error('page \'products dialog-remove\' (@/components/products/dialog-remove) - AJAX error');
 					this.$logger('error', 'Удаление элемента блога - ' + this.name + '. Ошибка: ' + response.data.error)
 
 	                this.$notify.error(response.data.error);
 	            }
 	            else {
-					this.$log.debug('page \'Blog dialog-remove\' (@/components/blog/dialog-remove) - AJAX success');
+					this.$log.debug('page \'products dialog-remove\' (@/components/products/dialog-remove) - AJAX success');
 					this.$logger('remove', 'Удален элемент блога - ' + this.name)
 					this.$emit('ok')
 
@@ -103,10 +103,10 @@ export default {
 
 	/**
 	* @desc ▶ Hook reporting <br>
-	* @event module:components/blog/dialog-remove~Component <strong>Blog dialog-remove</strong> mounted
+	* @event module:components/products/dialog-remove~Component <strong>products dialog-remove</strong> mounted
 	*/
 	mounted: function (){
-		this.$log.info('component \'Blog dialog-remove\' (@/components/blog/dialog-remove) - mounted hook init');
+		this.$log.info('component \'products dialog-remove\' (@/components/products/dialog-remove) - mounted hook init');
 	},
 
 	watch: {

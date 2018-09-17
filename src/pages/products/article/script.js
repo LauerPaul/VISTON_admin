@@ -230,9 +230,11 @@ const methods = {
 	**/
 	addOption(){
 		this.$log.info('page \'Products article\' (@/pages/products/article) - method init');
-		if(this.options[this.options.length-1].data.length && this.options[this.options.length-1].name.length)
+		if(this.options == null) {
+			this.options = new Array({name: '', data: ''})
+		} else if(this.options[this.options.length-1].data.length && this.options[this.options.length-1].name.length){
 			this.options.push({name: '', data: ''})
-		// console.log(toString(this.options));
+		}
 	},
 
 	/**

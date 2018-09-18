@@ -31,15 +31,28 @@ let config = {
         new webpack.DefinePlugin({
           'process.env': {
             NODE_ENV: JSON.stringify('production')
-          }}),
-          new UglifyJsPlugin({
-            sourceMap: true,
-            uglifyOptions: {
-              compress: {
-                inline: false
-              }
-            }
-          })
+        }}),
+        new webpack.optimize.UglifyJsPlugin({
+          beautify: false,
+          comments: false,
+          compress: {
+            sequences     : true,
+            booleans      : true,
+            loops         : true,
+            unused      : true,
+            warnings    : false,
+            drop_console: true,
+            unsafe      : true,
+            screw_ie8: true,
+          },
+          mangle: {
+            screw_ie8: true,
+            keep_fnames: true
+          },
+        }),
+        new webpack.LoaderOptionsPlugin({
+          minimize: true
+        })
 
     ],
     

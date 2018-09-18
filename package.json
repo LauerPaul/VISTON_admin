@@ -4,7 +4,7 @@
   "description": "A Vue.js project (Vue + Gulp + Webpack)",
   "scripts": {
     "dev": "gulp --require babel-register --gulpfile tasks",
-    "build": "NODE_ENV=production gulp build --require babel-register --gulpfile tasks",
+    "build": "set NODE_ENV=production && gulp build --require babel-register --gulpfile tasks",
     "jsdoc": "node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "author": "Paul Lauer",

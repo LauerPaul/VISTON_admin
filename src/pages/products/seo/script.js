@@ -10,7 +10,7 @@
 * @copyright 2018©lauer.agency
 */
 
-import seo from '@/components/seo'
+import seo from '@/components/seo/'
 
 const data = {
 	/**
@@ -33,7 +33,7 @@ const data = {
 	*		@property {string} seo.seoMicro - микроразметка (зарезервированная переменная)
 	*		@property {boolean} seo.imageOgNew - переменная изменяет значение, если добавлено новое изображение seoOgImg (зарезервированная переменная)
 	*/
-	urlGetSeo: '/blog/seo',
+	urlGetSeo: '/products/seo',
 	valid: true,
 	loading: true,
 	status: 1,
@@ -54,7 +54,8 @@ const data = {
 		seoRobots: '',				// robots
 		seoMicro: '',				// micro markup
 		imageOgNew: false
-	}
+	},
+	step: 'en',
 }
 
 const methods = {
@@ -62,12 +63,13 @@ const methods = {
 	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрос SEO-данных категории (AJAX)
 	*	@method getSeo
 	**/
-	getSeo (){
+	getSeo (lng = false){
 		this.$log.info('page \'Blog SEO\' (@/pages/blog/seo) - method init');
-
+		var url = !lng ? this.urlGetSeo : '/' + lng + this.urlGetSeo;
+		
 		return this.axios({
             method: 'get',
-            url: this.urlGetSeo,
+            url: url,
             withCredentials: true,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             responseType: 'json',
@@ -76,10 +78,9 @@ const methods = {
             this.loading = false;
 
             if(response.data.status == "ERROR") {
-				this.$log.error('page \'Blog SEO\' (@/pages/blog/seo) - AJAX error');
-
-            	const notify = 'Произошла ошибка при загрузке данных...'
-                this.$store.commit('error', notify);
+				this.$log.error('page \'Blog SEO\' (@/pages/blog/seo) - AJAX error (GET)');
+                this.$logger('error', 'Произошла ошибка при загрузке SEO продукции. Ошибка: ' + response.data.error)
+            	this.$notify.error('Произошла ошибка при загрузке SEO данных...')
             }
             else {
 				this.$log.debug('page \'Blog SEO\' (@/pages/blog/seo) - AJAX success');
@@ -93,6 +94,7 @@ const methods = {
 				this.seo.seoRobots = response.data.data.robots
 				this.seo.seoMicro = response.data.data.micro_markup
 				this.seo.seoOgImg = this.seo.seoOgImage == '' ? false : this.$root.domain + this.seo.seoOgImage + '?' + Math.floor((Math.random() * ((777 + 1) - 55)) + 99999);
+				this.step = response.data.lang
             }
         });
 	},
@@ -132,13 +134,12 @@ const methods = {
 
                 if(response.data.status == "ERROR") {
 					this.$log.error('page \'Blog SEO\' (@/pages/blog/seo) - AJAX error');
-                	
-                	this.notify = 'Произошла ошибка при загрузке данных...'
-                    this.$store.commit('error', response.data.error);
+                    this.$logger('error', 'Произошла ошибка при сохранении SEO продукции. Ошибка: ' + response.data.error)
+                	this.$notify.error('Произошла ошибка при сохранении SEO данных...')
+	            	console.log(response.data.error);
                 } else {
 					this.$log.debug('page \'Blog SEO\' (@/pages/blog/seo) - AJAX success');
-
-                    this.$store.commit('success', 'SEO в норме!');
+                    this.$notify.success('SEO в норме!');
  				}
             });
 

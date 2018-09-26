@@ -11,7 +11,7 @@
 				.col-md-6
 					v-text-field(name="login", :label="text.login", v-model="login", :rules="loginRules", counter, required)
 					
-					v-text-field(name="password", :label="text.password", :hint="text.characters_min", v-model="password", min="passwordMinLength", :rules="passwordRules", :append-icon="hidePass ? 'mdi-eye' : 'mdi-eye-off'", :append-icon-cb="() => (hidePass = !hidePass)", :type="hidePass ? 'password' : 'text'", counter, required)
+					v-text-field(name="password", :label="text.password", :hint="text.characters_min", v-model="password", min="passwordMinLength", :rules="passwordRules", :append-icon="hidePass ? 'mdi-eye' : 'mdi-eye-off'", @click:append="() => (hidePass = !hidePass)", :type="hidePass ? 'password' : 'text'", counter, required)
 
 					
 					v-btn.not-padding(@click="submit", :disabled="loading", color="info", :loading="loading")

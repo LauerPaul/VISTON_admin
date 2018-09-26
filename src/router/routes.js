@@ -15,11 +15,17 @@ import users from '@/pages/users'
 
 import products from '@/pages/products'
 import productsCategories from '@/pages/products/categories'
-import productsArticles from '@/pages/products/articles'
-import productsSeo from '@/pages/products/seo'
-
 import productsCategory from '@/pages/products/category'
+import productsArticles from '@/pages/products/articles'
 import productsArticle from '@/pages/products/article'
+import productsSeo from '@/pages/products/seo'
+import productsSettings from '@/pages/products/settings'
+
+import services from '@/pages/services'
+import servicesList from '@/pages/services/list'
+import servicesItem from '@/pages/services/item'
+import servicesSeo from '@/pages/services/seo'
+import servicesSettings from '@/pages/services/settings'
 
 import settings from '@/pages/settings'
 import settingsPrimary from '@/pages/settings'
@@ -138,7 +144,51 @@ const routes = [
 						name: 'productsSeo',
 						component: productsSeo
 					},
+		        	{
+						path: 'settings',
+						name: 'productsSettings',
+						component: productsSettings
+					},
 		        ]
+			},
+			{	
+				/*products page*/
+				path: "services",
+				name: 'services',
+				component: services,
+				redirect: 'services/list',
+		        meta: {
+		            isAuth: true,
+		        },
+		        children: [
+		        	{
+						path: 'list',
+						name: 'servicesList',
+						component: servicesList
+					},
+		        	{
+						path: 'item',
+						component: servicesItem,
+						redirect: 'services',
+				        children: [
+				        	{
+								path: ':id',
+								name: 'servicesItem',
+								component: servicesItem
+							}
+						]
+					},
+		        	{
+						path: 'seo',
+						name: 'servicesSeo',
+						component: servicesSeo
+					},
+		        	{
+						path: 'settings',
+						name: 'servicesSettings',
+						component: servicesSettings
+					},
+				]
 			},
 			{
 				/*Settings*/

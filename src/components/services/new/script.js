@@ -101,25 +101,14 @@ const methods = {
 		if(this.$access('add')){
 			if(this.$refs.form.validate()){
 				this.submit = true;
-				
-				var data = {};
-
-				if(this.service) {
-					data = {
-						name: this.newName,
-						lang: this.langSelect
-					}
-				} else{
-					const url_ = this.$translit(this.newName)
-					data = {
-						name: this.newName,
-						lang: this.langSelect,
-						url: url_,
-						link: this.link,
-						category_id: this.categoryId.id
-					}
+				const url_ = this.$translit(this.newName)
+				const data = {
+					name: this.newName,
+					lang: this.langSelect,
+					url: url_,
+					link: this.link,
+					category_id: this.categoryId.id
 				}
-
 
 				return this.axios({
 	                method: 'post',
@@ -139,16 +128,9 @@ const methods = {
 						this.$log.debug('module \'Add new category\' (@/components/blog/categories/new) - AJAX success');
 						this.$logger('add', 'Добавление категории блога - "' + this.newName + '"')
 
-						if(this.service) this.$notify.success('Новая услуга добавлена успешно!');
-						else this.$notify.success('Новая категория добавлена успешно!');
-
+	                    this.$notify.success('Новая категория добавлена успешно!');
 	                	this.windowHide()
-
-	                	if(this.service){
-		                    this.$router.push({name: 'servicesItem', params: {id: response.data.id}});
-	                	} else{
-		                    this.$router.push({name: 'productsCategory', params: {id: response.data.id}});
-	                	}
+	                    this.$router.push({name: 'productsCategory', params: {id: response.data.id}});
 	 				}
 	            });
 			}
@@ -169,14 +151,12 @@ export default {
 	* 	@property {boolean} status - Статус видимости модуля
 	* 	@property {string} catsUrl - Url по которому будет запрошен список родительских категорий
 	* 	@property {boolean} articles - Модуль вызван модулем публикаций
-	* 	@property {boolean} service - Модуль вызван модулем service
 	*/
 	props: [
 		'url',
 		'status',
 		'articles',
-		'catsUrl',
-		'service'
+		'catsUrl'
 	],
 
 	// Methods
@@ -188,6 +168,7 @@ export default {
 	*/
 	mounted: function (){
 		this.$log.info('component \'Add new category\' (@/components/blog/categories/new) - mounted hook init');
+
 		this.visible = this.status
 	},
 
@@ -197,7 +178,7 @@ export default {
 		},
 		langSelect(){
 			this.$log.info('module \'Add new category\' (@/components/blog/categories/new) - method watch init');
-			if(!this.service) this.getParents();
+			this.getParents();
 		}
 	}
 

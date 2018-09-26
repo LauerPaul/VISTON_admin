@@ -1,0 +1,8 @@
+.settings-page {
+	
+	.settings-row {
+		&:nth-of-type(2n) {
+			background-color: #cecece;
+		}
+	}
+}

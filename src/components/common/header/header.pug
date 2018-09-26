@@ -3,4 +3,4 @@ header.header
 		button.aside_toggle(@click="toggleAside")
 			v-icon mdi-menu
 		b-navbar-brand(:to="{name: 'home', params:{lang: urlPrefix}}")
-			img(:src="logo", :alt="logo_alt")
+			img(:src="$root.domain + logo", :alt="logo_alt")

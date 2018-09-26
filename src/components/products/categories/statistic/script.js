@@ -93,10 +93,12 @@ export default {
 	* @typedef {Object} Props
 	* 	@property {string} categories - массив категорий
 	* 	@property {string} articles - массив публикаций
+	* 	@property {boolean} services - модуль вызван модулем services
 	*/
 	props: [
 		'categories',
-		'articles'
+		'articles',
+		'services'
 	],
 
 	// Methods

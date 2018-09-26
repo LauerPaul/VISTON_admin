@@ -3,7 +3,7 @@ v-navigation-drawer.aside_menu(app, fixed, hide-overlay, :mini-variant.sync="asi
 		v-list.pa-0
 			v-list-tile(avatar)
 				v-list-tile-avatar
-					img(src="https://randomuser.me/api/portraits/men/85.jpg")
+					img(:src="$root.domain + $store.state.Auth.user.data.photo")
 				v-list-tile-content
 					v-list-tile-title.user-info
 						.name {{ $store.state.Auth.user.data.first_name }} {{ $store.state.Auth.user.data.last_name }}
@@ -12,24 +12,26 @@ v-navigation-drawer.aside_menu(app, fixed, hide-overlay, :mini-variant.sync="asi
 	v-list.pt-0(dense).wrapper-menu
 		v-divider
 		
-		span(v-for="item in items", :key="item.title", @click="")
-			v-list-tile(:to="{name: item.link}", v-if="!item.parent")
-				v-list-tile-action
-					v-icon(:color="item.color") {{ item.icon }}
-				v-list-tile-content
-					v-list-tile-title {{ item.title }}
-					
-			v-expansion-panel(v-else)
-				v-expansion-panel-content(focusable, popout, expand-icon="mdi-menu-down")
-					v-list-tile(slot="header")
+		#first-container-scroll-wrapper
+			.scrollCase
+				span(v-for="item in items", :key="item.title", @click="")
+					v-list-tile(:to="{name: item.link}", v-if="!item.parent")
 						v-list-tile-action
 							v-icon(:color="item.color") {{ item.icon }}
 						v-list-tile-content
 							v-list-tile-title {{ item.title }}
-					v-card
-						v-card-text(v-for="item_child in item.children", :key="item_child.title")
-							v-list-tile(:to="{name: item_child.link}")
+							
+					v-expansion-panel(v-else)
+						v-expansion-panel-content(focusable, popout, expand-icon="mdi-menu-down")
+							v-list-tile(slot="header")
 								v-list-tile-action
-									v-icon(:color="item_child.color") {{ item_child.icon }}
+									v-icon(:color="item.color") {{ item.icon }}
 								v-list-tile-content
-									v-list-tile-title {{ item_child.title }}
+									v-list-tile-title {{ item.title }}
+							v-card
+								v-card-text(v-for="item_child in item.children", :key="item_child.title")
+									v-list-tile(:to="{name: item_child.link}")
+										v-list-tile-action
+											v-icon(:color="item_child.color") {{ item_child.icon }}
+										v-list-tile-content
+											v-list-tile-title {{ item_child.title }}

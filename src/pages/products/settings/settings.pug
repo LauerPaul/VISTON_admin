@@ -1,0 +1,26 @@
+.row
+	.col-md-10
+
+		v-card
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+			v-card-title Параметры отображения
+			v-spacer
+				.col-12(style="padding-bottom: 12px;")
+					v-form(ref="form", lazy-validation, v-model="valid")
+					
+						v-divider
+						div(v-for="(element, index) in settings", :key="index")
+							.row.settings-row
+								.col-md-3.d-flex.align-items-center 
+									strong {{ element.name }}
+								.col-md-9
+									.row
+										.col-md-3(v-for="(item, i) in element.items", :key="i", v-if="item.lang != 'ua'")
+											v-switch(:label="item.lang", v-model.lazy="item.status", :disabled="element.disabled")
+										.col-md-3
+											v-switch(label="ALL", v-model.lazy="allSwitch[index]", :disabled="element.disabled", @change="changeAll(index)")
+							v-divider
+
+						v-btn(@click.native="submit", color="green", dark).float-right Сохранить
+						.clearfix
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")

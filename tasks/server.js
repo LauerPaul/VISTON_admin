@@ -110,3 +110,39 @@ export function server(cb) {
 
     if(typeof(cb) == 'function') cb();
 }
+
+
+const gutil    = require('gulp-util');
+const notifier = require('node-notifier');
+
+export function buildScript(done) {
+    let statsLog      = { // для красивых логов в консоли
+      colors: true,
+      reasons: true
+    };
+    // run webpack
+    webpack(webpackConfig, onComplete);
+
+      // run webpack
+      function onComplete(error, stats) {
+        if (error) { // кажется еще не сталкивался с этой ошибкой
+          onError(error);
+        } else if ( stats.hasErrors() ) { // ошибки в самой сборке, к примеру "не удалось найти модуль по заданному пути"
+          onError( stats.toString(statsLog) );
+        } else {
+          onSuccess( stats.toString(statsLog) );
+        }
+      }
+      function onError(error) {
+        let formatedError = new gutil.PluginError('webpack', error);
+        notifier.notify({ // чисто чтобы сразу узнать об ошибке
+          title: `Error: ${formatedError.plugin}`,
+          message: formatedError.message
+        });
+        done(formatedError);
+      }
+      function onSuccess(detailInfo) {
+        gutil.log('[webpack]', detailInfo);
+        done();
+      }
+}

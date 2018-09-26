@@ -1,10 +1,10 @@
 /**
 * @vuedoc
-* @module pages/products
-* @see @/pages/products
+* @module pages/services
+* @see @/pages/services
 *
 * @version 1.0
-* @desc Страница продукции
+* @desc Страница услуг
 *
 * @author Pavel Uhrynovych (Lauer)
 * @copyright 2018©lauer.agency
@@ -31,9 +31,9 @@ export default {
 
 	/**
 	* @desc ▶ Hook reporting
-	* @event module:pages/blog~Page <strong>Products</strong> mounted
+	* @event module:pages/services~Page <strong>Services</strong> mounted
 	*/
 	mounted(){
-		this.$log.info('page \'Products\' (@/pages/products) - mounted hook init');
+		this.$log.info('page \'Services\' (@/pages/services) - mounted hook init');
 	},
 }

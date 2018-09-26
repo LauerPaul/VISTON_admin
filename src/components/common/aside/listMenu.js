@@ -31,6 +31,38 @@ export default {
 						icon: 'mdi-search-web',
 						color: "grey",
 						link: 'productsSeo'
+					},
+					{
+						title: 'Настройки',
+						icon: 'mdi-tune-vertical',
+						color: "grey",
+						link: 'productsSettings'
+					}
+				]
+			},
+			{
+				title: 'Услуги',
+				icon: 'mdi-wrench',
+				color: "blue darken-2",
+				parent: true,
+				children: [
+					{
+						title: 'Cписок услуг',
+						icon: 'mdi-format-list-bulleted',
+						color: "grey",
+						link: 'servicesList'
+					},
+					{
+						title: 'SEO',
+						icon: 'mdi-search-web',
+						color: "grey",
+						link: 'servicesSeo'
+					},
+					{
+						title: 'Настройки',
+						icon: 'mdi-tune-vertical',
+						color: "grey",
+						link: 'servicesSettings'
 					}
 				]
 			},

@@ -64,7 +64,30 @@ const Auth = {
             },
             productsSeo:{
                 access: 1
-            }
+            },
+            productsSettings: {
+                access: 1,
+                edit: 1
+            },
+            services: {
+                access: 1
+            },
+            servicesList: {
+                access: 1,
+                remove: 1,
+                edit: 1,
+                add: 1
+            },
+            servicesItem: {
+                access: 1,
+            },
+            servicesSeo:{
+                access: 1
+            },
+            servicesSettings: {
+                access: 1,
+                edit: 1
+            },
         }
     },
     mutations: {

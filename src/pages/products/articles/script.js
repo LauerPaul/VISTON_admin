@@ -257,7 +257,5 @@ export default {
 		this.access.edit  = this.$access('edit', true)
 		this.access.remove = this.$access('remove', true)
 		this.access.add = this.$access('add', true)
-
-		console.log(this.access);
 	},
 }

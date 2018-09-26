@@ -27,7 +27,7 @@ import querystring from 'querystring'
 // ************************************
 import filters from '@/filters'
  
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 
 // ------------------------------------
 Vue.use(store)
@@ -39,7 +39,7 @@ Vue.use(VueWait)
 // -------------------
 // Axios settings
 // -------------------
-axios.defaults.baseURL = 'https://viston.lauer.agency/admin/ajax'; // base url
+axios.defaults.baseURL = 'http://viston.lauer.com.ua/admin/ajax'; // base url
 // axios.defaults.headers.common['X-CSRF-TOKEN'] = 'Bearer ' + '0000';      // Токен
 
 // -------------------
@@ -50,7 +50,7 @@ var vm = new Vue({
     store,
     el: '#app-wrapper',
     data: {
-        domain: 'https://viston.lauer.agency',
+        domain: 'http://viston.lauer.com.ua/',
         querystring,
     },
     wait: new VueWait({

@@ -8,7 +8,7 @@ export default {
 	// ---------------------
 	logo: {
 		// Ссылка на лого
-		src: 'https://my2.lauer.com.ua/uploads/_site/logo.png',
+		src: '/_admin/themes/default/images/logo.png',
 		// Альт лого
 		alt: 'Lauer.agency admin cms'
 	},

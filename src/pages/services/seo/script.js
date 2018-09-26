@@ -1,7 +1,7 @@
 /**
 * @vuedoc
-* @module pages/products/seo
-* @see @/pages/products/seo
+* @module pages/services/seo
+* @see @/pages/services/seo
 *
 * @version 1.0
 * @desc Страница настроек SEO страницы продукции
@@ -33,7 +33,7 @@ const data = {
 	*		@property {string} seo.seoMicro - микроразметка (зарезервированная переменная)
 	*		@property {boolean} seo.imageOgNew - переменная изменяет значение, если добавлено новое изображение seoOgImg (зарезервированная переменная)
 	*/
-	urlGetSeo: '/products/seo',
+	urlGetSeo: '/services/seo/',
 	valid: true,
 	loading: true,
 	status: 1,
@@ -64,7 +64,7 @@ const methods = {
 	*	@method getSeo
 	**/
 	getSeo (lng = false){
-		this.$log.info('page \'Products page SEO\' (@/pages/products/seo) - method init');
+		this.$log.info('page \'Services page SEO\' (@/pages/services/seo) - method init');
 		var url = !lng ? this.urlGetSeo : '/' + lng + this.urlGetSeo;
 		
 		return this.axios({
@@ -78,12 +78,12 @@ const methods = {
             this.loading = false;
 
             if(response.data.status == "ERROR") {
-				this.$log.error('page \'Products page SEO\' (@/pages/products/seo) - AJAX error (GET)');
+				this.$log.error('page \'Services page SEO\' (@/pages/services/seo) - AJAX error (GET)');
                 this.$logger('error', 'Произошла ошибка при загрузке SEO продукции. Ошибка: ' + response.data.error)
             	this.$notify.error('Произошла ошибка при загрузке SEO данных...')
             }
             else {
-				this.$log.debug('page \'Products page SEO\' (@/pages/products/seo) - AJAX success');
+				this.$log.debug('page \'Services page SEO\' (@/pages/services/seo) - AJAX success');
 
             	this.seoId = response.data.data.id
 				this.seo.seoTitle = response.data.data.title
@@ -104,7 +104,7 @@ const methods = {
 	*	@method submit
 	**/
 	submit() {
-		this.$log.info('page \'Products page SEO\' (@/pages/products/seo) - method init');
+		this.$log.info('page \'Services page SEO\' (@/pages/services/seo) - method init');
 		
 		if(this.$refs.form.validate()){
 			this.loading = true;
@@ -124,7 +124,7 @@ const methods = {
 
 			return this.axios({
                 method: 'post',
-                url: this.urlGetSeo + '/save',
+                url: this.urlGetSeo + 'save/',
                 withCredentials: true,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 responseType: 'json',
@@ -133,12 +133,12 @@ const methods = {
                 this.loading = false;
 
                 if(response.data.status == "ERROR") {
-					this.$log.error('page \'Products page SEO\' (@/pages/products/seo) - AJAX error');
+					this.$log.error('page \'Services page SEO\' (@/pages/services/seo) - AJAX error');
                     this.$logger('error', 'Произошла ошибка при сохранении SEO продукции. Ошибка: ' + response.data.error)
                 	this.$notify.error('Произошла ошибка при сохранении SEO данных...')
 	            	console.log(response.data.error);
                 } else {
-					this.$log.debug('page \'Products page SEO\' (@/pages/products/seo) - AJAX success');
+					this.$log.debug('page \'Services page SEO\' (@/pages/services/seo) - AJAX success');
                     this.$notify.success('SEO в норме!');
  				}
             });
@@ -173,10 +173,10 @@ export default {
 	/**
 	* @desc ▶ Hook reporting
 	* <strong style="color:red; font-size: 18px;">ⓘ</strong> Вызов метода getSeo()
-	* @event module:pages/products/seo~Page <strong>Products page SEO</strong> mounted
+	* @event module:pages/services/seo~Page <strong>Products page SEO</strong> mounted
 	*/
 	mounted: function(){
-		this.$log.info('page \'Products page SEO\' (@/pages/products/seo) - mounted hook init');
+		this.$log.info('page \'Services page SEO\' (@/pages/services/seo) - mounted hook init');
 		
 		this.getSeo();
 	},

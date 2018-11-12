@@ -13,22 +13,19 @@
 				.col-12(v-if="item", style="padding-bottom: 16px")
 					v-form(ref="form", lazy-validation, v-model="valid")
 						v-layout
-							v-text-field(v-model="item.title", label="Заголовок", required, color="light-green", :counter="400", :rules="titleRules")
-
+							v-text-field(type="text", v-model="item.info_form_title.value", label="Подсказка в форме заказа", color="light-green")
+						br
+						
+						v-title
+							strong Информация о заказе
 						v-layout(style="margin: 24px 0px 12px;")
-							tinymce(v-if="item", :init="editText", v-model="item.text")
-
-						hr
-						strong(style="color: red;")
-							i.mdi.mdi-information
-						span(style="color: gray;") &nbsp;чтоб подставить email-ссылку в текст, используйте комбинации:
+							tinymce(v-if="item", :init="editText", v-model="item.info_order_text.value")
 						br
+						v-title
+							strong Информация о доставке
+						v-layout(style="margin: 24px 0px 12px;")
+							tinymce(v-if="item", :init="editText", v-model="item.info_delivery_text.value")
 						br
-						span(v-if="item && item.placeholders" v-for="(value, key) in item.placeholders")
-							strong {{ key }}
-							span &nbsp;- будет заменино на {{ value }}
-							br
-						hr
 
 						v-btn(color="grey", flat, @click="$router.go(-1)")
 							i.mdi.mdi-arrow-left

@@ -17,21 +17,14 @@ const data = {
 	* @typedef {Object} Data
 	* 	@property {string} urlGet - url для запроса данных
 	*/
-	getUrl: 'vacancy/info/',
-	saveUrl: 'vacancy/info/save/',
+	getUrl: 'products/info/',
+	saveUrl: 'products/info/save/',
 	step: 'ru',
 	item: '',
-	titleRules: [
-		v => !!v || 'Название вакансии - заполнение обязательно',
-		v => (v && v.length > 10) || 'Не менее 10 символов. Введено - ' + v.length
-	],
 	editText: {
 		language_url: '/js/editor/ru.js',
 		height: 250,
 		menubar: false,
-		force_br_newlines : false,
-		force_p_newlines : false,
-		forced_root_block : '',
 		plugins: 'wordcount, autoresize, code, fullscreen, link',
 		autoresize_bottom_margin: 24,
 		autoresize_max_height: 250,
@@ -94,10 +87,12 @@ const methods = {
 			this.loading = true;
 
 			const data = {
-				// 'text_id': this.item.text_id,
-				// 'title_id': this.item.title_id,
-				// 'title': this.item.title,
-				// 'text': this.item.text
+				info_order_text: this.item.info_order_text.value,
+				info_order_text_id: this.item.info_order_text.id,
+				info_delivery_text: this.item.info_delivery_text.value,
+				info_delivery_text_id: this.item.info_delivery_text.id,
+				info_form_title: this.item.info_form_title.value,
+				info_form_title_id: this.item.info_form_title.id
 			}
 
 			return this.axios({

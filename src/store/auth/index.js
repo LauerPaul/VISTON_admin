@@ -65,6 +65,14 @@ const Auth = {
             productsSeo:{
                 access: 1
             },
+            productsPromo:{
+                edit: 1,
+                access: 1
+            },
+            productsInfo: {
+                access: 1,
+                edit: 1
+            },
             productsSettings: {
                 access: 1,
                 edit: 1
@@ -85,6 +93,29 @@ const Auth = {
                 access: 1
             },
             servicesSettings: {
+                access: 1,
+                edit: 1
+            },
+            vacancy: {
+                access: 1
+            },
+            vacancyList: {
+                access: 1,
+                remove: 1,
+                edit: 1,
+                add: 1
+            },
+            vacancyItem: {
+                access: 1,
+            },
+            vacancySeo:{
+                access: 1
+            },
+            vacancySettings: {
+                access: 1,
+                edit: 1
+            },
+            vacancyInfo: {
                 access: 1,
                 edit: 1
             },

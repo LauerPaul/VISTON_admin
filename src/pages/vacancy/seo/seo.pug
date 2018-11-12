@@ -1,0 +1,15 @@
+.row
+	.col-12
+		v-stepper(non-linear, v-model="step")
+					v-stepper-header
+						v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getSeo('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
+						v-divider
+						v-stepper-step(step="de", editable, :complete="step == 'de'", @click.native="getSeo('de')", edit-icon="mdi-check") {{ step == 'de' ? 'DE' : '' }}
+						v-divider
+						v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getSeo('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
+		v-card
+			v-card-text
+				v-form(ref="form", lazy-validation, v-model="valid")
+					componemt(is="seo", :props="seo", :required="status")
+					v-btn(@click.native="submit", color="green", dark).float-right Сохранить
+					.clearfix

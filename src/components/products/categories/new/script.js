@@ -104,7 +104,7 @@ const methods = {
 				
 				var data = {};
 
-				if(this.service) {
+				if(this.service || this.vacancy) {
 					data = {
 						name: this.newName,
 						lang: this.langSelect
@@ -140,12 +140,15 @@ const methods = {
 						this.$logger('add', 'Добавление категории блога - "' + this.newName + '"')
 
 						if(this.service) this.$notify.success('Новая услуга добавлена успешно!');
+						else if(this.vacancy) this.$notify.success('Новая вакансия добавлена успешно!');
 						else this.$notify.success('Новая категория добавлена успешно!');
 
 	                	this.windowHide()
 
 	                	if(this.service){
 		                    this.$router.push({name: 'servicesItem', params: {id: response.data.id}});
+	                	} else if(this.vacancy) {
+		                    this.$router.push({name: 'vacancyItem', params: {id: response.data.id}});
 	                	} else{
 		                    this.$router.push({name: 'productsCategory', params: {id: response.data.id}});
 	                	}
@@ -176,7 +179,8 @@ export default {
 		'status',
 		'articles',
 		'catsUrl',
-		'service'
+		'service',
+		'vacancy'
 	],
 
 	// Methods
@@ -197,7 +201,7 @@ export default {
 		},
 		langSelect(){
 			this.$log.info('module \'Add new category\' (@/components/blog/categories/new) - method watch init');
-			if(!this.service) this.getParents();
+			if(!this.service && !this.vacancy) this.getParents();
 		}
 	}
 

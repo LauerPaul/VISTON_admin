@@ -1,0 +1,80 @@
+.container-fluid.categories-wrapper
+	.row
+		.col-md-8
+			v-card(:pagination.sync="pagination", select-all)
+
+				v-toolbar(color="blue", dark)
+					v-icon mdi-format-list-bulleted
+					v-toolbar-title Список вакансий
+					v-spacer
+					v-btn(icon, @click="toggleSearch", title="Найти вакансию")
+						v-icon(v-if="!searchlineShow") mdi-magnify
+						v-icon(v-else) mdi-close
+					v-text-field(v-show="searchlineShow", v-model="search", label="Поиск", single-line, hide-details)
+					v-btn(icon, title="Добавить вакансию", @click="access.add ? addNew_window = true : $access('add')")
+						v-icon add
+
+
+				v-stepper(non-linear, v-model="step")
+					v-stepper-header
+						v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getList('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
+						v-divider
+						v-stepper-step(step="de", editable, :complete="step == 'de'", @click.native="getList('de')", edit-icon="mdi-check") {{ step == 'de' ? 'DE' : '' }}
+						v-divider
+						v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getList('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
+
+
+				//- Таблица
+				v-data-table.elevation-1(v-model="selected", :headers="headers", :items="vacancy", :pagination.sync="pagination", :search="search", item-key="id", sort-icon="mdi-menu-down", prev-icon="mdi-menu-left", next-icon="mdi-menu-right", :loading="loading")
+					v-progress-linear(slot="progress", color="light-blue", indeterminate)
+					template(slot="items", slot-scope="props")
+						tr(:active="props.selected", @click="props.selected = !props.selected")
+							td.justify-center
+								strong.opacity_6 {{ props.item.id }}
+
+							td.text-left(:class="{opacity_6 : !parseInt(props.item.status)}")
+								router-link.text-left(v-if="access.edit", tag="button", :to="{name: 'vacancyItem', params: {id: props.item.id}}") {{ props.item.title }}
+								span(v-else) {{ props.item.title }} 
+
+							td.text-center {{ props.item.sort }}
+
+							td.text-left(style="width: 80px;")
+								v-icon(v-if="props.item.status == '1'", color="green") check
+								v-icon(v-else, color="gray") visibility_off
+								
+							td.justify-start.layout.px-0
+								.control-wrapper.d-flex.align-items-center
+	
+									//- Edit
+									v-btn.mini-circle(v-if="access.edit", fab, dark, small, color="blue", :to="{name: 'vacancyItem', params: {id: props.item.id}}", title="Редактировать")
+											v-icon mdi-pencil
+									//- Remove
+									v-btn.mini-circle(v-if="access.remove", icon, @click.stop="setSelectItem(props.item, props.index); removeAlert()", title="Удалить", fab, small, dark, color="red")
+										v-icon mdi-delete
+
+					//- Если таблица пустая
+					template(slot="no-data")
+						span(style="margin-left: 10px; display: inline-block;") Загружаю...
+
+					//- Если нет результатов поиска
+					v-list-tile(avatar)
+						v-alert(slot="no-results", :value="true", color="error", icon="warning") Совпадений с "{{ search }}" в категориях блога не найдено.
+
+		.col-md-4
+			statistic-widget(v-if="statisticWindow", :articles="vacancy", :categories="false", :services="true")
+
+	//- Всплывающее окно подтверждения удаления
+	dialog-remove(:url="dialogRemove.url",
+					:status="dialogRemove.status",
+					:error="dialogRemove.error",
+					:img="selectItem.image",
+					:name="'Публикация \"'+ selectItem.title + '\" (ID ' + selectItem.id + ')'",
+					:content="{ title: dialogRemove.title, text: dialogRemove.text }"
+					@cancel="dialogRemove.status = false",
+					@ok="removeSuccess")
+
+	//- Всплывающее окно добавления новой услуги 
+	add-new(:url="newItemUrl",
+			:vacancy="true",
+			:status="addNew_window",
+			@close="addNew_window = false")

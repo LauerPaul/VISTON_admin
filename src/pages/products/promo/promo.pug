@@ -1,0 +1,45 @@
+.row
+	.col-md-12
+		v-card
+			v-stepper(non-linear, v-model="step", style="margin-bottom: 24px;")
+				v-stepper-header
+					v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getData('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
+					v-divider
+					v-stepper-step(step="de", editable, :complete="step == 'de'", @click.native="getData('de')", edit-icon="mdi-check") {{ step == 'de' ? 'DE' : '' }}
+					v-divider
+					v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getData('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+			v-spacer
+				.col-12(v-if="item", style="padding-bottom: 16px")
+					v-form(ref="form", lazy-validation, v-model="valid")
+						.row
+							.col-md-8
+								v-layout
+									v-text-field(v-model="item.promo_title.value", label="Заголовок", required, color="light-green", :counter="400", :rules="titleRules")
+								.row
+									.col-md-5
+										v-layout
+											v-text-field(v-model="item.promo_btn_text.value", label="Текст кнопки", required, color="light-green", :counter="16")
+									.col-md-7
+										v-layout
+											v-text-field(v-model="item.promo_link.value", label="Ссылка кнопки", required, color="light-green", :counter="120")
+
+							.col-md-4
+								v-btn(@click="imageUploadWindow = !imageUploadWindow", v-if="!imgDataUrl", type="button", color="light-green", icon, dark).float-right
+									i.mdi.mdi-image-plus
+								img(:src="img", v-else, style="max-width: 100%;", @click="imageUploadWindow = !imageUploadWindow")
+								.clearfix
+								
+							.col-md-12
+								v-layout(style="margin: 24px 0px 12px;")
+									tinymce(v-if="item", :init="editText", v-model="item.promo_text.value")
+							br
+							br
+
+						v-btn(color="grey", flat, @click="$router.go(-1)")
+							i.mdi.mdi-arrow-left
+						v-btn(@click.native="submit", color="green", dark).float-right Сохранить
+						.clearfix
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+
+		imageCover(field="img", v-model="imageUploadWindow", @crop-success="cropSuccess", :width="cropWidth", :height="cropHeight", url="", img-format="png", :langType="'ru'", :noCircle="true")

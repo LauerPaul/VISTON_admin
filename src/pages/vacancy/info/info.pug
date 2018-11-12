@@ -1,0 +1,37 @@
+.row
+	.col-md-9
+		v-card
+			v-stepper(non-linear, v-model="step", style="margin-bottom: 24px;")
+				v-stepper-header
+					v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getData('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
+					v-divider
+					v-stepper-step(step="de", editable, :complete="step == 'de'", @click.native="getData('de')", edit-icon="mdi-check") {{ step == 'de' ? 'DE' : '' }}
+					v-divider
+					v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getData('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+			v-spacer
+				.col-12(v-if="item", style="padding-bottom: 16px")
+					v-form(ref="form", lazy-validation, v-model="valid")
+						v-layout
+							v-text-field(v-model="item.title", label="Заголовок", required, color="light-green", :counter="400", :rules="titleRules")
+
+						v-layout(style="margin: 24px 0px 12px;")
+							tinymce(v-if="item", :init="editText", v-model="item.text")
+
+						hr
+						strong(style="color: red;")
+							i.mdi.mdi-information
+						span(style="color: gray;") &nbsp;чтоб подставить email-ссылку в текст, используйте комбинации:
+						br
+						br
+						span(v-if="item && item.placeholders" v-for="(value, key) in item.placeholders")
+							strong {{ key }}
+							span &nbsp;- будет заменино на {{ value }}
+							br
+						hr
+
+						v-btn(color="grey", flat, @click="$router.go(-1)")
+							i.mdi.mdi-arrow-left
+						v-btn(@click.native="submit", color="green", dark).float-right Сохранить
+						.clearfix
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")

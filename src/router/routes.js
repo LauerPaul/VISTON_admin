@@ -18,6 +18,8 @@ import productsCategories from '@/pages/products/categories'
 import productsCategory from '@/pages/products/category'
 import productsArticles from '@/pages/products/articles'
 import productsArticle from '@/pages/products/article'
+import productsPromo from '@/pages/products/promo'
+import productsInfo from '@/pages/products/info'
 import productsSeo from '@/pages/products/seo'
 import productsSettings from '@/pages/products/settings'
 
@@ -26,6 +28,13 @@ import servicesList from '@/pages/services/list'
 import servicesItem from '@/pages/services/item'
 import servicesSeo from '@/pages/services/seo'
 import servicesSettings from '@/pages/services/settings'
+
+import vacancy from '@/pages/vacancy'
+import vacancyList from '@/pages/vacancy/list'
+import vacancyItem from '@/pages/vacancy/item'
+import vacancySeo from '@/pages/vacancy/seo'
+import vacancySettings from '@/pages/vacancy/settings'
+import vacancyInfo from '@/pages/vacancy/info'
 
 import settings from '@/pages/settings'
 import settingsPrimary from '@/pages/settings'
@@ -140,6 +149,16 @@ const routes = [
 						]
 					},
 		        	{
+						path: 'info',
+						name: 'productsInfo',
+						component: productsInfo
+					},
+		        	{
+						path: 'promo',
+						name: 'productsPromo',
+						component: productsPromo
+					},
+		        	{
 						path: 'seo',
 						name: 'productsSeo',
 						component: productsSeo
@@ -187,6 +206,50 @@ const routes = [
 						path: 'settings',
 						name: 'servicesSettings',
 						component: servicesSettings
+					},
+				]
+			},
+			{	
+				/*products page*/
+				path: "vacancy",
+				name: 'vacancy',
+				component: vacancy,
+				redirect: 'vacancy/list',
+		        meta: {
+		            isAuth: true,
+		        },
+		        children: [
+		        	{
+						path: 'list',
+						name: 'vacancyList',
+						component: vacancyList
+					},
+		        	{
+						path: 'item',
+						component: vacancyItem,
+						redirect: 'vacancy',
+				        children: [
+				        	{
+								path: ':id',
+								name: 'vacancyItem',
+								component: vacancyItem
+							}
+						]
+					},
+		        	{
+						path: 'seo',
+						name: 'vacancySeo',
+						component: vacancySeo
+					},
+		        	{
+						path: 'settings',
+						name: 'vacancySettings',
+						component: vacancySettings
+					},
+		        	{
+						path: 'info',
+						name: 'vacancyInfo',
+						component: vacancyInfo
 					},
 				]
 			},

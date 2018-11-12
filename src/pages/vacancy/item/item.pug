@@ -1,0 +1,59 @@
+.row
+	.col-md-9
+		v-card
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+			v-card-title
+				strong Редактирование вакансии
+			v-divider(style="margin-top:0px;")
+			v-spacer
+				.col-12(v-if="item", style="padding-bottom: 16px")
+					v-form(ref="form", lazy-validation, v-model="valid")
+						.row
+							.col-md-9
+								v-layout
+									v-switch(v-model="item.status", color="light-green", label="Статус отображения на сайте")
+							.col-md-3
+								v-layout
+									v-text-field(type="number", min="0", v-model="item.sort", label="Порядок сортировки", color="light-green")
+
+						v-layout
+							v-text-field(v-model="item.title", label="Название", required, color="light-green", :counter="400", :rules="titleRules")
+						
+						br
+						hr
+						v-title Описание вакансии
+						v-layout(style="margin: 24px 0px 12px;")
+							tinymce(v-if="item", :init="editText", v-model="item.description")
+						br
+						hr
+						v-title Обязанности
+						v-layout(style="margin: 24px 0px 12px;")
+							tinymce(v-if="item", :init="editText", v-model="item.charge")
+						br
+						hr
+						v-title Требования к кандидату
+						v-layout(style="margin: 24px 0px 12px;")
+							tinymce(v-if="item", :init="editText", v-model="item.requirements")
+						
+						
+						v-btn(color="grey", flat, @click="$router.go(-1)")
+							i.mdi.mdi-arrow-left
+						v-btn(@click.native="submit", color="green", dark).float-right Сохранить
+						.clearfix
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+
+	.col-md-3
+		v-card(v-if="current", light, disabled, color="blue-grey", dark).statistic
+			v-list-tile
+				v-list-tile-content
+					span
+						i.mdi.mdi-checkbox-blank-circle-outline(v-if="!current.status", style="font-size: 16px; color: #dcdcdc;")
+						i.mdi.mdi-checkbox-marked-circle-outline(v-else, style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;Статус
+				v-list-tile-content.align-end {{ (current.status ? 'ON' : 'OFF') }}
+			v-list-tile
+				v-list-tile-content
+					span
+						i.mdi.mdi-sort(style="font-size: 16px; color: #dcdcdc;")
+						|&nbsp;&nbsp;Sort index
+				v-list-tile-content.align-end {{ current.sort }}

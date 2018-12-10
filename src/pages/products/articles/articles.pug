@@ -32,13 +32,15 @@
 								strong.opacity_6 {{ props.item.id }}
 
 							td.text-left(:class="{opacity_6 : !parseInt(props.item.status)}")
-								router-link.text-left(v-if="access.edit", tag="button", :to="{name: 'productsArticle', params: {id: props.item.id}}") {{ props.item.name }}
-								span(v-else) {{ props.item.name }} 
+								router-link.text-left(v-if="access.edit", tag="button", :to="{name: 'productsArticle', params: {id: props.item.id}}")
+									strong {{ props.item.name }}
+								span(v-else)
+									strong {{ props.item.name }} 
 
-							td.text-center
+							td
 								router-link.text-left(tag="button", :to="{name: 'productsCategory', params: {id: ( props.item.parent_id == 0 ? props.item.id : props.item.parent_id )}}")
 									i.mdi.mdi-link.red--text(v-if="props.item.parent_id == 0", style="font-size: 18px;")
-									|{{ props.item.parent_id == 0 ? '' : props.item.parent_id }}
+									|{{ props.item.parent_id == 0 ? '' : getCategorieName(props.item.parent_id) }}
 
 							td.text-left(style="width: 80px;")
 								v-icon(v-if="props.item.status == '1'", color="green") check

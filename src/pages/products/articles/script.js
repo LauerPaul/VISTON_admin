@@ -86,7 +86,7 @@ const data = {
 			align: 'left',
 			value: 'name'
 		},
-		{ text: 'ID кат-и', align: 'center', value: 'parent_id' },
+		{ text: 'Название кат-и', value: 'parent_id' },
 		{ text: 'Статус', value: 'status', align: 'left' },
 		{ text: '', value: '', sortable: false }
 	],
@@ -103,6 +103,19 @@ const data = {
 }
 
 const methods = {
+	/**
+	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Имя категории
+	*	@method getCategorieName
+	**/
+	getCategorieName(id = false){
+		if(id){
+			let name = ''
+			this.parents.filter( item => {
+				if(parseInt(item.id) == parseInt(id)) name = item.name
+			})
+			return name 
+		}
+	},
 	/**
 	* 	@desc <strong style="color:red; font-size: 18px;">ⓘ</strong> Запрос списка категорий блога (AJAX)
 	*	@method getUsersList

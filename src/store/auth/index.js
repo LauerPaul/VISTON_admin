@@ -122,6 +122,14 @@ const Auth = {
             settingsPrimary: {
                 access: 1,
                 edit: 1
+            },
+            settingsMail: {
+                access: 1,
+                edit: 1
+            },
+            home_page: {
+                access: 1,
+                edit: 1
             }
         }
     },

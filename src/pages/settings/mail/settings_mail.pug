@@ -1,15 +1,65 @@
-ul
-	li
-		router-link(to="/404") ERROR
-	li
-		router-link(to="/login") Auth
-	li
-		router-link(to="/") Index
-	li
-		router-link(to="/users") Users
-	li
-		router-link(to="/settings") Settings
-	li
-		router-link(to="/settings/primary") Settings Primary
-	li
-		router-link(to="/settings/mail") Settings Mail
+.row
+	.col-md-10
+		v-card
+			v-form(ref="form", lazy-validation, v-model="valid")
+				v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+				.container-fluid(v-if="inputs")
+					.row
+						.col-md-6(style="padding-bottom: 12px;")
+							br
+							v-card-title
+								strong Параметры отправляемых писем (от кого)
+							v-spacer
+									v-divider
+									.container-fluid
+										.row
+											.col-md-6
+												v-text-field(v-model="inputs.from_whom_email", label="E-mail", color="light-green", type="email")
+											.col-md-6
+												v-text-field(v-model="inputs.from_whom_name", label="Имя", color="light-green")
+									v-divider
+						.col-md-6(style="padding-bottom: 12px;")
+							br
+							v-card-title
+								strong Адреса для оповищений (кому)
+							v-spacer
+									v-divider
+									.container-fluid
+										.row
+											.col-md-6
+												v-text-field(v-model="inputs.info_mail", label="E-mail", color="light-green", type="email")
+											.col-md-6
+												v-text-field(v-model="inputs.info_mail_2", label="Дополнительный E-mail", color="light-green", type="email")
+									v-divider
+						.col-md-6(style="padding-bottom: 12px;")
+							br
+							v-card-title
+								strong SMTP сервер
+							v-spacer
+									v-divider
+									.container-fluid
+										.row
+											.col-md-8
+												v-text-field(v-model="inputs.smtp_server", label="Server", color="light-green")
+											.col-md-4
+												v-text-field(v-model="inputs.smtp_port", label="Port", color="light-green", type="number")
+									v-divider
+						.col-md-6(style="padding-bottom: 12px;")
+							br
+							v-card-title
+								strong SMTP доступы
+							v-spacer
+									v-divider
+									.container-fluid
+										.row
+											.col-md-6
+												v-text-field(v-model="inputs.smtp_user", label="User", color="light-green")
+											.col-md-6
+												v-text-field(v-model="inputs.smtp_pass", label="Pass", color="light-green")
+									v-divider
+
+						.col-12(style="padding-bottom: 12px;")
+							v-btn(@click.native="saveSettings", color="green", dark).float-right Сохранить
+							.clearfix
+							br
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")

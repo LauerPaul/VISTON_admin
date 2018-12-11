@@ -7,6 +7,13 @@ export default {
 			link: 'home',
 			parent: false,
 		},
+		{ 
+			title: 'Главная страница',
+			icon: 'mdi-home',
+			color: "grey darken-2",
+			link: 'home_page',
+			parent: false,
+		},
 		{
 			title: 'Продукция',
 			icon: 'mdi-pier-crane',
@@ -124,8 +131,8 @@ export default {
 			parent: true,
 			children: [
 				{
-					title: 'Основные',
-					icon: 'mdi-settings-outline',
+					title: 'Контакты',
+					icon: 'mdi-contact-mail',
 					color: "grey",
 					link: 'settingsPrimary'
 				},
@@ -155,7 +162,7 @@ export default {
 				]
 			},
 			{
-				title: 'Пользователи',
+				title: 'Клиенты',
 				icon: 'mdi-account-multiple',
 				color: "grey darken-2",
 				link: 'users',

@@ -1,0 +1,19 @@
+.row
+	.col-md-12
+		v-card
+			v-stepper(non-linear, v-model="step", style="margin-bottom: 24px;")
+				v-stepper-header
+					v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getData('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
+					v-divider
+					v-stepper-step(step="de", editable, :complete="step == 'de'", @click.native="getData('de')", edit-icon="mdi-check") {{ step == 'de' ? 'DE' : '' }}
+					v-divider
+					v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getData('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+			v-spacer
+			.col-12(style="padding-bottom: 16px")
+					v-form(ref="form", lazy-validation, v-model="valid")
+						.row
+							.col-md-8
+								v-layout
+									v-text-field(label="Заголовок", color="light-green")
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")

@@ -13,6 +13,8 @@ import index from '@/pages/index'
 
 import users from '@/pages/users'
 
+import home_page from '@/pages/home_page'
+
 import products from '@/pages/products'
 import productsCategories from '@/pages/products/categories'
 import productsCategory from '@/pages/products/category'
@@ -71,6 +73,14 @@ const routes = [
 				path: '',
 				name: 'home',
     			component: index,
+		        meta: {
+		            isAuth: true
+		        },
+			},
+			{
+				path: 'home',
+				name: 'home_page',
+    			component: home_page,
 		        meta: {
 		            isAuth: true
 		        },

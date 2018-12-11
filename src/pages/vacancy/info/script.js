@@ -145,6 +145,11 @@ export default {
 	// Method
 	methods: methods,
 
+	// Head
+	metaInfo: {
+		title: 'Админ панель - Инфо-блок Вакансии'
+	},
+
 	/**
 	* @desc ▶ Hook reporting
 	* @event module:pages/vacancy/info~Page <strong>Vacancy info</strong> mounted

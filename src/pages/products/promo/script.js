@@ -160,6 +160,11 @@ export default {
 
 	// Method
 	methods: methods,
+
+	// Head
+	metaInfo: {
+		title: 'Админ панель - Продукция - Promo'
+	},
 	
 	/**
 	* This module requires the components:

@@ -119,6 +119,10 @@ const Auth = {
                 access: 1,
                 edit: 1
             },
+            settingsPrimary: {
+                access: 1,
+                edit: 1
+            }
         }
     },
     mutations: {

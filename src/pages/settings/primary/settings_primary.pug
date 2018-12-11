@@ -1,15 +1,60 @@
-ul
-	li
-		router-link(to="/404") ERROR
-	li
-		router-link(to="/login") Auth
-	li
-		router-link(to="/") Index
-	li
-		router-link(to="/users") Users
-	li
-		router-link(to="/settings") Settings
-	li
-		router-link(to="/settings/primary") Settings Primary
-	li
-		router-link(to="/settings/mail") Settings Mail
+.row
+	.col-md-10
+		v-card
+			v-form(ref="form", lazy-validation, v-model="valid")
+				v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+				.container-fluid(v-if="inputs")
+					.row
+						.col-md-12(style="padding-bottom: 12px;")
+							br
+							v-card-title
+								strong Контактные данные
+							v-spacer
+									v-divider
+									.container-fluid
+										.row
+											.col-md-3
+												v-text-field(v-model="inputs.phone_number", label="Номер телефона", color="light-green")
+											.col-md-3
+												v-text-field(v-model="inputs.email_support", label="Контактный E-mail", color="light-green")
+											.col-md-6
+												v-textarea(v-model="inputs.address", label="Адрес офиса", color="light-green", rows="1")
+									v-divider
+
+						.col-md-12(style="padding-bottom: 12px;")
+							v-card-title
+								strong Координаты карты Google
+							v-spacer
+									v-divider
+									.container-fluid
+										.row
+											.col-md-6
+												v-text-field(v-model="inputs.google_map_lat", label="lat", color="light-green")
+											.col-md-6
+												v-text-field(v-model="inputs.google_map_lng", label="lng", color="light-green")
+
+									v-divider
+
+						.col-md-12(style="padding-bottom: 12px;")
+							v-card-title
+								strong Социальные ссылки
+							v-spacer
+									v-divider
+									.container-fluid
+										.row
+											.col-md-6
+												v-text-field(v-model="inputs.social_link_facebook", label="Facebook", color="light-green")
+											.col-md-6
+												v-text-field(v-model="inputs.social_link_twitter", label="Twitter", color="light-green")
+											.col-md-6
+												v-text-field(v-model="inputs.social_link_google_pluse", label="Google+", color="light-green")
+											.col-md-6
+												v-text-field(v-model="inputs.social_link_instagram", label="Instagram", color="light-green")
+
+									v-divider
+
+						.col-12(style="padding-bottom: 12px;")
+							v-btn(@click.native="saveSettings", color="green", dark).float-right Сохранить
+							.clearfix
+							br
+			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")

@@ -195,6 +195,11 @@ export default {
 	// Method
 	methods: methods,
 
+	// Head
+	metaInfo: {
+		title: 'Админ панель - Список вакансий - Карьера'
+	},
+
 	/**
 	* @desc ▶ Hook reporting
 	* @event module:pages/vacancy/list~Page <strong>vacancy list</strong> mounted

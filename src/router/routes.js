@@ -37,8 +37,8 @@ import vacancySettings from '@/pages/vacancy/settings'
 import vacancyInfo from '@/pages/vacancy/info'
 
 import settings from '@/pages/settings'
-import settingsPrimary from '@/pages/settings'
-import settingsMail from '@/pages/settings'
+import settingsPrimary from '@/pages/settings/primary'
+import settingsMail from '@/pages/settings/mail'
 
 // Определяем языки
 const langs = function(){

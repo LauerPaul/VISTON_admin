@@ -140,6 +140,11 @@ export default {
 	// Method
 	methods: methods,
 
+	// Head
+	metaInfo: {
+		title: 'Админ панель - Продукция - инфо-блок'
+	},
+
 	/**
 	* @desc ▶ Hook reporting
 	* @event module:pages/products/info~Page <strong>Products info</strong> mounted

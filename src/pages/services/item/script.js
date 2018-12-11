@@ -158,6 +158,11 @@ export default {
 	// Method
 	methods: methods,
 
+	// Head
+	metaInfo: {
+		title: 'Админ панель - Редактирование услуги'
+	},
+
 	/**
 	* @desc ▶ Hook reporting
 	* @event module:pages/services/item~Page <strong>Services item</strong> mounted

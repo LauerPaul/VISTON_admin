@@ -1,7 +1,7 @@
 .row
 	.col-md-12
 		v-card
-			v-stepper(non-linear, v-model="step", style="margin-bottom: 24px;")
+			v-stepper(non-linear, v-model="step")
 				v-stepper-header
 					v-stepper-step(step="en", editable, :complete="step == 'en'", @click.native="getData('en')", edit-icon="mdi-check") {{ step == 'en' ? 'EN' : '' }}
 					v-divider
@@ -10,10 +10,56 @@
 					v-stepper-step(step="ru", editable, :complete="step == 'ru'", @click.native="getData('ru')", edit-icon="mdi-check") {{ step == 'ru' ? 'RU' : '' }}
 			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
 			v-spacer
-			.col-12(style="padding-bottom: 16px")
-					v-form(ref="form", lazy-validation, v-model="valid")
+			v-form(ref="form", lazy-validation, v-model="valid", v-if="services")
+				.services-section-wrapper
+					.container
 						.row
-							.col-md-8
-								v-layout
-									v-text-field(label="Заголовок", color="light-green")
+							.col-md-4.col-sm-6(v-for="item in services")
+								.item-service-wrapper
+									.icon-item.d-flex.align-items-center.justify-content-center
+										img(:src="item.iconNew !== 'new' ? $root.domain + item.icon + $random() : item.imgDataUrl")
+									.info-item
+										.title {{ item.name }}
+										.text {{ item.description }}
+				v-stepper(non-linear, v-model="selectItem")
+					v-stepper-header
+						v-stepper-step(step="1", editable, :complete="selectItem == 1", @click.native="setSelectItem(1)", edit-icon="mdi-check")
+						v-divider
+						v-stepper-step(step="2", editable, :complete="selectItem == 2", @click.native="setSelectItem(2)", edit-icon="mdi-check")
+						v-divider
+						v-stepper-step(step="3", editable, :complete="selectItem == 3", @click.native="setSelectItem(3)", edit-icon="mdi-check")
+						v-divider
+						v-stepper-step(step="4", editable, :complete="selectItem == 4", @click.native="setSelectItem(4)", edit-icon="mdi-check")
+						v-divider
+						v-stepper-step(step="5", editable, :complete="selectItem == 5", @click.native="setSelectItem(5)", edit-icon="mdi-check")
+						v-divider
+						v-stepper-step(step="6", editable, :complete="selectItem == 6", @click.native="setSelectItem(6)", edit-icon="mdi-check")
+				.col-12(style="padding-bottom: 16px")
+					.row
+						.col-md-10
+							br
+							.row
+								.col-md-10
+									v-layout
+										v-text-field(label="Заголовок", color="light-green", v-model="dataSelectItem.name")
+								.col-md-2
+									v-layout
+										v-text-field(label="Sort", color="light-green", v-model="dataSelectItem.sort", type="number")
+							v-layout
+								v-textarea(v-model="dataSelectItem.description", label="Краткое описание", color="light-green", rows="1")
+						.col-md-2(v-if="services")
+							br
+							br
+							v-btn(@click="imageUploadWindow = !imageUploadWindow", v-if="!services[selectItem - 1].imgDataUrl", type="button", color="light-green", icon, dark).float-right
+								v-icon mdi-image-plus
+							.service-preview-circle.d-flex.align-items-center.justify-content-center.float-right(v-else)
+								img(:src="services[selectItem - 1].iconNew !== 'new' ? $root.domain + services[selectItem - 1]['icon'] + $random() : services[selectItem - 1]['imgDataUrl']", style="max-width: 100%;", @click="imageUploadWindow = !imageUploadWindow")
+
+						.col-12(style="padding-bottom: 12px;")
+							v-btn(@click.native="saveData", color="green", dark).float-right Сохранить
+							.clearfix
+							br
+
 			v-progress-linear(:indeterminate="true", v-if="loading", height="2", color="green")
+
+			imageCover(field="services[selectItem - 1]['icon']", v-model="imageUploadWindow", @crop-success="cropSuccess", :width="62", :height="62", url="", img-format="png", :langType="'ru'", :noCircle="true")

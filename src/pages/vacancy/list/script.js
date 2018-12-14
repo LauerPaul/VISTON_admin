@@ -93,7 +93,7 @@ const methods = {
 	**/
 	getList(lng=false){
 		this.$log.info('page \'vacancy list\' (@/pages/vacancy/list) - method init');
-		var url = !lng ? this.urlGet : '/' + lng + this.urlGet;
+		var url = !lng ? '/' + this.step + this.urlGet : '/' + lng + this.urlGet;
 
 		if(this.$access('access')){
 			return this.axios({

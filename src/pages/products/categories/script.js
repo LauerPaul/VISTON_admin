@@ -109,7 +109,7 @@ const methods = {
 		this.$log.info('page \'products categories\' (@/pages/products/categories) - method init');
 
 		if(this.$access('access')){
-			var url = !lng ? this.catsListUrl : '/' + lng + this.catsListUrl;
+			var url = !lng ? '/' + this.step + this.catsListUrl : '/' + lng + this.catsListUrl;
 			
 			return this.axios({
 	            method: 'get',
